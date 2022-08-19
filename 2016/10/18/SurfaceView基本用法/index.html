@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+
+<!-- Head tag -->
+<head>
+
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <!--Description-->
+
+    
+
+    
+        <meta name="description" content="SurfaceView 一半多用于游戏开发，或者类似大转盘，时钟控件等动态实时更新的 View，因为它要求在子线程中绘制，而不会阻塞主线程。
+自定义View继承 SurfaceView 并且实现 SurfaceHolder.Callback 接口：
+1234567891011121314151617"/>
+    
+
+    <!--Author-->
+    
+        <meta name="author" content="porum"/>
+    
+
+    <!--Open Graph Title-->
+    
+        <meta property="og:title" content="SurfaceView 基本用法"/>
+    
+
+    <!--Open Graph Description-->
+    
+        <meta property="og:description" content="SurfaceView 一半多用于游戏开发，或者类似大转盘，时钟控件等动态实时更新的 View，因为它要求在子线程中绘制，而不会阻塞主线程。
+自定义View继承 SurfaceView 并且实现 SurfaceHolder.Callback 接口：
+1234567891011121314151617"/>
+    
+
+    <!--Open Graph Site Name-->
+        <meta property="og:site_name" content="porum"/>
+
+    <!--Type page-->
+    
+        <meta property="og:type" content="article"/>
+    
+
+    <!--Page Cover-->
+    
+    
+        <meta property="og:image" content="http://www.panda912.comimg/home-bg.jpg"/>
+    
+
+        <meta name="twitter:card" content="summary_large_image"/>
+
+    
+
+    
+        <meta name="twitter:image" content="http://www.panda912.comimg/home-bg.jpg"/>
+    
+
+    <!-- Title -->
+    
+    <title>SurfaceView 基本用法 - porum</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    <!-- Custom Fonts -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+    <link href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css"/>
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css"/>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Gallery -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.css" type="text/css" rel="stylesheet"/>
+
+    <!-- Google Analytics -->
+    
+
+
+    <!-- favicon -->
+    
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+
+    <!-- Menu -->
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">porum</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                
+                    <li>
+                        <a href="/">
+                            
+                                Home
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/archives">
+                            
+                                Archives
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/tags">
+                            
+                                Tags
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/categories">
+                            
+                                Categories
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a target="_blank" rel="noopener" href="https://github.com/porum">
+                            
+                                <i class="fa fa-github fa-stack-2x"></i>
+                            
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+    <!-- Main Content -->
+    <!-- Page Header -->
+<!-- Set your background image for this header in your post front-matter: cover -->
+
+<header class="intro-header" style="background-image: url('/img/home-bg.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <h1>SurfaceView 基本用法</h1>
+                    
+                    <span class="meta">
+                        <!-- Date and Author -->
+                        
+                        
+                            2016-10-18
+                        
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Tags and categories -->
+           
+                <div class="col-lg-4 col-lg-offset-2 col-md-5 col-md-offset-1 post-tags">
+                    
+                        
+
+
+<a href="/tags/View/">#View</a>
+
+
+                    
+                </div>
+                <div class="col-lg-4 col-md-5 post-categories">
+                    
+                </div>
+            
+
+            <!-- Gallery -->
+            
+
+            <!-- Post Main Content -->
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <p><code>SurfaceView</code> 一半多用于游戏开发，或者类似大转盘，时钟控件等动态实时更新的 View，因为它要求在子线程中绘制，而不会阻塞主线程。</p>
+<p>自定义View继承 <code>SurfaceView</code> 并且实现 <code>SurfaceHolder.Callback</code> 接口：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * A client may implement this interface to receive information about</span></span><br><span class="line"><span class="comment"> * changes to the surface.  When used with a &#123;<span class="doctag">@link</span> SurfaceView&#125;, the</span></span><br><span class="line"><span class="comment"> * Surface being held is only available between calls to</span></span><br><span class="line"><span class="comment"> * &#123;<span class="doctag">@link</span> #surfaceCreated(SurfaceHolder)&#125; and</span></span><br><span class="line"><span class="comment"> * &#123;<span class="doctag">@link</span> #surfaceDestroyed(SurfaceHolder)&#125;.  The Callback is set with</span></span><br><span class="line"><span class="comment"> * &#123;<span class="doctag">@link</span> SurfaceHolder#addCallback SurfaceHolder.addCallback&#125; method.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">Callback</span> &#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * This is called immediately after the surface is first created.</span></span><br><span class="line"><span class="comment">     * Implementations of this should start up whatever rendering code</span></span><br><span class="line"><span class="comment">     * they desire.  Note that only one thread can ever draw into</span></span><br><span class="line"><span class="comment">     * a &#123;<span class="doctag">@link</span> Surface&#125;, so you should not draw into the Surface here</span></span><br><span class="line"><span class="comment">     * if your normal rendering will be in another thread.</span></span><br><span class="line"><span class="comment">     * </span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> holder The SurfaceHolder whose surface is being created.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">surfaceCreated</span><span class="params">(SurfaceHolder holder)</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * This is called immediately after any structural changes (format or</span></span><br><span class="line"><span class="comment">     * size) have been made to the surface.  You should at this point update</span></span><br><span class="line"><span class="comment">     * the imagery in the surface.  This method is always called at least</span></span><br><span class="line"><span class="comment">     * once, after &#123;<span class="doctag">@link</span> #surfaceCreated&#125;.</span></span><br><span class="line"><span class="comment">     * </span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> holder The SurfaceHolder whose surface has changed.</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> format The new PixelFormat of the surface.</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> width The new width of the surface.</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> height The new height of the surface.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">surfaceChanged</span><span class="params">(SurfaceHolder holder, <span class="type">int</span> format, <span class="type">int</span> width,</span></span><br><span class="line"><span class="params">            <span class="type">int</span> height)</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * This is called immediately before a surface is being destroyed. After</span></span><br><span class="line"><span class="comment">     * returning from this call, you should no longer try to access this</span></span><br><span class="line"><span class="comment">     * surface.  If you have a rendering thread that directly accesses</span></span><br><span class="line"><span class="comment">     * the surface, you must ensure that thread is no longer touching the </span></span><br><span class="line"><span class="comment">     * Surface before returning from this function.</span></span><br><span class="line"><span class="comment">     * </span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> holder The SurfaceHolder whose surface is being destroyed.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">surfaceDestroyed</span><span class="params">(SurfaceHolder holder)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>surfaceCreated</code> 在 surface 第一次创建的时候会调用，一般在该方法中创建并启动绘制线程；</p>
+<p><code>surfaceChanged</code> 在 surface 发生变化时会调用；</p>
+<p><code>surfaceDestroyed</code> 在 surface 被销毁的时候调用，一般在这里停止绘制线程。</p>
+<blockquote>
+<p>它会在 surface 被销毁之前立即调用，当被调用之后，就不不应该再试图访问 surface。如果你有一个渲染线程直接访问 surface，你应该确保这个线程在该方法调用之前不再有关联。</p>
+</blockquote>
+<p>我们可以通过 <code>SurfaceView</code> 中 <code>getHolder()</code> 来获取 <code>SurfaceHolder</code> ，再通过 <code>SurfaceHolder</code> 的 <code>lockCanvas()</code> 来获取 Canvas，</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> Canvas <span class="title function_">lockCanvas</span><span class="params">(Rect dirty)</span>;</span><br></pre></td></tr></table></figure>
+
+<p>脏矩形，只刷新该区域，优化性能，注意双缓冲的问题。</p>
+<p>获取完画布就可以做绘制的事情了，绘制完成之后调用要 <code>SurfaceHolder</code> 的 <code>unlockCanvasAndPost(Canvas canvas)</code> 提交画布。</p>
+<p>时钟 Demo：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Clock</span> <span class="keyword">extends</span> <span class="title class_">SurfaceView</span> <span class="keyword">implements</span> <span class="title class_">SurfaceHolder</span>.Callback &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="type">Object</span> <span class="variable">lock</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Object</span>();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> SurfaceHolder mSurfaceHolder;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> DrawThread mDrawThread;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 面板</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> Paint mPanelPaint;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 刻度</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> Paint mScalePaint;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 数字</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> Paint mTextPaint;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 时针</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> Paint mHourPaint;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 分针</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> Paint mMinutePaint;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 秒针</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> Paint mSecondPaint;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> mRadius;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Clock</span><span class="params">(Context context)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>(context, <span class="literal">null</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Clock</span><span class="params">(Context context, AttributeSet attrs)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>(context, attrs, <span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Clock</span><span class="params">(Context context, AttributeSet attrs, <span class="type">int</span> defStyleAttr)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>(context, attrs, defStyleAttr);</span><br><span class="line"></span><br><span class="line">        mSurfaceHolder = <span class="built_in">this</span>.getHolder();</span><br><span class="line">        mSurfaceHolder.addCallback(<span class="built_in">this</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//面板</span></span><br><span class="line">        mPanelPaint = <span class="keyword">new</span> <span class="title class_">Paint</span>(Paint.ANTI_ALIAS_FLAG);</span><br><span class="line">        mPanelPaint.setColor(Color.RED);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//刻度</span></span><br><span class="line">        mScalePaint = <span class="keyword">new</span> <span class="title class_">Paint</span>(Paint.ANTI_ALIAS_FLAG);</span><br><span class="line">        mScalePaint.setColor(Color.argb(<span class="number">130</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>));</span><br><span class="line"></span><br><span class="line">        mTextPaint = <span class="keyword">new</span> <span class="title class_">Paint</span>(Paint.ANTI_ALIAS_FLAG);</span><br><span class="line">        mTextPaint.setColor(Color.WHITE);</span><br><span class="line">        mTextPaint.setTextSize(<span class="number">40</span>);</span><br><span class="line">        mTextPaint.setTextAlign(Paint.Align.CENTER);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//时针</span></span><br><span class="line">        mHourPaint = <span class="keyword">new</span> <span class="title class_">Paint</span>(Paint.ANTI_ALIAS_FLAG);</span><br><span class="line">        mHourPaint.setColor(Color.WHITE);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//分针</span></span><br><span class="line">        mMinutePaint = <span class="keyword">new</span> <span class="title class_">Paint</span>(Paint.ANTI_ALIAS_FLAG);</span><br><span class="line">        mMinutePaint.setColor(Color.argb(<span class="number">200</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>));</span><br><span class="line"></span><br><span class="line">        <span class="comment">//秒针</span></span><br><span class="line">        mSecondPaint = <span class="keyword">new</span> <span class="title class_">Paint</span>(Paint.ANTI_ALIAS_FLAG);</span><br><span class="line">        mSecondPaint.setStrokeWidth(<span class="number">2</span>);</span><br><span class="line">        mSecondPaint.setColor(Color.GRAY);</span><br><span class="line"></span><br><span class="line">        setFocusable(<span class="literal">false</span>);</span><br><span class="line">        setFocusableInTouchMode(<span class="literal">false</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">surfaceCreated</span><span class="params">(SurfaceHolder holder)</span> &#123;</span><br><span class="line">        mDrawThread = <span class="keyword">new</span> <span class="title class_">DrawThread</span>();</span><br><span class="line">        mDrawThread.setRun(<span class="literal">true</span>);</span><br><span class="line">        mDrawThread.start();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">surfaceChanged</span><span class="params">(SurfaceHolder holder, <span class="type">int</span> format, <span class="type">int</span> width, <span class="type">int</span> height)</span> &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">surfaceDestroyed</span><span class="params">(SurfaceHolder holder)</span> &#123;</span><br><span class="line">        mDrawThread.setRun(<span class="literal">false</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onMeasure</span><span class="params">(<span class="type">int</span> widthMeasureSpec, <span class="type">int</span> heightMeasureSpec)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>.onMeasure(widthMeasureSpec, heightMeasureSpec);</span><br><span class="line">        mRadius = Math.min(getMeasuredWidth(), getMeasuredHeight()) / <span class="number">2</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">class</span> <span class="title class_">DrawThread</span> <span class="keyword">extends</span> <span class="title class_">Thread</span> &#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">float</span> <span class="variable">RATIO</span> <span class="operator">=</span> <span class="number">6</span> / <span class="number">7f</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">private</span> <span class="type">boolean</span> isRun;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123;</span><br><span class="line">            <span class="keyword">while</span> (isRun) &#123;</span><br><span class="line">                <span class="keyword">synchronized</span> (lock) &#123;</span><br><span class="line">                    <span class="type">Canvas</span> <span class="variable">canvas</span> <span class="operator">=</span> mSurfaceHolder.lockCanvas();</span><br><span class="line">                    <span class="keyword">if</span> (canvas != <span class="literal">null</span>) &#123;</span><br><span class="line">                        <span class="type">long</span> <span class="variable">start</span> <span class="operator">=</span> System.currentTimeMillis();</span><br><span class="line">                        doDraw(canvas);</span><br><span class="line">                        mSurfaceHolder.unlockCanvasAndPost(canvas);</span><br><span class="line">                        <span class="type">long</span> <span class="variable">end</span> <span class="operator">=</span> System.currentTimeMillis();</span><br><span class="line">                        <span class="type">long</span> <span class="variable">duration</span> <span class="operator">=</span> end - start;</span><br><span class="line">                        <span class="keyword">if</span> (duration &lt; <span class="number">1000</span>) &#123;</span><br><span class="line">                            <span class="keyword">try</span> &#123;</span><br><span class="line">                                Thread.sleep(<span class="number">1000</span> - duration);</span><br><span class="line">                            &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                                e.printStackTrace();</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 画面板</span></span><br><span class="line"><span class="comment">         *</span></span><br><span class="line"><span class="comment">         * <span class="doctag">@param</span> canvas</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">doDraw</span><span class="params">(<span class="keyword">final</span> Canvas canvas)</span> &#123;</span><br><span class="line">            <span class="comment">//清屏</span></span><br><span class="line">            canvas.drawColor(Color.RED);</span><br><span class="line">            <span class="comment">//面板</span></span><br><span class="line">            canvas.drawCircle(mRadius, mRadius, mRadius, mPanelPaint);</span><br><span class="line">            <span class="comment">//刻度</span></span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>, scaleSize = <span class="number">12</span> * <span class="number">5</span> * <span class="number">5</span>; i &lt;= scaleSize; i++) &#123;</span><br><span class="line">                canvas.rotate(<span class="number">1.2f</span>, mRadius, mRadius);</span><br><span class="line">                <span class="keyword">if</span> (i % <span class="number">25</span> == <span class="number">0</span>) &#123;</span><br><span class="line">                    mScalePaint.setStrokeWidth(<span class="number">4</span>);</span><br><span class="line">                    mScalePaint.setColor(Color.argb(<span class="number">150</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>));</span><br><span class="line">                    canvas.drawLine(mRadius, <span class="number">0</span>, mRadius, <span class="number">50</span>, mScalePaint);</span><br><span class="line">                &#125; <span class="keyword">else</span> <span class="keyword">if</span> (i % <span class="number">5</span> == <span class="number">0</span>) &#123;</span><br><span class="line">                    mScalePaint.setStrokeWidth(<span class="number">3</span>);</span><br><span class="line">                    mScalePaint.setColor(Color.argb(<span class="number">120</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>));</span><br><span class="line">                    canvas.drawLine(mRadius, <span class="number">0</span>, mRadius, <span class="number">30</span>, mScalePaint);</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    mScalePaint.setStrokeWidth(<span class="number">2</span>);</span><br><span class="line">                    mScalePaint.setColor(Color.argb(<span class="number">100</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>));</span><br><span class="line">                    canvas.drawLine(mRadius, <span class="number">0</span>, mRadius, <span class="number">18</span>, mScalePaint);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="type">RectF</span> <span class="variable">f</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">RectF</span>();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            <span class="type">Calendar</span> <span class="variable">calendar</span> <span class="operator">=</span> Calendar.getInstance();</span><br><span class="line">            <span class="type">int</span> <span class="variable">hour</span> <span class="operator">=</span> calendar.get(Calendar.HOUR_OF_DAY);</span><br><span class="line">            <span class="type">int</span> <span class="variable">minute</span> <span class="operator">=</span> calendar.get(Calendar.MINUTE);</span><br><span class="line">            <span class="type">int</span> <span class="variable">second</span> <span class="operator">=</span> calendar.get(Calendar.SECOND);</span><br><span class="line"></span><br><span class="line">            canvas.save();</span><br><span class="line">            canvas.rotate(<span class="number">30</span> * (hour + (minute + second / <span class="number">60</span>) / <span class="number">60f</span>), mRadius, mRadius);</span><br><span class="line">            canvas.drawRoundRect(<span class="keyword">new</span> <span class="title class_">RectF</span>(mRadius - <span class="number">5</span>, mRadius / <span class="number">3</span>, mRadius + <span class="number">5</span>, mRadius + <span class="number">20</span>), <span class="number">10</span>, <span class="number">10</span>, mHourPaint);</span><br><span class="line">            canvas.restore();</span><br><span class="line"></span><br><span class="line">            canvas.save();</span><br><span class="line">            canvas.rotate(<span class="number">6</span> * (minute + second / <span class="number">60f</span>), mRadius, mRadius);</span><br><span class="line">            canvas.drawRoundRect(<span class="keyword">new</span> <span class="title class_">RectF</span>(mRadius - <span class="number">3f</span>, <span class="number">60</span>, mRadius + <span class="number">3f</span>, mRadius + <span class="number">20</span>), <span class="number">10</span>, <span class="number">10</span>, mMinutePaint);</span><br><span class="line">            canvas.restore();</span><br><span class="line"></span><br><span class="line">            canvas.save();</span><br><span class="line">            canvas.rotate(<span class="number">6</span> * second, mRadius, mRadius);</span><br><span class="line">            mSecondPaint.setStyle(Paint.Style.FILL);</span><br><span class="line">            canvas.drawRect(<span class="keyword">new</span> <span class="title class_">RectF</span>(mRadius - <span class="number">2</span>, <span class="number">50</span>, mRadius + <span class="number">2</span>, mRadius + <span class="number">30</span>), mSecondPaint);</span><br><span class="line">            canvas.restore();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>; i &lt;= <span class="number">12</span>; i++) &#123;</span><br><span class="line"></span><br><span class="line">                <span class="type">float</span> <span class="variable">width</span> <span class="operator">=</span> mTextPaint.measureText(String.valueOf(i));</span><br><span class="line"></span><br><span class="line">                <span class="type">double</span> <span class="variable">x</span> <span class="operator">=</span> mRadius + (mRadius - <span class="number">50</span>) * Math.cos((i * <span class="number">30</span> - <span class="number">90</span>) * Math.PI / <span class="number">180d</span>);</span><br><span class="line">                <span class="type">double</span> <span class="variable">y</span> <span class="operator">=</span> mRadius + (mRadius - <span class="number">50</span>) * Math.sin((i * <span class="number">30</span> - <span class="number">90</span>) * Math.PI / <span class="number">180d</span>) - width / <span class="number">2</span> * Math.sin(i * <span class="number">30</span>);</span><br><span class="line">                canvas.drawText(String.valueOf(i), (<span class="type">float</span>) x, (<span class="type">float</span>) y, mTextPaint);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">//////////////////////////////////////////////////////////////////////////////////</span></span><br><span class="line">            <span class="comment">//x1 = x0 + r * cos(angle * pi / 180)</span></span><br><span class="line">            <span class="comment">//y1 = y0 + r * sin(angle * pi / 180)</span></span><br><span class="line"><span class="comment">//            double x = mRadius + (mRadius - 60) * Math.cos((second * 6 - 90) * Math.PI / 180d);</span></span><br><span class="line"><span class="comment">//            double y = mRadius + (mRadius - 60) * Math.sin((second * 6 - 90) * Math.PI / 180d);</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//            double tailX = x - (x - mRadius) / RATIO;</span></span><br><span class="line"><span class="comment">//            double tailY = y - (y - mRadius) / RATIO;</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//            Path path = new Path();</span></span><br><span class="line"><span class="comment">//            mSecondPaint.setStyle(Paint.Style.STROKE);</span></span><br><span class="line"><span class="comment">//            path.moveTo((float) tailX, (float) tailY);</span></span><br><span class="line"><span class="comment">//            path.lineTo((float) x, (float) y);</span></span><br><span class="line"><span class="comment">//            canvas.drawPath(path, mSecondPaint);</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            <span class="comment">//中心圆点</span></span><br><span class="line">            mSecondPaint.setStyle(Paint.Style.FILL);</span><br><span class="line">            canvas.drawCircle(mRadius, mRadius, <span class="number">6</span>, mSecondPaint);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">void</span> <span class="title function_">setRun</span><span class="params">(<span class="type">boolean</span> isRun)</span> &#123;</span><br><span class="line">            <span class="built_in">this</span>.isRun = isRun;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setRun</span><span class="params">(<span class="type">boolean</span> isRun)</span> &#123;</span><br><span class="line">        mDrawThread.setRun(isRun);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setRadius</span><span class="params">(<span class="type">int</span> radius)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.mRadius = radius;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+                
+            </div>
+
+            <!-- Comments -->
+            
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    
+
+
+                </div>
+            
+        </div>
+    </div>
+</article>
+
+    <!-- Footer -->
+    <hr />
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+
+                    
+
+                    
+                        <li>
+                            <a href="https://github.com/porum" target="_blank">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                    
+
+                    
+
+                    
+
+                    
+                </ul>
+                <p class="copyright text-muted">&copy; 2022 porum<br></p>
+                <p class="copyright text-muted">Original Theme <a target="_blank" href="http://startbootstrap.com/template-overviews/clean-blog/">Clean Blog</a> from <a href="http://startbootstrap.com/" target="_blank">Start Bootstrap</a></p>
+                <p class="copyright text-muted">Adapted for <a target="_blank" href="https://hexo.io/">Hexo</a> by <a href="http://www.codeblocq.com/" target="_blank">Jonathan Klughertz</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+    <!-- After footer scripts -->
+    
+<!-- jQuery -->
+<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+
+<!-- Bootstrap -->
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+<!-- Gallery -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
+
+<!-- Disqus Comments -->
+
+
+
+</body>
+
+</html>

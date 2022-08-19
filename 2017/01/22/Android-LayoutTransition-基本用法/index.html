@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+
+<!-- Head tag -->
+<head>
+
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <!--Description-->
+
+    
+
+    
+        <meta name="description" content="简介LayoutTransition是在 API11 的时候引入的，用来设置当布局发生变化时的动画效果。有时候当我们addView、removeView 或者设置 View 的 GONE、VISIBLE 时，不想让布局的变化显得很突兀，想有一个过渡的效果，就在xml布局文件中设置android:an"/>
+    
+
+    <!--Author-->
+    
+        <meta name="author" content="porum"/>
+    
+
+    <!--Open Graph Title-->
+    
+        <meta property="og:title" content="Android LayoutTransition 基本用法"/>
+    
+
+    <!--Open Graph Description-->
+    
+        <meta property="og:description" content="简介LayoutTransition是在 API11 的时候引入的，用来设置当布局发生变化时的动画效果。有时候当我们addView、removeView 或者设置 View 的 GONE、VISIBLE 时，不想让布局的变化显得很突兀，想有一个过渡的效果，就在xml布局文件中设置android:an"/>
+    
+
+    <!--Open Graph Site Name-->
+        <meta property="og:site_name" content="porum"/>
+
+    <!--Type page-->
+    
+        <meta property="og:type" content="article"/>
+    
+
+    <!--Page Cover-->
+    
+    
+        <meta property="og:image" content="http://www.panda912.comimg/home-bg.jpg"/>
+    
+
+        <meta name="twitter:card" content="summary_large_image"/>
+
+    
+
+    
+        <meta name="twitter:image" content="http://www.panda912.comimg/home-bg.jpg"/>
+    
+
+    <!-- Title -->
+    
+    <title>Android LayoutTransition 基本用法 - porum</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    <!-- Custom Fonts -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+    <link href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css"/>
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css"/>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Gallery -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.css" type="text/css" rel="stylesheet"/>
+
+    <!-- Google Analytics -->
+    
+
+
+    <!-- favicon -->
+    
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+
+    <!-- Menu -->
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">porum</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                
+                    <li>
+                        <a href="/">
+                            
+                                Home
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/archives">
+                            
+                                Archives
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/tags">
+                            
+                                Tags
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/categories">
+                            
+                                Categories
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a target="_blank" rel="noopener" href="https://github.com/porum">
+                            
+                                <i class="fa fa-github fa-stack-2x"></i>
+                            
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+    <!-- Main Content -->
+    <!-- Page Header -->
+<!-- Set your background image for this header in your post front-matter: cover -->
+
+<header class="intro-header" style="background-image: url('/img/home-bg.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <h1>Android LayoutTransition 基本用法</h1>
+                    
+                    <span class="meta">
+                        <!-- Date and Author -->
+                        
+                        
+                            2017-01-22
+                        
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Tags and categories -->
+           
+                <div class="col-lg-4 col-lg-offset-2 col-md-5 col-md-offset-1 post-tags">
+                    
+                        
+
+
+<a href="/tags/Animation/">#Animation</a>
+
+
+                    
+                </div>
+                <div class="col-lg-4 col-md-5 post-categories">
+                    
+                </div>
+            
+
+            <!-- Gallery -->
+            
+
+            <!-- Post Main Content -->
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p><code>LayoutTransition</code>是在 API11 的时候引入的，用来设置当布局发生变化时的动画效果。有时候当我们addView、removeView 或者设置 View 的 GONE、VISIBLE 时，不想让布局的变化显得很突兀，想有一个过渡的效果，就在xml布局文件中设置<code>android:animateLayoutChanges=&quot;true&quot;</code>属性，这个属性就是用到了<code>LayoutTransition</code>。我们来看看官方提供的默认的动画是什么样子的：</p>
+<p>先从<code>ViewGroup</code>的构造方法中看起:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="title function_">ViewGroup</span><span class="params">(Context context, AttributeSet attrs, <span class="type">int</span> defStyleAttr, <span class="type">int</span> defStyleRes)</span> &#123;</span><br><span class="line">    <span class="built_in">super</span>(context, attrs, defStyleAttr, defStyleRes);</span><br><span class="line">    initViewGroup();</span><br><span class="line">    initFromAttributes(context, attrs, defStyleAttr, defStyleRes);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>点进去<code>initFromAttributes</code>方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">initFromAttributes</span><span class="params">(</span></span><br><span class="line"><span class="params">        Context context, AttributeSet attrs, <span class="type">int</span> defStyleAttr, <span class="type">int</span> defStyleRes)</span> &#123;</span><br><span class="line">    <span class="keyword">final</span> <span class="type">TypedArray</span> <span class="variable">a</span> <span class="operator">=</span> context.obtainStyledAttributes(attrs, R.styleable.ViewGroup, defStyleAttr,</span><br><span class="line">            defStyleRes);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">final</span> <span class="type">int</span> <span class="variable">N</span> <span class="operator">=</span> a.getIndexCount();</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; N; i++) &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">attr</span> <span class="operator">=</span> a.getIndex(i);</span><br><span class="line">        <span class="keyword">switch</span> (attr) &#123;</span><br><span class="line">            <span class="keyword">case</span> ......</span><br><span class="line">            <span class="keyword">case</span> ......</span><br><span class="line">            <span class="keyword">case</span> R.styleable.ViewGroup_animateLayoutChanges:</span><br><span class="line">                <span class="type">boolean</span> <span class="variable">animateLayoutChanges</span> <span class="operator">=</span> a.getBoolean(attr, <span class="literal">false</span>);</span><br><span class="line">                <span class="keyword">if</span> (animateLayoutChanges) &#123;</span><br><span class="line">                    setLayoutTransition(<span class="keyword">new</span> <span class="title class_">LayoutTransition</span>());</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> ......</span><br><span class="line">            <span class="keyword">case</span> ......</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    a.recycle();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以看到当我们设置<code>android:animateLayoutChanges=&quot;true&quot;</code>的时候，其实就是调用了<code>setLayoutTransition(new LayoutTransition());</code>设置默认的动画效果。我们今天主要来看看<code>LayoutTransition</code>这个类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="title function_">LayoutTransition</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (defaultChangeIn == <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="comment">// &quot;left&quot; is just a placeholder; we&#x27;ll put real properties/values in when needed</span></span><br><span class="line">        <span class="type">PropertyValuesHolder</span> <span class="variable">pvhLeft</span> <span class="operator">=</span> PropertyValuesHolder.ofInt(<span class="string">&quot;left&quot;</span>, <span class="number">0</span>, <span class="number">1</span>);</span><br><span class="line">        <span class="type">PropertyValuesHolder</span> <span class="variable">pvhTop</span> <span class="operator">=</span> PropertyValuesHolder.ofInt(<span class="string">&quot;top&quot;</span>, <span class="number">0</span>, <span class="number">1</span>);</span><br><span class="line">        <span class="type">PropertyValuesHolder</span> <span class="variable">pvhRight</span> <span class="operator">=</span> PropertyValuesHolder.ofInt(<span class="string">&quot;right&quot;</span>, <span class="number">0</span>, <span class="number">1</span>);</span><br><span class="line">        <span class="type">PropertyValuesHolder</span> <span class="variable">pvhBottom</span> <span class="operator">=</span> PropertyValuesHolder.ofInt(<span class="string">&quot;bottom&quot;</span>, <span class="number">0</span>, <span class="number">1</span>);</span><br><span class="line">        <span class="type">PropertyValuesHolder</span> <span class="variable">pvhScrollX</span> <span class="operator">=</span> PropertyValuesHolder.ofInt(<span class="string">&quot;scrollX&quot;</span>, <span class="number">0</span>, <span class="number">1</span>);</span><br><span class="line">        <span class="type">PropertyValuesHolder</span> <span class="variable">pvhScrollY</span> <span class="operator">=</span> PropertyValuesHolder.ofInt(<span class="string">&quot;scrollY&quot;</span>, <span class="number">0</span>, <span class="number">1</span>);</span><br><span class="line">        defaultChangeIn = ObjectAnimator.ofPropertyValuesHolder((Object)<span class="literal">null</span>,</span><br><span class="line">                pvhLeft, pvhTop, pvhRight, pvhBottom, pvhScrollX, pvhScrollY);</span><br><span class="line">        defaultChangeIn.setDuration(DEFAULT_DURATION);</span><br><span class="line">        defaultChangeIn.setStartDelay(mChangingAppearingDelay);</span><br><span class="line">        defaultChangeIn.setInterpolator(mChangingAppearingInterpolator);</span><br><span class="line">        defaultChangeOut = defaultChangeIn.clone();</span><br><span class="line">        defaultChangeOut.setStartDelay(mChangingDisappearingDelay);</span><br><span class="line">        defaultChangeOut.setInterpolator(mChangingDisappearingInterpolator);</span><br><span class="line">        defaultChange = defaultChangeIn.clone();</span><br><span class="line">        defaultChange.setStartDelay(mChangingDelay);</span><br><span class="line">        defaultChange.setInterpolator(mChangingInterpolator);</span><br><span class="line"></span><br><span class="line">        defaultFadeIn = ObjectAnimator.ofFloat(<span class="literal">null</span>, <span class="string">&quot;alpha&quot;</span>, <span class="number">0f</span>, <span class="number">1f</span>);</span><br><span class="line">        defaultFadeIn.setDuration(DEFAULT_DURATION);</span><br><span class="line">        defaultFadeIn.setStartDelay(mAppearingDelay);</span><br><span class="line">        defaultFadeIn.setInterpolator(mAppearingInterpolator);</span><br><span class="line">        defaultFadeOut = ObjectAnimator.ofFloat(<span class="literal">null</span>, <span class="string">&quot;alpha&quot;</span>, <span class="number">1f</span>, <span class="number">0f</span>);</span><br><span class="line">        defaultFadeOut.setDuration(DEFAULT_DURATION);</span><br><span class="line">        defaultFadeOut.setStartDelay(mDisappearingDelay);</span><br><span class="line">        defaultFadeOut.setInterpolator(mDisappearingInterpolator);</span><br><span class="line">    &#125;</span><br><span class="line">    mChangingAppearingAnim = defaultChangeIn;</span><br><span class="line">    mChangingDisappearingAnim = defaultChangeOut;</span><br><span class="line">    mChangingAnim = defaultChange;</span><br><span class="line">    mAppearingAnim = defaultFadeIn;</span><br><span class="line">    mDisappearingAnim = defaultFadeOut;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在<code>LayoutTransition</code>的构造方法中给我们实现好了默认的动画效果，总共包含4中动画效果，分别是：</p>
+<ol>
+<li><code>APPEARING</code>：<code>View</code>出现动画，当<code>View</code>在父容器中出现时候的动画；</li>
+<li><code>DISAPPEARING</code>：<code>View</code>消失动画，当<code>View</code>在父容器中消失时候的动画；</li>
+<li><code>CHANGE_APPEARING</code>：由于某些<code>View</code>出现在父容器中时，容器中其他的<code>View</code>而发生变化时的动画；</li>
+<li><code>CHANGE_DISAPPEARING</code>：由于某些<code>View</code>在父容器中消失时，容器中其他的<code>View</code>而发生变化时的动画。</li>
+</ol>
+<p>我们可以调用<code>setAnimator</code>给<code>LayoutTransition</code>分别设置这些动画。</p>
+<h3 id="代码片段"><a href="#代码片段" class="headerlink" title="代码片段"></a>代码片段</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">LayoutTransition</span> <span class="variable">layoutTransition</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">LayoutTransition</span>();</span><br><span class="line">mContentLL.setLayoutTransition(layoutTransition);</span><br><span class="line"><span class="comment">//Appearing</span></span><br><span class="line"><span class="type">PropertyValuesHolder</span> <span class="variable">pvhAppearingTranslation</span> <span class="operator">=</span> PropertyValuesHolder.ofFloat(<span class="string">&quot;translationX&quot;</span>, <span class="number">800</span>, <span class="number">0</span>);</span><br><span class="line"><span class="type">PropertyValuesHolder</span> <span class="variable">pvhAppearingAlpha</span> <span class="operator">=</span> PropertyValuesHolder.ofFloat(<span class="string">&quot;alpha&quot;</span>, <span class="number">0</span>, <span class="number">1</span>);</span><br><span class="line"><span class="type">PropertyValuesHolder</span> <span class="variable">pvhAppearingScaleX</span> <span class="operator">=</span> PropertyValuesHolder.ofFloat(<span class="string">&quot;scaleX&quot;</span>, <span class="number">0</span>, <span class="number">1</span>);</span><br><span class="line"><span class="type">PropertyValuesHolder</span> <span class="variable">pvhAppearingScaleY</span> <span class="operator">=</span> PropertyValuesHolder.ofFloat(<span class="string">&quot;scaleY&quot;</span>, <span class="number">0</span>, <span class="number">1</span>);</span><br><span class="line"><span class="type">PropertyValuesHolder</span> <span class="variable">pvhAppearingRotationX</span> <span class="operator">=</span> PropertyValuesHolder.ofFloat(<span class="string">&quot;rotationX&quot;</span>, <span class="number">0</span>, <span class="number">360</span>);</span><br><span class="line"><span class="type">ObjectAnimator</span> <span class="variable">appearingAnimator</span> <span class="operator">=</span> ObjectAnimator.ofPropertyValuesHolder((Object) <span class="literal">null</span>, pvhAppearingTranslation, pvhAppearingAlpha, pvhAppearingScaleX, pvhAppearingScaleY, pvhAppearingRotationX);</span><br><span class="line"><span class="comment">//Disappearing</span></span><br><span class="line"><span class="type">PropertyValuesHolder</span> <span class="variable">pvhDisappearingTranslation</span> <span class="operator">=</span> PropertyValuesHolder.ofFloat(<span class="string">&quot;translationX&quot;</span>, <span class="number">0</span>, <span class="number">800</span>);</span><br><span class="line"><span class="type">PropertyValuesHolder</span> <span class="variable">pvhDisappearingAlpha</span> <span class="operator">=</span> PropertyValuesHolder.ofFloat(<span class="string">&quot;alpha&quot;</span>, <span class="number">1</span>, <span class="number">0</span>);</span><br><span class="line"><span class="type">PropertyValuesHolder</span> <span class="variable">pvhDisappearingScaleY</span> <span class="operator">=</span> PropertyValuesHolder.ofFloat(<span class="string">&quot;scaleY&quot;</span>, <span class="number">1</span>, <span class="number">0</span>);</span><br><span class="line"><span class="type">ObjectAnimator</span> <span class="variable">disappearingAnimator</span> <span class="operator">=</span> ObjectAnimator.ofPropertyValuesHolder((Object) <span class="literal">null</span>, pvhDisappearingTranslation, pvhDisappearingAlpha, pvhDisappearingScaleY);</span><br><span class="line"></span><br><span class="line">layoutTransition.setAnimator(LayoutTransition.APPEARING, appearingAnimator);</span><br><span class="line">layoutTransition.setInterpolator(LayoutTransition.APPEARING, <span class="keyword">new</span> <span class="title class_">OvershootInterpolator</span>());</span><br><span class="line">layoutTransition.setDuration(LayoutTransition.APPEARING, <span class="number">1200</span>);</span><br><span class="line">layoutTransition.setAnimator(LayoutTransition.DISAPPEARING, disappearingAnimator);</span><br></pre></td></tr></table></figure>
+
+<p><img src="/../img/Android-LayoutTransition-%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95/screen.gif" alt="screen"></p>
+
+
+                
+            </div>
+
+            <!-- Comments -->
+            
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    
+
+
+                </div>
+            
+        </div>
+    </div>
+</article>
+
+    <!-- Footer -->
+    <hr />
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+
+                    
+
+                    
+                        <li>
+                            <a href="https://github.com/porum" target="_blank">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                    
+
+                    
+
+                    
+
+                    
+                </ul>
+                <p class="copyright text-muted">&copy; 2022 porum<br></p>
+                <p class="copyright text-muted">Original Theme <a target="_blank" href="http://startbootstrap.com/template-overviews/clean-blog/">Clean Blog</a> from <a href="http://startbootstrap.com/" target="_blank">Start Bootstrap</a></p>
+                <p class="copyright text-muted">Adapted for <a target="_blank" href="https://hexo.io/">Hexo</a> by <a href="http://www.codeblocq.com/" target="_blank">Jonathan Klughertz</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+    <!-- After footer scripts -->
+    
+<!-- jQuery -->
+<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+
+<!-- Bootstrap -->
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+<!-- Gallery -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
+
+<!-- Disqus Comments -->
+
+
+
+</body>
+
+</html>

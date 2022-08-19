@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+
+<!-- Head tag -->
+<head>
+
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <!--Description-->
+
+    
+
+    
+        <meta name="description" content="注：本文对 gradle transform api 和 ASM api 的使用不做讨论，请自行查阅相关文档。
+阅读本文需要对 jvm 指令有一定了解。
+
+defensor 中译 守护神，本质上是一个工具类集合，对一些常用的 api 做了一层包装，然后通过 aop 的方式插入到代码中，防止因空指针、"/>
+    
+
+    <!--Author-->
+    
+        <meta name="author" content="porum"/>
+    
+
+    <!--Open Graph Title-->
+    
+        <meta property="og:title" content="Defensor 开发小记"/>
+    
+
+    <!--Open Graph Description-->
+    
+        <meta property="og:description" content="注：本文对 gradle transform api 和 ASM api 的使用不做讨论，请自行查阅相关文档。
+阅读本文需要对 jvm 指令有一定了解。
+
+defensor 中译 守护神，本质上是一个工具类集合，对一些常用的 api 做了一层包装，然后通过 aop 的方式插入到代码中，防止因空指针、"/>
+    
+
+    <!--Open Graph Site Name-->
+        <meta property="og:site_name" content="porum"/>
+
+    <!--Type page-->
+    
+        <meta property="og:type" content="article"/>
+    
+
+    <!--Page Cover-->
+    
+    
+        <meta property="og:image" content="http://www.panda912.comimg/home-bg.jpg"/>
+    
+
+        <meta name="twitter:card" content="summary_large_image"/>
+
+    
+
+    
+        <meta name="twitter:image" content="http://www.panda912.comimg/home-bg.jpg"/>
+    
+
+    <!-- Title -->
+    
+    <title>Defensor 开发小记 - porum</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    <!-- Custom Fonts -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+    <link href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css"/>
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css"/>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Gallery -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.css" type="text/css" rel="stylesheet"/>
+
+    <!-- Google Analytics -->
+    
+
+
+    <!-- favicon -->
+    
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+
+    <!-- Menu -->
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">porum</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                
+                    <li>
+                        <a href="/">
+                            
+                                Home
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/archives">
+                            
+                                Archives
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/tags">
+                            
+                                Tags
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/categories">
+                            
+                                Categories
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a target="_blank" rel="noopener" href="https://github.com/porum">
+                            
+                                <i class="fa fa-github fa-stack-2x"></i>
+                            
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+    <!-- Main Content -->
+    <!-- Page Header -->
+<!-- Set your background image for this header in your post front-matter: cover -->
+
+<header class="intro-header" style="background-image: url('/img/home-bg.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <h1>Defensor 开发小记</h1>
+                    
+                    <span class="meta">
+                        <!-- Date and Author -->
+                        
+                        
+                            2021-11-02
+                        
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Tags and categories -->
+           
+                <div class="col-lg-4 col-lg-offset-2 col-md-5 col-md-offset-1 post-tags">
+                    
+                        
+
+
+<a href="/tags/plugin/">#plugin</a>
+
+
+                    
+                </div>
+                <div class="col-lg-4 col-md-5 post-categories">
+                    
+                </div>
+            
+
+            <!-- Gallery -->
+            
+
+            <!-- Post Main Content -->
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <blockquote>
+<p>注：本文对 gradle transform api 和 ASM api 的使用不做讨论，请自行查阅相关文档。</p>
+<p>阅读本文需要对 jvm 指令有一定了解。</p>
+</blockquote>
+<p><code>defensor</code> 中译 <em>守护神</em>，本质上是一个工具类集合，对一些常用的 api 做了一层包装，然后通过 aop 的方式插入到代码中，防止因空指针、数组越界等常见的高频异常而导致 app 崩溃。</p>
+<p>举个🌰：</p>
+<p>开发阶段的一行代码： <code>int i = list.get(10);</code> </p>
+<p>在编译期间，会被修改成 <code>int i = CollectionDefensor.get(list, 10);</code></p>
+<p>而这个 get 方法的逻辑为：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (list == <span class="literal">null</span>) <span class="keyword">return</span> defValue</span><br><span class="line"><span class="keyword">else</span> <span class="keyword">if</span> (index &lt; <span class="number">0</span> || index &gt;= list.size()) <span class="keyword">return</span> defValue</span><br><span class="line"><span class="keyword">else</span> <span class="keyword">return</span> list.get(index)</span><br></pre></td></tr></table></figure>
+
+<p>之所以用 aop 的方式而不是直接在开发阶段直接调用，是因为要对团队成员去宣讲有这么个工具类，然后让大家以后写 <code>list.get(i)</code> 的时候都改写成 <code>CollectionDefensor.get(list, i)</code>，很显然这很难，因为不可能让每个人都按照你的要求来，而且增加了代码量，还极有可能会漏写，这种方式不仅增加学习成本，而且不稳定；而通过 aop 的方式在编译期遍历所有的class文件然后做修改，相当于收敛了修改入口，而且对上层开发无感知。</p>
+<h3 id="为什么叫-defensor"><a href="#为什么叫-defensor" class="headerlink" title="为什么叫 defensor"></a>为什么叫 defensor</h3><p>开发 <code>defensor</code> 属于灵光一现的想法，因为最近在反编译拼夕夕的时候，发现代码里充斥着 <code>NullPointerCrashHandler</code> 这个类，很明显这些代码是在编译期被插进去了，因为包名叫 <code>aop_defensor</code> 😂，觉得名字寓意很棒，就直接拿来用了。或者你可以理解这个项目是对拼夕夕 <code>aop_defensor</code> 这个模块增加了gradle plugin 的实现？因为逆向都算不上，拼夕夕的这个 gradle plugin 的代码我们并看不到。</p>
+<h3 id="defensor-实现原理"><a href="#defensor-实现原理" class="headerlink" title="defensor 实现原理"></a>defensor 实现原理</h3><table>
+<thead>
+<tr>
+<th align="center">Type\Example</th>
+<th align="center">Before</th>
+<th align="center">After</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">接口&#x2F;实例方法 -&gt; 静态方法</td>
+<td align="center">int i &#x3D; list.get(index)</td>
+<td align="center">int i &#x3D; CollectionDefensor.get(list, index)</td>
+</tr>
+<tr>
+<td align="center">Array[i] -&gt; 静态方法</td>
+<td align="center">int i &#x3D; arr[index]</td>
+<td align="center">int i &#x3D; CollectionDefensor.get(arr, index)</td>
+</tr>
+<tr>
+<td align="center">修改继承关系</td>
+<td align="center">CustomDialog extends Dialog</td>
+<td align="center">CustomDialog extends SafeDialog</td>
+</tr>
+<tr>
+<td align="center">修改new对象</td>
+<td align="center">new JSONArray(“”)</td>
+<td align="center">new SafeJSONArray(“[]”)</td>
+</tr>
+</tbody></table>
+<h4 id="接口-x2F-实例方法-gt-静态方法"><a href="#接口-x2F-实例方法-gt-静态方法" class="headerlink" title="接口&#x2F;实例方法 -&gt; 静态方法"></a>接口&#x2F;实例方法 -&gt; 静态方法</h4><p>这里以 Test 作为测试，我们希望在编译期把 <em>original</em> 的代码修改成 <em>expected</em> 的代码。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Test</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getItem</span><span class="params">(List&lt;String&gt; list, <span class="type">int</span> index)</span> &#123;</span><br><span class="line">        <span class="comment">// original</span></span><br><span class="line">        <span class="keyword">return</span> list.get(index);</span><br><span class="line">        <span class="comment">// expected</span></span><br><span class="line">        <span class="comment">// return CollectionDefensor.get(list, index);</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们可以分别输出 <em>original</em> 和 <em>expected</em> 的字节码，对比一下两份字节码的差别。</p>
+<p><code>javap -c Test.class</code> 输出 <em>original</em> 的字节码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">Compiled from <span class="string">&quot;Test.java&quot;</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Test</span> &#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="title function_">Test</span><span class="params">()</span>;</span><br><span class="line">    Code:</span><br><span class="line">       <span class="number">0</span>: aload_0</span><br><span class="line">       <span class="number">1</span>: invokespecial #<span class="number">1</span>                  <span class="comment">// Method java/lang/Object.&quot;&lt;init&gt;&quot;:()V</span></span><br><span class="line">       <span class="number">4</span>: <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> java.lang.String <span class="title function_">getItem</span><span class="params">(java.util.List&lt;java.lang.String&gt;, <span class="type">int</span>)</span>;</span><br><span class="line">    Code:</span><br><span class="line">       <span class="number">0</span>: aload_1</span><br><span class="line">       <span class="number">1</span>: iload_2</span><br><span class="line">       <span class="number">2</span>: invokeinterface #<span class="number">2</span>,  <span class="number">2</span>            <span class="comment">// InterfaceMethod java/util/List.get:(I)Ljava/lang/Object;</span></span><br><span class="line">       <span class="number">7</span>: checkcast     #<span class="number">3</span>                  <span class="comment">// class java/lang/String</span></span><br><span class="line">      <span class="number">10</span>: areturn</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注释掉 <em>original</em>，放开 <em>expected</em> 后的字节码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">Compiled from <span class="string">&quot;Test.java&quot;</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Test</span> &#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="title function_">Test</span><span class="params">()</span>;</span><br><span class="line">    Code:</span><br><span class="line">       <span class="number">0</span>: aload_0</span><br><span class="line">       <span class="number">1</span>: invokespecial #<span class="number">1</span>                  <span class="comment">// Method java/lang/Object.&quot;&lt;init&gt;&quot;:()V</span></span><br><span class="line">       <span class="number">4</span>: <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> java.lang.String <span class="title function_">getItem</span><span class="params">(java.util.List&lt;java.lang.String&gt;, <span class="type">int</span>)</span>;</span><br><span class="line">    Code:</span><br><span class="line">       <span class="number">0</span>: aload_1</span><br><span class="line">       <span class="number">1</span>: iload_2</span><br><span class="line">       <span class="number">2</span>: invokestatic  #<span class="number">38</span>                 <span class="comment">// Method defensor/CollectionDefensor.get:(Ljava/util/List;I)Ljava/lang/Object;</span></span><br><span class="line">       <span class="number">5</span>: checkcast     #<span class="number">3</span>                  <span class="comment">// class java/lang/String</span></span><br><span class="line">       <span class="number">8</span>: areturn</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>此处需要甩出一份 <a target="_blank" rel="noopener" href="http://panda912.com/2019/04/05/JVM-%E6%8C%87%E4%BB%A4%E9%9B%86/">JVM 指令集</a></p>
+</blockquote>
+<p>通过对比不难发现，getItem 方法的字节码只有一行不同，<em>original</em> 是 <code>invokeinterface</code>，而 <em>expected</em> 是 <code>invokestatic</code>，因为 <em>original</em> 的代码是 <code>list.get(index)</code>，而 <code>java.util.List</code> 是一个接口，所以是 <code>invokeinterface</code> 调用接口方法；同理，<code>CollectionDefensor.get(list, index)</code> 是 <code>invokestatic</code> 调用静态方法。</p>
+<p>所以 接口&#x2F;实例方法 -&gt; 静态方法 其实就是 <code>invokeinterface</code>&#x2F;<code>invokevirtual</code> -&gt; <code>invokestatic</code>，所以只需要在 </p>
+<p><code>visitMethodInsn</code> 的时候筛选出满足替换条件的方法并替换就👌。下面贴出将 <code>list.get(index)</code> 替换成 <code>CollectionDefensor.get(list, index)</code> 的代码：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">val</span> file = File(<span class="string">&quot;/Users/panda/IdeaProjects/Demo/out/production/Demo/Test.class&quot;</span>)</span><br><span class="line">    <span class="keyword">val</span> cr = ClassReader(file.inputStream())</span><br><span class="line">    <span class="keyword">val</span> cw = ClassWriter(cr, <span class="number">0</span>)</span><br><span class="line">    cr.accept(<span class="keyword">object</span> : ClassVisitor(Opcodes.ASM9, cw) &#123;</span><br><span class="line">        <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">visitMethod</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">            access: <span class="type">Int</span>,</span></span></span><br><span class="line"><span class="params"><span class="function">            name: <span class="type">String</span>?,</span></span></span><br><span class="line"><span class="params"><span class="function">            descriptor: <span class="type">String</span>?,</span></span></span><br><span class="line"><span class="params"><span class="function">            signature: <span class="type">String</span>?,</span></span></span><br><span class="line"><span class="params"><span class="function">            exceptions: <span class="type">Array</span>&lt;<span class="type">out</span> <span class="type">String</span>&gt;?</span></span></span><br><span class="line"><span class="params"><span class="function">        )</span></span>: MethodVisitor &#123;</span><br><span class="line">            <span class="keyword">val</span> mv = <span class="keyword">super</span>.visitMethod(access, name, descriptor, signature, exceptions)</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">object</span> : MethodVisitor(Opcodes.ASM9, mv) &#123;</span><br><span class="line">                <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">visitMethodInsn</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">                    opcode: <span class="type">Int</span>,</span></span></span><br><span class="line"><span class="params"><span class="function">                    owner: <span class="type">String</span>?,</span></span></span><br><span class="line"><span class="params"><span class="function">                    name: <span class="type">String</span>?,</span></span></span><br><span class="line"><span class="params"><span class="function">                    descriptor: <span class="type">String</span>?,</span></span></span><br><span class="line"><span class="params"><span class="function">                    isInterface: <span class="type">Boolean</span></span></span></span><br><span class="line"><span class="params"><span class="function">                )</span></span> &#123;</span><br><span class="line">                    <span class="keyword">if</span> (opcode == Opcodes.INVOKEINTERFACE &amp;&amp;</span><br><span class="line">                        owner == <span class="string">&quot;java/util/List&quot;</span> &amp;&amp;</span><br><span class="line">                        name == <span class="string">&quot;get&quot;</span> &amp;&amp;</span><br><span class="line">                        descriptor == <span class="string">&quot;(I)Ljava/lang/Object;&quot;</span> &amp;&amp;</span><br><span class="line">                        isInterface</span><br><span class="line">                    ) &#123;</span><br><span class="line">                        <span class="keyword">super</span>.visitMethodInsn(</span><br><span class="line">                            Opcodes.INVOKESTATIC,</span><br><span class="line">                            <span class="string">&quot;defensor/CollectionDefensor&quot;</span>,</span><br><span class="line">                            <span class="string">&quot;get&quot;</span>,</span><br><span class="line">                            <span class="string">&quot;(Ljava/util/List;I)Ljava/lang/Object;&quot;</span>,</span><br><span class="line">                            <span class="literal">false</span></span><br><span class="line">                        )</span><br><span class="line">                        <span class="keyword">return</span></span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">super</span>.visitMethodInsn(opcode, owner, name, descriptor, isInterface)</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;, <span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">    with(File(<span class="string">&quot;/Users/panda/IdeaProjects/Demo/out/production/Demo/asm/Test.class&quot;</span>)) &#123;</span><br><span class="line">        parentFile.mkdirs()</span><br><span class="line">        writeBytes(cw.toByteArray())</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="Array-i-gt-静态方法"><a href="#Array-i-gt-静态方法" class="headerlink" title="Array[i] -&gt; 静态方法"></a>Array[i] -&gt; 静态方法</h4><p>我们把上面的 Test 稍微修改一下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Test</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getItem</span><span class="params">(<span class="type">int</span>[] arr, <span class="type">int</span> index)</span> &#123;</span><br><span class="line">        <span class="comment">// original</span></span><br><span class="line">        <span class="keyword">return</span> arr[index];</span><br><span class="line">        <span class="comment">// expected</span></span><br><span class="line">        <span class="comment">// return CollectionDefensor.get(arr, index);</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后看看它的字节码的内容：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">Compiled from <span class="string">&quot;Test.java&quot;</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Test</span> &#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="title function_">Test</span><span class="params">()</span>;</span><br><span class="line">    Code:</span><br><span class="line">       <span class="number">0</span>: aload_0</span><br><span class="line">       <span class="number">1</span>: invokespecial #<span class="number">1</span>                  <span class="comment">// Method java/lang/Object.&quot;&lt;init&gt;&quot;:()V</span></span><br><span class="line">       <span class="number">4</span>: <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getItem</span><span class="params">(<span class="type">int</span>[], <span class="type">int</span>)</span>;</span><br><span class="line">    Code:</span><br><span class="line">       <span class="number">0</span>: aload_1  <span class="comment">// 将本地变量表中index为1的引用类型的变量推到栈顶（即 arr）</span></span><br><span class="line">       <span class="number">1</span>: iload_2  <span class="comment">// 将本地变量表中index为2的 int 型的变量推到栈顶（即 index）</span></span><br><span class="line">       <span class="number">2</span>: iaload   <span class="comment">// 将 int 型数组指定索引的值推送至栈顶（即 arr[index]）</span></span><br><span class="line">       <span class="number">3</span>: ireturn  <span class="comment">// return int</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>那么我们大胆猜测一下，如果想要将类似 <code>arr[index]</code> 的代码替换为 <code>CollectionDefensor.get(arr, index)</code> , 只需要将 <code>iaload</code> (当然，也可以是 <code>laload</code>、<code>faload</code>、<code>daload </code>、<code>caload</code>、<code>saload</code>) 指令替换为 <code>invokestatic</code> 即可。事实证明，这是对的，但是，除了 <code>aaload</code> 和 <code>baload </code> 。</p>
+<p><code>aaload</code> 指令的含义是将引用类型数组指定索引的值推至栈顶。但是我们为了保持通用性，<code>CollectionDefensor</code> 中只提供了 <code>public static Object get(Object[] arr, int index)</code> 方法，直接将 <code>aaload</code> 替换成 <code>invokestatic</code> 是不行的，需要先获取该引用类型的具体类型，在  <code>invokestatic</code> 之后再添加一条 <code>checkcast</code> 到该具体类型的指令方可。</p>
+<p><code>baload</code> 指令的含义是将 <code>byte</code> 或 <code>boolean</code> 类型数组指定索引的值推至栈顶。为什么 <code>byte</code> 和 <code>boolean</code> 要共用 <code>baload</code>（还有 <code>bastore</code>）指令呢？《Java虚拟机规范》里面有相关的说明：</p>
+<blockquote>
+<p>Although the Java Virtual Machine defines a <code>boolean</code> type, it only provides very limited support for it. There are no Java Virtual Machine instructions solely dedicated to operations on <code>boolean</code> values. Instead, expressions in the Java programming language that operate on <code>boolean</code> values are compiled to use values of the Java Virtual Machine <code>int</code> data type.</p>
+<p>The Java Virtual Machine does directly support <code>boolean</code> arrays. Its <em>newarray</em> instruction (<a target="_blank" rel="noopener" href="https://docs.oracle.com/javase/specs/jvms/se8/html/jvms-6.html#jvms-6.5.newarray">§<em>newarray</em></a>) enables creation of <code>boolean</code> arrays. Arrays of type <code>boolean</code> are accessed and modified using the <code>byte</code> array instructions <em>baload</em> and <em>bastore</em> (<a target="_blank" rel="noopener" href="https://docs.oracle.com/javase/specs/jvms/se8/html/jvms-6.html#jvms-6.5.baload">§<em>baload</em></a>, <a target="_blank" rel="noopener" href="https://docs.oracle.com/javase/specs/jvms/se8/html/jvms-6.html#jvms-6.5.bastore">§<em>bastore</em></a>).</p>
+<p>In Oracle’s Java Virtual Machine implementation, <code>boolean</code> arrays in the Java programming language are encoded as Java Virtual Machine <code>byte</code> arrays, using 8 bits per <code>boolean</code> element.</p>
+<p>The Java Virtual Machine encodes <code>boolean</code> array components using <code>1</code> to represent <code>true</code> and <code>0</code> to represent <code>false</code>. Where Java programming language <code>boolean</code>values are mapped by compilers to values of Java Virtual Machine type <code>int</code>, the compilers must use the same encoding. <a href="#reference-1"><sup>1</sup></a></p>
+</blockquote>
+<p>所以我们直接替换 <code>baload</code> 为 <code>invokestatic</code> 也是不行的，因为我们不知道是要调用 <code>public static byte get(byte[] arr, int index)</code> 还是要调用 <code>public static boolean get(boolean[] arr, int index)</code> ，</p>
+<p>所以也是要先获取到具体的类型，再取决于调用哪个方法。</p>
+<p>那么如何获取 <code>aaload</code> &#x2F; <code>baload</code> 具体的类型呢？我们将 Test 代码再稍微改动一下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Test</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">byte</span> <span class="title function_">getByteItem</span><span class="params">(<span class="type">byte</span>[] arr, <span class="type">int</span> index)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> arr[index];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">getBooleanItem</span><span class="params">(<span class="type">boolean</span>[] arr, <span class="type">int</span> index)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> arr[index];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出字节码，这次我们 <code>-v</code>，输出更详细的信息：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br></pre></td><td class="code"><pre><span class="line">Classfile /Users/panda/IdeaProjects/Demo/out/production/Demo/Test.<span class="keyword">class</span></span><br><span class="line">  <span class="title class_">Last</span> modified <span class="number">2021</span>年<span class="number">10</span>月<span class="number">8</span>日; size <span class="number">474</span> bytes</span><br><span class="line">  MD5 checksum 22890e487b8c5b6a9bd967dc994c725c</span><br><span class="line">  Compiled from <span class="string">&quot;Test.java&quot;</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Test</span></span><br><span class="line">  minor version: <span class="number">0</span></span><br><span class="line">  major version: <span class="number">52</span></span><br><span class="line">  flags: (<span class="number">0x0021</span>) ACC_PUBLIC, ACC_SUPER</span><br><span class="line">  this_class: #<span class="number">2</span>                          <span class="comment">// Test</span></span><br><span class="line">  super_class: #<span class="number">3</span>                         <span class="comment">// java/lang/Object</span></span><br><span class="line">  interfaces: <span class="number">0</span>, fields: <span class="number">0</span>, methods: <span class="number">3</span>, attributes: <span class="number">1</span></span><br><span class="line">Constant pool:</span><br><span class="line">   #<span class="number">1</span> = Methodref          #<span class="number">3.</span>#<span class="number">22</span>         <span class="comment">// java/lang/Object.&quot;&lt;init&gt;&quot;:()V</span></span><br><span class="line">   #<span class="number">2</span> = Class              #<span class="number">23</span>            <span class="comment">// Test</span></span><br><span class="line">   #<span class="number">3</span> = Class              #<span class="number">24</span>            <span class="comment">// java/lang/Object</span></span><br><span class="line">   #<span class="number">4</span> = Utf8               &lt;init&gt;</span><br><span class="line">   #<span class="number">5</span> = Utf8               ()V</span><br><span class="line">   #<span class="number">6</span> = Utf8               Code</span><br><span class="line">   #<span class="number">7</span> = Utf8               LineNumberTable</span><br><span class="line">   #<span class="number">8</span> = Utf8               LocalVariableTable</span><br><span class="line">   #<span class="number">9</span> = Utf8               <span class="built_in">this</span></span><br><span class="line">  #<span class="number">10</span> = Utf8               LTest;</span><br><span class="line">  #<span class="number">11</span> = Utf8               getByteItem</span><br><span class="line">  #<span class="number">12</span> = Utf8               ([BI)B</span><br><span class="line">  #<span class="number">13</span> = Utf8               arr</span><br><span class="line">  #<span class="number">14</span> = Utf8               [B</span><br><span class="line">  #<span class="number">15</span> = Utf8               index</span><br><span class="line">  #<span class="number">16</span> = Utf8               I</span><br><span class="line">  #<span class="number">17</span> = Utf8               getBooleanItem</span><br><span class="line">  #<span class="number">18</span> = Utf8               ([ZI)Z</span><br><span class="line">  #<span class="number">19</span> = Utf8               [Z</span><br><span class="line">  #<span class="number">20</span> = Utf8               SourceFile</span><br><span class="line">  #<span class="number">21</span> = Utf8               Test.java</span><br><span class="line">  #<span class="number">22</span> = NameAndType        #<span class="number">4</span>:#<span class="number">5</span>          <span class="comment">// &quot;&lt;init&gt;&quot;:()V</span></span><br><span class="line">  #<span class="number">23</span> = Utf8               Test</span><br><span class="line">  #<span class="number">24</span> = Utf8               java/lang/Object</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="title function_">Test</span><span class="params">()</span>;</span><br><span class="line">    descriptor: ()V</span><br><span class="line">    flags: (<span class="number">0x0001</span>) ACC_PUBLIC</span><br><span class="line">    Code:</span><br><span class="line">      stack=<span class="number">1</span>, locals=<span class="number">1</span>, args_size=<span class="number">1</span></span><br><span class="line">         <span class="number">0</span>: aload_0</span><br><span class="line">         <span class="number">1</span>: invokespecial #<span class="number">1</span>                  <span class="comment">// Method java/lang/Object.&quot;&lt;init&gt;&quot;:()V</span></span><br><span class="line">         <span class="number">4</span>: <span class="keyword">return</span></span><br><span class="line">      LineNumberTable:</span><br><span class="line">        line <span class="number">1</span>: <span class="number">0</span></span><br><span class="line">      LocalVariableTable:</span><br><span class="line">        Start  Length  Slot  Name   Signature</span><br><span class="line">            <span class="number">0</span>       <span class="number">5</span>     <span class="number">0</span>  <span class="built_in">this</span>   LTest;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="type">byte</span> <span class="title function_">getByteItem</span><span class="params">(<span class="type">byte</span>[], <span class="type">int</span>)</span>;</span><br><span class="line">    descriptor: ([BI)B</span><br><span class="line">    flags: (<span class="number">0x0001</span>) ACC_PUBLIC</span><br><span class="line">    Code:</span><br><span class="line">      stack=<span class="number">2</span>, locals=<span class="number">3</span>, args_size=<span class="number">3</span></span><br><span class="line">         <span class="number">0</span>: aload_1</span><br><span class="line">         <span class="number">1</span>: iload_2</span><br><span class="line">         <span class="number">2</span>: baload</span><br><span class="line">         <span class="number">3</span>: ireturn</span><br><span class="line">      LineNumberTable:</span><br><span class="line">        line <span class="number">3</span>: <span class="number">0</span></span><br><span class="line">      LocalVariableTable:</span><br><span class="line">        Start  Length  Slot  Name   Signature</span><br><span class="line">            <span class="number">0</span>       <span class="number">4</span>     <span class="number">0</span>  <span class="built_in">this</span>   LTest;</span><br><span class="line">            <span class="number">0</span>       <span class="number">4</span>     <span class="number">1</span>   arr   [B</span><br><span class="line">            <span class="number">0</span>       <span class="number">4</span>     <span class="number">2</span> index   I</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">getBooleanItem</span><span class="params">(<span class="type">boolean</span>[], <span class="type">int</span>)</span>;</span><br><span class="line">    descriptor: ([ZI)Z</span><br><span class="line">    flags: (<span class="number">0x0001</span>) ACC_PUBLIC</span><br><span class="line">    Code:</span><br><span class="line">      stack=<span class="number">2</span>, locals=<span class="number">3</span>, args_size=<span class="number">3</span></span><br><span class="line">         <span class="number">0</span>: aload_1</span><br><span class="line">         <span class="number">1</span>: iload_2</span><br><span class="line">         <span class="number">2</span>: baload</span><br><span class="line">         <span class="number">3</span>: ireturn</span><br><span class="line">      LineNumberTable:</span><br><span class="line">        line <span class="number">6</span>: <span class="number">0</span></span><br><span class="line">      LocalVariableTable:</span><br><span class="line">        Start  Length  Slot  Name   Signature</span><br><span class="line">            <span class="number">0</span>       <span class="number">4</span>     <span class="number">0</span>  <span class="built_in">this</span>   LTest;</span><br><span class="line">            <span class="number">0</span>       <span class="number">4</span>     <span class="number">1</span>   arr   [Z</span><br><span class="line">            <span class="number">0</span>       <span class="number">4</span>     <span class="number">2</span> index   I</span><br><span class="line">&#125;</span><br><span class="line">SourceFile: <span class="string">&quot;Test.java&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>果然，getByteItem 和 getBooleanItem 的 Code 完全一样，如果我们仔细观察会发现，这两个方法的 <code>LocalVariableTable</code> 还是有区别的，getByteItem 的本地变量表中 arr 的 Signature 是 <code>[B</code> ，getBooleanItem 的本地变量表中 arr 的 Signature 是 <code>[Z</code> ，所以我们如果能够拿到 arr 的签名，就拿到了数组的具体的类型。</p>
+<p>我们再回过头想一下 jvm 是如何获取数组指定索引的值的：</p>
+<ol>
+<li>将数组的引用推到栈顶，其指令可能为 <code>aload</code>、<code>getfield</code>、<code>getstatic</code></li>
+<li>将int索引推到栈顶，其指令可能为 <code>iconst_0</code> 至 <code>iconst_5</code>、<code>bipush</code>、<code>sipush</code>、<code>ldc</code>、<code>iload</code> </li>
+<li>将该数组指定索引的值推至栈顶，其指令可能为 <code>(i|l|f|d|a|b|c|s)aload</code></li>
+</ol>
+<p>所以我们只需要这三条指令满足上述条件，则为获取数组指定索引的值。而 <code>getfield</code>、<code>getstatic</code> 指令可以拿到数组的 descriptor；而 <code>aload</code> 指令可以拿到本地变量表的索引，通过索引可以获取到本地数组的 Signature，至此，数组的具体类型已经可以获取到了。</p>
+<p>这里一个坑，本地变量表中的 Slot 是可能会复用的，所以通过<code>aload</code> 的索引去获取变量表中的数组变量，需要确保拿到的变量是正确的。</p>
+<p>再来一个坑，需要过滤掉多维数组。</p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><div id="reference_1"></div>
+
+<ul>
+<li>[1] <a target="_blank" rel="noopener" href="https://docs.oracle.com/javase/specs/jvms/se8/html/jvms-2.html#jvms-2.3.4">The Java® Virtual Machine Specification</a></li>
+</ul>
+
+
+                
+            </div>
+
+            <!-- Comments -->
+            
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    
+
+
+                </div>
+            
+        </div>
+    </div>
+</article>
+
+    <!-- Footer -->
+    <hr />
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+
+                    
+
+                    
+                        <li>
+                            <a href="https://github.com/porum" target="_blank">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                    
+
+                    
+
+                    
+
+                    
+                </ul>
+                <p class="copyright text-muted">&copy; 2022 porum<br></p>
+                <p class="copyright text-muted">Original Theme <a target="_blank" href="http://startbootstrap.com/template-overviews/clean-blog/">Clean Blog</a> from <a href="http://startbootstrap.com/" target="_blank">Start Bootstrap</a></p>
+                <p class="copyright text-muted">Adapted for <a target="_blank" href="https://hexo.io/">Hexo</a> by <a href="http://www.codeblocq.com/" target="_blank">Jonathan Klughertz</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+    <!-- After footer scripts -->
+    
+<!-- jQuery -->
+<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+
+<!-- Bootstrap -->
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+<!-- Gallery -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
+
+<!-- Disqus Comments -->
+
+
+
+</body>
+
+</html>

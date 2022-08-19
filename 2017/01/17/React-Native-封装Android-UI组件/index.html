@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+
+<!-- Head tag -->
+<head>
+
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <!--Description-->
+
+    
+
+    
+        <meta name="description" content="移动APP上用的最多的功能之一可能就是下拉刷新了，今天就用 React Native来封装一个基于android-Ultra-Pull-To-Refresh的下拉刷新控件。
+封装流程
+继承SimpleViewManager或ViewGroupManager创建视图管理器类；
+继承ReactPacka"/>
+    
+
+    <!--Author-->
+    
+        <meta name="author" content="porum"/>
+    
+
+    <!--Open Graph Title-->
+    
+        <meta property="og:title" content="React Native 封装 Android UI 组件"/>
+    
+
+    <!--Open Graph Description-->
+    
+        <meta property="og:description" content="移动APP上用的最多的功能之一可能就是下拉刷新了，今天就用 React Native来封装一个基于android-Ultra-Pull-To-Refresh的下拉刷新控件。
+封装流程
+继承SimpleViewManager或ViewGroupManager创建视图管理器类；
+继承ReactPacka"/>
+    
+
+    <!--Open Graph Site Name-->
+        <meta property="og:site_name" content="porum"/>
+
+    <!--Type page-->
+    
+        <meta property="og:type" content="article"/>
+    
+
+    <!--Page Cover-->
+    
+    
+        <meta property="og:image" content="http://www.panda912.comimg/home-bg.jpg"/>
+    
+
+        <meta name="twitter:card" content="summary_large_image"/>
+
+    
+
+    
+        <meta name="twitter:image" content="http://www.panda912.comimg/home-bg.jpg"/>
+    
+
+    <!-- Title -->
+    
+    <title>React Native 封装 Android UI 组件 - porum</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    <!-- Custom Fonts -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+    <link href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css"/>
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css"/>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Gallery -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.css" type="text/css" rel="stylesheet"/>
+
+    <!-- Google Analytics -->
+    
+
+
+    <!-- favicon -->
+    
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+
+    <!-- Menu -->
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">porum</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                
+                    <li>
+                        <a href="/">
+                            
+                                Home
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/archives">
+                            
+                                Archives
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/tags">
+                            
+                                Tags
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/categories">
+                            
+                                Categories
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a target="_blank" rel="noopener" href="https://github.com/porum">
+                            
+                                <i class="fa fa-github fa-stack-2x"></i>
+                            
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+    <!-- Main Content -->
+    <!-- Page Header -->
+<!-- Set your background image for this header in your post front-matter: cover -->
+
+<header class="intro-header" style="background-image: url('/img/home-bg.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <h1>React Native 封装 Android UI 组件</h1>
+                    
+                    <span class="meta">
+                        <!-- Date and Author -->
+                        
+                        
+                            2017-01-17
+                        
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Tags and categories -->
+           
+                <div class="col-lg-4 col-lg-offset-2 col-md-5 col-md-offset-1 post-tags">
+                    
+                        
+
+
+<a href="/tags/React-Native/">#React Native</a>
+
+
+                    
+                </div>
+                <div class="col-lg-4 col-md-5 post-categories">
+                    
+                </div>
+            
+
+            <!-- Gallery -->
+            
+
+            <!-- Post Main Content -->
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <p>移动APP上用的最多的功能之一可能就是下拉刷新了，今天就用<code> React Native</code>来封装一个基于<a target="_blank" rel="noopener" href="https://github.com/liaohuqiu/android-Ultra-Pull-To-Refresh">android-Ultra-Pull-To-Refresh</a>的下拉刷新控件。</p>
+<h3 id="封装流程"><a href="#封装流程" class="headerlink" title="封装流程"></a>封装流程</h3><ol>
+<li>继承<code>SimpleViewManager</code>或<code>ViewGroupManager</code>创建视图管理器类；</li>
+<li>继承<code>ReactPackage</code>创建自定义ReactPackage，重写<code>createNativeModules</code>、<code>createJSModules</code>、<code>createViewManagers</code>这三个方法，返回类型都是 List 类型， 在<code>createViewManagers</code>中添加我们创建好的视图管理器类到集合中，另外两个方法可以返回空 List 集合；</li>
+<li>在Application 中添加自定义的 ReactPackage；</li>
+<li>JS 层封装自定义 UI 控件。</li>
+</ol>
+<p>首先继承<code>ViewGroupManager&lt;T&gt;</code>创建一个<code>ReactPtrAndroidManager</code>，<code>ViewGroupManager</code>所需的泛型类型是一个 <code>ViewGroup</code>，在这里就是我们的<code>PtrClassicFrameLayout</code>（我这里直接使用这个库提供的经典的下拉刷新样式），然后重写以下方法：</p>
+<ul>
+<li><code>getName</code>：返回这个视图管理器的名称，这个名称将被用于在 JavaScript 中创建 RN 组件时所引用。简单地说就是 JS 层创建的刷新组件将通过这个名字来和 Java 层起到映射关系。</li>
+<li><code>createViewInstance</code>：返回一个和泛型类型一致的 <code>View</code> 实例。在这里就是返回<code>PtrClassicFrameLayout</code>类型的实例。</li>
+<li><code>getCommandsMap</code>：返回想要接收的指令的集合。简单地说就是如果你希望 Java 层接受某个指令，就在这个方法里添加进去，比方说我们这个例子，我想在 Java 层处理自动刷新、刷新完成，那就把自动刷新的Key,Value和刷新完成的 Key,Value添加到 Map 集合中。然后在 JS 层就可以通过调用<code>UIManagerModule</code>类中的<code>dispatchViewManagerCommand</code>方法，传入对应的指令ID 来调用 Java 层的事件。在 RN 中就是这样实现在 JS 层调用 Java 层的代码。</li>
+<li><code>receiveCommand</code>：这个和<code>getCommandsMap</code>是对应的，处理接收到对应指令后的逻辑。我们在<code>getCommandsMap</code>中已经添加了一些指令的集合，并且在 JS 层可以通过<code>dispatchViewManagerCommand</code>来发送对应的指令，然后在 Java 层处理相应的逻辑，那我们怎么知道 JS 层到底发送了什么指令？其实就是在这个方法中来接收 JS 层发出的指令。</li>
+<li><code>addEventEmitters</code>：重写此方法给给定的视图安装自定义事件发射器。如果这个视图需要发射除了基本的触摸事件以外的事件，那么就需要重写这个方法。这个例子中在开始刷新的回调方法中发送一个自定义的事件<code>ptrRefresh</code>给 JS 层，</li>
+<li><code>getExportedCustomDirectEventTypeConstants</code>：返回 <u>传递给JS的</u> <u>定义可以放置在原生视图上的</u> <u>符合条件的事件</u> 的配置数据的 map 集合(定语比较多(╯‵□′)╯︵┻━┻)， 这应该返回非冒泡直接调度的事件类型。反正我是没看懂。。。以下是个人理解，我们注册了onPtrRefresh事件，这个事件是给JS 层使用的，JS 层在onPtrRefresh中执行刷新的逻辑（请求网络数据等），然后回调给 Java 层。正常NativeApp需要在onRefreshBegin里执行刷新逻辑， 使用 RN 就可以这样在 JS 层上执行刷新逻辑了。JS 层 onPtrRefresh –&gt; Java 层 <code>ptrRefresh</code> –&gt; <code>onRefreshBegin</code>。</li>
+<li><code>addView</code>：为什么要重写 <code>addView</code> 呢？如果看过<code>PtrFrameLayout</code>源码就知道，是在<code>onFinishInflate</code>中 <code>findViewById</code>并初始化<code>contentView</code>和<code>headerView</code>的，可是 RN 根本不走<code>onFinishInflate</code>方法，因为<code>onFinishInflate</code>只是在从 <code>XML</code> 加载完成布局之后才调用（PS:最初我在<code>createViewInstance</code>方法中是<code>inflate</code> <code>XML</code>布局的，打Log是走<code>onFinishInflate</code>的。。。都是泪😭）。并且在调用<code>addView</code>的时候，<code>PtrClassicFrameLayout</code>中已经存在<code>headerView</code>了，在<code>PtrClassicFrameLayout</code>的构造方法中添加的。然后调用父类<code>addView</code>的时候，是从 Index 为0开始添加的，很显然逻辑就不对了，我们要把<code>onFinishInflate</code>中的代码稍微修改一下并且抽出来写成公有方法<code>finishInflateRN</code>，供外部调用。然后我们重写addView 把contentView 添加在 Index 为1的位置，并且调用一下<code>finishInflateRN</code>就好了。</li>
+</ul>
+<p>最后就是暴露属性，让 JS 层可以使用这些属性，方法使用<code>ReactProp</code>注解，<code>name</code>就是 JS 的属性，还可以设置一些默认值。</p>
+<h3 id="代码片段"><a href="#代码片段" class="headerlink" title="代码片段"></a>代码片段</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ReactPtrAndroidManager</span> <span class="keyword">extends</span> <span class="title class_">ViewGroupManager</span>&lt;PtrClassicFrameLayout&gt; &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">REFRESH_COMPLETE</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">AUTO_REFRESH</span> <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getName</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;RCTPtrAndroid&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> PtrClassicFrameLayout <span class="title function_">createViewInstance</span><span class="params">(<span class="keyword">final</span> ThemedReactContext reactContext)</span> &#123;</span><br><span class="line">        <span class="type">PtrClassicFrameLayout</span> <span class="variable">layout</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">PtrClassicFrameLayout</span>(reactContext);</span><br><span class="line">        layout.setLayoutParams(<span class="keyword">new</span> <span class="title class_">FrameLayout</span>.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));</span><br><span class="line">        <span class="keyword">return</span> layout;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@ReactProp(name = &quot;resistance&quot;, defaultFloat = 1.7f)</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setResistance</span><span class="params">(PtrClassicFrameLayout ptr, <span class="type">float</span> resistance)</span> &#123;</span><br><span class="line">        ptr.setResistance(resistance);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@ReactProp(name = &quot;durationToCloseHeader&quot;, defaultInt = 200)</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setDurationToCloseHeader</span><span class="params">(PtrClassicFrameLayout ptr, <span class="type">int</span> duration)</span> &#123;</span><br><span class="line">        ptr.setDurationToCloseHeader(duration);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@ReactProp(name = &quot;durationToClose&quot;, defaultInt = 300)</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setDurationToClose</span><span class="params">(PtrClassicFrameLayout ptr, <span class="type">int</span> duration)</span> &#123;</span><br><span class="line">        ptr.setDurationToClose(duration);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@ReactProp(name = &quot;ratioOfHeaderHeightToRefresh&quot;, defaultFloat = 1.2f)</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setRatioOfHeaderHeightToRefresh</span><span class="params">(PtrClassicFrameLayout ptr, <span class="type">float</span> ratio)</span> &#123;</span><br><span class="line">        ptr.setRatioOfHeaderHeightToRefresh(ratio);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@ReactProp(name = &quot;pullToRefresh&quot;, defaultBoolean = false)</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setPullToRefresh</span><span class="params">(PtrClassicFrameLayout ptr, <span class="type">boolean</span> pullToRefresh)</span> &#123;</span><br><span class="line">        ptr.setPullToRefresh(pullToRefresh);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@ReactProp(name = &quot;keepHeaderWhenRefresh&quot;, defaultBoolean = false)</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setKeepHeaderWhenRefresh</span><span class="params">(PtrClassicFrameLayout ptr, <span class="type">boolean</span> keep)</span> &#123;</span><br><span class="line">        ptr.setKeepHeaderWhenRefresh(keep);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@ReactProp(name = &quot;pinContent&quot;, defaultBoolean = false)</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setPinContent</span><span class="params">(PtrClassicFrameLayout ptr, <span class="type">boolean</span> pinContent)</span> &#123;</span><br><span class="line">        ptr.setPinContent(pinContent);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Nullable</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> Map&lt;String, Integer&gt; <span class="title function_">getCommandsMap</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> MapBuilder.of(<span class="string">&quot;autoRefresh&quot;</span>, AUTO_REFRESH, <span class="string">&quot;refreshComplete&quot;</span>, REFRESH_COMPLETE);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">receiveCommand</span><span class="params">(PtrClassicFrameLayout root, <span class="type">int</span> commandId, <span class="meta">@Nullable</span> ReadableArray args)</span> &#123;</span><br><span class="line">        <span class="keyword">switch</span> (commandId) &#123;</span><br><span class="line">            <span class="keyword">case</span> AUTO_REFRESH:</span><br><span class="line">                root.autoRefresh();</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> REFRESH_COMPLETE:</span><br><span class="line">                root.refreshComplete();</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">default</span>:</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">addEventEmitters</span><span class="params">(<span class="keyword">final</span> ThemedReactContext reactContext, <span class="keyword">final</span> PtrClassicFrameLayout view)</span> &#123;</span><br><span class="line">        view.setLastUpdateTimeRelateObject(<span class="built_in">this</span>);</span><br><span class="line">        view.setPtrHandler(<span class="keyword">new</span> <span class="title class_">PtrDefaultHandler</span>() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">checkCanDoRefresh</span><span class="params">(PtrFrameLayout frame, View content, View header)</span> &#123;</span><br><span class="line">                <span class="keyword">return</span> checkContentCanBePulledDown(frame, content, header);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onRefreshBegin</span><span class="params">(PtrFrameLayout frame)</span> &#123;</span><br><span class="line">                reactContext</span><br><span class="line">                        .getNativeModule(UIManagerModule.class)</span><br><span class="line">                        .getEventDispatcher()</span><br><span class="line">                        .dispatchEvent(<span class="keyword">new</span> <span class="title class_">PtrEvent</span>(view.getId()));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Nullable</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> Map&lt;String, Object&gt; <span class="title function_">getExportedCustomDirectEventTypeConstants</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> MapBuilder.&lt;String, Object&gt;of(</span><br><span class="line">                <span class="string">&quot;ptrRefresh&quot;</span>, MapBuilder.of(<span class="string">&quot;registrationName&quot;</span>, <span class="string">&quot;onRefresh&quot;</span>));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">addView</span><span class="params">(PtrClassicFrameLayout parent, View child, <span class="type">int</span> index)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>.addView(parent, child, <span class="number">1</span>);</span><br><span class="line">        parent.finishInflateRN();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">PtrEvent</span> <span class="keyword">extends</span> <span class="title class_">Event</span>&lt;PtrEvent&gt; &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">PtrEvent</span><span class="params">(<span class="type">int</span> viewTag)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>(viewTag);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getEventName</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;ptrRefresh&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">dispatch</span><span class="params">(RCTEventEmitter rctEventEmitter)</span> &#123;</span><br><span class="line">        rctEventEmitter.receiveEvent(getViewTag(), getEventName(), <span class="literal">null</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="title class_">React</span>, &#123;</span><br><span class="line">    <span class="title class_">Component</span>,</span><br><span class="line">    <span class="title class_">PropTypes</span>,</span><br><span class="line">&#125; <span class="keyword">from</span> <span class="string">&#x27;react&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123;</span><br><span class="line">    requireNativeComponent,</span><br><span class="line">    <span class="title class_">View</span>,</span><br><span class="line">&#125; <span class="keyword">from</span> <span class="string">&#x27;react-native&#x27;</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="title class_">UIManager</span> = <span class="built_in">require</span>(<span class="string">&#x27;UIManager&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> <span class="title class_">ReactNative</span> = <span class="built_in">require</span>(<span class="string">&#x27;ReactNative&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> <span class="variable constant_">REF_PTR</span> = <span class="string">&quot;ptr_ref&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">class</span> <span class="title class_">PtrComponent</span> <span class="keyword">extends</span> <span class="title class_ inherited__">Component</span> &#123;</span><br><span class="line">    <span class="title function_">constructor</span>(<span class="params">props</span>) &#123;</span><br><span class="line">        <span class="variable language_">super</span>(props);</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">_onRefresh</span> = <span class="variable language_">this</span>.<span class="property">_onRefresh</span>.<span class="title function_">bind</span>(<span class="variable language_">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="title function_">_onRefresh</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (!<span class="variable language_">this</span>.<span class="property">props</span>.<span class="property">handleRefresh</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">props</span>.<span class="title function_">handleRefresh</span>();</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="title function_">refreshComplete</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="title class_">UIManager</span>.<span class="title function_">dispatchViewManagerCommand</span>(</span><br><span class="line">            <span class="title class_">ReactNative</span>.<span class="title function_">findNodeHandle</span>(<span class="variable language_">this</span>.<span class="property">refs</span>[<span class="variable constant_">REF_PTR</span>]),</span><br><span class="line">            <span class="number">0</span>,</span><br><span class="line">            <span class="literal">null</span></span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="title function_">autoRefresh</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="keyword">let</span> self = <span class="variable language_">this</span>;</span><br><span class="line">        <span class="title class_">UIManager</span>.<span class="title function_">dispatchViewManagerCommand</span>(</span><br><span class="line">            <span class="title class_">ReactNative</span>.<span class="title function_">findNodeHandle</span>(self.<span class="property">refs</span>[<span class="variable constant_">REF_PTR</span>]),</span><br><span class="line">            <span class="number">1</span>,</span><br><span class="line">            <span class="literal">null</span></span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="title function_">render</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="comment">// onRefresh 事件对应原生的ptrRefresh事件</span></span><br><span class="line">        <span class="keyword">return</span> (</span><br><span class="line">             <span class="language-xml"><span class="tag">&lt;<span class="name">RCTPtrAndroid</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                <span class="attr">ref</span>=<span class="string">&#123;REF_PTR&#125;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                &#123;<span class="attr">...this.props</span>&#125;</span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                <span class="attr">onRefresh</span>=<span class="string">&#123;()</span> =&gt;</span> this._onRefresh()&#125;/&gt;</span></span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title class_">PtrComponent</span>.<span class="property">name</span> = <span class="string">&quot;RCTPtrAndroid&quot;</span>; <span class="comment">//便于调试时显示(可以设置为任意字符串)</span></span><br><span class="line"><span class="title class_">PtrComponent</span>.<span class="property">propTypes</span> = &#123;</span><br><span class="line">    <span class="attr">handleRefresh</span>: <span class="title class_">PropTypes</span>.<span class="property">func</span>,</span><br><span class="line">    <span class="attr">resistance</span>: <span class="title class_">PropTypes</span>.<span class="property">number</span>,</span><br><span class="line">    <span class="attr">durationToCloseHeader</span>: <span class="title class_">PropTypes</span>.<span class="property">number</span>,</span><br><span class="line">    <span class="attr">durationToClose</span>: <span class="title class_">PropTypes</span>.<span class="property">number</span>,</span><br><span class="line">    <span class="attr">ratioOfHeaderHeightToRefresh</span>: <span class="title class_">PropTypes</span>.<span class="property">number</span>,</span><br><span class="line">    <span class="attr">pullToRefresh</span>: <span class="title class_">PropTypes</span>.<span class="property">bool</span>,</span><br><span class="line">    <span class="attr">keepHeaderWhenRefresh</span>: <span class="title class_">PropTypes</span>.<span class="property">bool</span>,</span><br><span class="line">    <span class="attr">pinContent</span>: <span class="title class_">PropTypes</span>.<span class="property">bool</span>,</span><br><span class="line">    ...<span class="title class_">View</span>.<span class="property">propTypes</span>,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title class_">RCTPtrAndroid</span> = requireNativeComponent(<span class="string">&#x27;RCTPtrAndroid&#x27;</span>, <span class="title class_">PtrComponent</span>, &#123;<span class="attr">nativeOnly</span>: &#123;<span class="attr">onRefresh</span>: <span class="literal">true</span>&#125;&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>然后我们就可以使用<code>PtrComponent</code>了：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="title class_">React</span>, &#123;</span><br><span class="line">    <span class="title class_">Component</span>,</span><br><span class="line">    <span class="title class_">PropTypes</span>,</span><br><span class="line">&#125; <span class="keyword">from</span> <span class="string">&#x27;react&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123;</span><br><span class="line">    <span class="title class_">Text</span>,</span><br><span class="line">    <span class="title class_">View</span>,</span><br><span class="line">    <span class="title class_">ToastAndroid</span>,</span><br><span class="line">    <span class="title class_">ScrollView</span>,</span><br><span class="line">&#125; <span class="keyword">from</span> <span class="string">&#x27;react-native&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="title class_">PtrFrame</span> <span class="keyword">from</span> <span class="string">&#x27;./component/PtrComponent&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">class</span> <span class="title class_">Search</span> <span class="keyword">extends</span> <span class="title class_ inherited__">Component</span> &#123;</span><br><span class="line">    <span class="keyword">static</span> propTypes = &#123;</span><br><span class="line">        <span class="attr">navigator</span>: <span class="title class_">PropTypes</span>.<span class="property">object</span>,</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="title function_">render</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> (</span><br><span class="line">            <span class="language-xml"><span class="tag">&lt;<span class="name">PtrFrame</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                <span class="attr">ref</span>=<span class="string">&#x27;ptr&#x27;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                <span class="attr">handleRefresh</span>=<span class="string">&#123;()</span> =&gt;</span> this._getData()&#125;</span></span><br><span class="line"><span class="language-xml">                durationToCloseHeader=&#123;300&#125;</span></span><br><span class="line"><span class="language-xml">                durationToClose=&#123;200&#125;</span></span><br><span class="line"><span class="language-xml">                resistance=&#123;2&#125;</span></span><br><span class="line"><span class="language-xml">                pinContent=&#123;false&#125;</span></span><br><span class="line"><span class="language-xml">                ratioOfHeaderHeightToRefresh=&#123;1.2&#125;</span></span><br><span class="line"><span class="language-xml">                pullToRefresh=&#123;false&#125;</span></span><br><span class="line"><span class="language-xml">                keepHeaderWhenRefresh=&#123;true&#125;</span></span><br><span class="line"><span class="language-xml">                style=&#123;&#123;flex: 1&#125;&#125;&gt;</span></span><br><span class="line"><span class="language-xml">                <span class="tag">&lt;<span class="name">ScrollView</span> <span class="attr">style</span>=<span class="string">&#123;&#123;flex:</span> <span class="attr">1</span>, <span class="attr">flexDirection:</span> &#x27;<span class="attr">column</span>&#x27;&#125;&#125;&gt;</span></span></span><br><span class="line"><span class="language-xml">                    <span class="tag">&lt;<span class="name">View</span> <span class="attr">style</span>=<span class="string">&#123;&#123;backgroundColor:</span> &#x27;#<span class="attr">FFAA55</span>&#x27;, <span class="attr">height:</span> <span class="attr">200</span>&#125;&#125;/&gt;</span></span></span><br><span class="line"><span class="language-xml">                    <span class="tag">&lt;<span class="name">View</span> <span class="attr">style</span>=<span class="string">&#123;&#123;backgroundColor:</span> &#x27;#<span class="attr">FFAAAA</span>&#x27;, <span class="attr">height:</span> <span class="attr">200</span>&#125;&#125;/&gt;</span></span></span><br><span class="line"><span class="language-xml">                    <span class="tag">&lt;<span class="name">View</span> <span class="attr">style</span>=<span class="string">&#123;&#123;backgroundColor:</span> &#x27;#<span class="attr">FFAAFF</span>&#x27;, <span class="attr">height:</span> <span class="attr">200</span>&#125;&#125;/&gt;</span></span></span><br><span class="line"><span class="language-xml">                    <span class="tag">&lt;<span class="name">View</span> <span class="attr">style</span>=<span class="string">&#123;&#123;backgroundColor:</span> &#x27;#<span class="attr">00AAAA</span>&#x27;, <span class="attr">height:</span> <span class="attr">200</span>&#125;&#125;/&gt;</span></span></span><br><span class="line"><span class="language-xml">                    <span class="tag">&lt;<span class="name">View</span> <span class="attr">style</span>=<span class="string">&#123;&#123;backgroundColor:</span> &#x27;#<span class="attr">00AA99</span>&#x27;, <span class="attr">height:</span> <span class="attr">200</span>&#125;&#125;/&gt;</span></span></span><br><span class="line"><span class="language-xml">                    <span class="tag">&lt;<span class="name">View</span> <span class="attr">style</span>=<span class="string">&#123;&#123;backgroundColor:</span> &#x27;#<span class="attr">FF99AA</span>&#x27;, <span class="attr">height:</span> <span class="attr">200</span>&#125;&#125;/&gt;</span></span></span><br><span class="line"><span class="language-xml">                <span class="tag">&lt;/<span class="name">ScrollView</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;/<span class="name">PtrFrame</span>&gt;</span></span></span><br><span class="line">        );</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="title function_">_getData</span>(<span class="params"></span>) &#123;</span><br><span class="line">      <span class="title class_">ToastAndroid</span>.<span class="title function_">show</span>(<span class="string">&quot;refreshing&quot;</span>, <span class="title class_">ToastAndroid</span>.<span class="property">SHORT</span>);</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">timer</span> = <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">            <span class="variable language_">this</span>.<span class="property">refs</span>.<span class="property">ptr</span>.<span class="title function_">refreshComplete</span>();</span><br><span class="line">        &#125;, <span class="number">2500</span>);</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="title function_">componentWillUnmount</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">timer</span> &amp;&amp; <span class="built_in">clearTimeout</span>(<span class="variable language_">this</span>.<span class="property">timer</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="效果图"><a href="#效果图" class="headerlink" title="效果图"></a>效果图</h3><p><img src="/../img/React-Native-%E5%B0%81%E8%A3%85Android-UI%E7%BB%84%E4%BB%B6/screen.gif" alt="screen"></p>
+<h3 id="项目地址"><a href="#项目地址" class="headerlink" title="项目地址"></a>项目地址</h3><p><a target="_blank" rel="noopener" href="https://github.com/panda912/RNAndroidPullToRefresh">https://github.com/panda912/RNAndroidPullToRefresh</a></p>
+
+
+                
+            </div>
+
+            <!-- Comments -->
+            
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    
+
+
+                </div>
+            
+        </div>
+    </div>
+</article>
+
+    <!-- Footer -->
+    <hr />
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+
+                    
+
+                    
+                        <li>
+                            <a href="https://github.com/porum" target="_blank">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                    
+
+                    
+
+                    
+
+                    
+                </ul>
+                <p class="copyright text-muted">&copy; 2022 porum<br></p>
+                <p class="copyright text-muted">Original Theme <a target="_blank" href="http://startbootstrap.com/template-overviews/clean-blog/">Clean Blog</a> from <a href="http://startbootstrap.com/" target="_blank">Start Bootstrap</a></p>
+                <p class="copyright text-muted">Adapted for <a target="_blank" href="https://hexo.io/">Hexo</a> by <a href="http://www.codeblocq.com/" target="_blank">Jonathan Klughertz</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+    <!-- After footer scripts -->
+    
+<!-- jQuery -->
+<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+
+<!-- Bootstrap -->
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+<!-- Gallery -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
+
+<!-- Disqus Comments -->
+
+
+
+</body>
+
+</html>
