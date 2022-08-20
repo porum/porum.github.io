@@ -13,6 +13,12 @@
     
 
     
+        <meta name="description" content="现象：
+解决：
+lsusb 列出 usb 设备列表，找到对应的终端设备，记下设备 ID；
+cd /etc/udev/rules.d/ 进入该目录，参照已有的文件命名格式，创建 .rules 后缀文件；
+输入 SUBSYSTEM==&amp;quot;usb&amp;quot;, ATTR&amp;#123;idVendor"/>
+    
 
     <!--Author-->
     
@@ -21,10 +27,16 @@
 
     <!--Open Graph Title-->
     
-        <meta property="og:title" content="categories"/>
+        <meta property="og:title" content="Linux 上 Android Studio 无法连接真机"/>
     
 
     <!--Open Graph Description-->
+    
+        <meta property="og:description" content="现象：
+解决：
+lsusb 列出 usb 设备列表，找到对应的终端设备，记下设备 ID；
+cd /etc/udev/rules.d/ 进入该目录，参照已有的文件命名格式，创建 .rules 后缀文件；
+输入 SUBSYSTEM==&amp;quot;usb&amp;quot;, ATTR&amp;#123;idVendor"/>
     
 
     <!--Open Graph Site Name-->
@@ -51,7 +63,7 @@
 
     <!-- Title -->
     
-    <title>categories - porum</title>
+    <title>Linux 上 Android Studio 无法连接真机 - porum</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
@@ -155,35 +167,78 @@
 </nav>
 
     <!-- Main Content -->
-    
+    <!-- Page Header -->
+<!-- Set your background image for this header in your post front-matter: cover -->
 
-
-    <header class="intro-header" style="background-image: url('/img/home-bg.jpg')">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                    <div class="site-heading">
-                        <h1>categories</h1>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <!-- Main Content -->
+<header class="intro-header" style="background-image: url('/img/home-bg.jpg')">
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                
-                <div class="archive-before-pagination"></div>
+                <div class="post-heading">
+                    <h1>Linux 上 Android Studio 无法连接真机</h1>
+                    
+                    <span class="meta">
+                        <!-- Date and Author -->
+                        
+                        
+                            2018-06-29
+                        
+                    </span>
+                </div>
             </div>
         </div>
     </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Tags and categories -->
+           
+                <div class="col-lg-4 col-lg-offset-2 col-md-5 col-md-offset-1 post-tags">
+                    
+                        
 
 
+<a href="/tags/Ubuntu/">#Ubuntu</a>
 
 
+                    
+                </div>
+                <div class="col-lg-4 col-md-5 post-categories">
+                    
+                </div>
+            
 
+            <!-- Gallery -->
+            
+
+            <!-- Post Main Content -->
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <h2 id="现象："><a href="#现象：" class="headerlink" title="现象："></a>现象：</h2><p><img src="/../img/Linux-%E4%B8%8A-Android-Studio-%E6%97%A0%E6%B3%95%E8%BF%9E%E6%8E%A5%E7%9C%9F%E6%9C%BA/as.jpeg" alt="as"></p>
+<h2 id="解决："><a href="#解决：" class="headerlink" title="解决："></a>解决：</h2><p><img src="/../img/Linux-%E4%B8%8A-Android-Studio-%E6%97%A0%E6%B3%95%E8%BF%9E%E6%8E%A5%E7%9C%9F%E6%9C%BA/shell.png" alt="shell"></p>
+<p><code>lsusb</code> 列出 usb 设备列表，找到对应的终端设备，记下设备 ID；</p>
+<p><code>cd /etc/udev/rules.d/</code> 进入该目录，参照已有的文件命名格式，创建 <code>.rules</code> 后缀文件；</p>
+<p>输入 <code>SUBSYSTEM==&quot;usb&quot;, ATTR&#123;idVendor&#125;==&quot;19d2&quot;, MODE=&quot;0666&quot;, GROUP=&quot;plugdev&quot;</code>, 其中 ‘19d2’ 就是该设备的 ID。</p>
+<p>保存 重启 👌</p>
+
+
+                
+            </div>
+
+            <!-- Comments -->
+            
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    
+
+
+                </div>
+            
+        </div>
+    </div>
+</article>
 
     <!-- Footer -->
     <hr />

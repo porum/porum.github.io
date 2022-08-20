@@ -13,6 +13,11 @@
     
 
     
+        <meta name="description" content="定位要修改的类，新建一个工程，包名与 jar 包名一致，新建同名的类，将 class 中的代码拷贝进去，然后将 jar 包中要修改的类删除，将删除后的类的 jar 包添加到新的工程中，重新编译，将编译后的 class 文件拷贝到 jar 包中，over！
+举个栗子：
+
+现在如果要修改 udesk j"/>
+    
 
     <!--Author-->
     
@@ -21,10 +26,15 @@
 
     <!--Open Graph Title-->
     
-        <meta property="og:title" content="categories"/>
+        <meta property="og:title" content="反编译 jar 包修改代码后重新打包"/>
     
 
     <!--Open Graph Description-->
+    
+        <meta property="og:description" content="定位要修改的类，新建一个工程，包名与 jar 包名一致，新建同名的类，将 class 中的代码拷贝进去，然后将 jar 包中要修改的类删除，将删除后的类的 jar 包添加到新的工程中，重新编译，将编译后的 class 文件拷贝到 jar 包中，over！
+举个栗子：
+
+现在如果要修改 udesk j"/>
     
 
     <!--Open Graph Site Name-->
@@ -51,7 +61,7 @@
 
     <!-- Title -->
     
-    <title>categories - porum</title>
+    <title>反编译 jar 包修改代码后重新打包 - porum</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
@@ -155,35 +165,70 @@
 </nav>
 
     <!-- Main Content -->
-    
+    <!-- Page Header -->
+<!-- Set your background image for this header in your post front-matter: cover -->
 
-
-    <header class="intro-header" style="background-image: url('/img/home-bg.jpg')">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                    <div class="site-heading">
-                        <h1>categories</h1>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <!-- Main Content -->
+<header class="intro-header" style="background-image: url('/img/home-bg.jpg')">
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                
-                <div class="archive-before-pagination"></div>
+                <div class="post-heading">
+                    <h1>反编译 jar 包修改代码后重新打包</h1>
+                    
+                    <span class="meta">
+                        <!-- Date and Author -->
+                        
+                        
+                            2017-05-10
+                        
+                    </span>
+                </div>
             </div>
         </div>
     </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Tags and categories -->
+           
+
+            <!-- Gallery -->
+            
+
+            <!-- Post Main Content -->
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <p>定位要修改的类，新建一个工程，包名与 jar 包名一致，新建同名的类，将 class 中的代码拷贝进去，然后将 jar 包中要修改的类删除，将删除后的类的 jar 包添加到新的工程中，重新编译，将编译后的 class 文件拷贝到 jar 包中，over！</p>
+<p>举个栗子：</p>
+<p><img src="/../img/%E5%8F%8D%E7%BC%96%E8%AF%91-jar-%E5%8C%85%E4%BF%AE%E6%94%B9%E4%BB%A3%E7%A0%81%E5%90%8E%E9%87%8D%E6%96%B0%E6%89%93%E5%8C%85/1.png" alt="1"></p>
+<p>现在如果要修改 udesk jar 包中的 e、f、g、h、l、UdeskHttpFacade.class 文件，新建一个工程，包名一致，新建需要修改的同名的类文件，将代码拷贝进去</p>
+<p><img src="/../img/%E5%8F%8D%E7%BC%96%E8%AF%91-jar-%E5%8C%85%E4%BF%AE%E6%94%B9%E4%BB%A3%E7%A0%81%E5%90%8E%E9%87%8D%E6%96%B0%E6%89%93%E5%8C%85/2.png" alt="2"></p>
+<p>删除原 jar 包中需要修改的 class 文件，将新的 jar 包放进新的工程 libs 下</p>
+<p><img src="/../img/%E5%8F%8D%E7%BC%96%E8%AF%91-jar-%E5%8C%85%E4%BF%AE%E6%94%B9%E4%BB%A3%E7%A0%81%E5%90%8E%E9%87%8D%E6%96%B0%E6%89%93%E5%8C%85/3.png" alt="3"></p>
+<p>修改需要修改的代码，使其能够正确编译，编译之后拷贝生成对应的 class 文件，放进新的 jar 包中</p>
+<p><img src="/../img/%E5%8F%8D%E7%BC%96%E8%AF%91-jar-%E5%8C%85%E4%BF%AE%E6%94%B9%E4%BB%A3%E7%A0%81%E5%90%8E%E9%87%8D%E6%96%B0%E6%89%93%E5%8C%85/4.png" alt="4"></p>
+<p>PS: mac 下没有找到可以直接删除 jar 中的 class 文件的工具，在 windows 下可以直接用 winrar 打开，直接删除或者添加 class 文件。</p>
+<p>PS: 如果反编译修改类似 Activity 这样涉及到资源文件的 class 文件，需要在原工程中新建包名去修改，如果在新的工程中修改，生成的资源 id 与在原工程中不一致，导致发生错误。</p>
+<p>参考链接：<a target="_blank" rel="noopener" href="http://blog.csdn.net/yy4040/article/details/6641688">http://blog.csdn.net/yy4040/article/details/6641688</a></p>
 
 
+                
+            </div>
+
+            <!-- Comments -->
+            
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    
 
 
-
+                </div>
+            
+        </div>
+    </div>
+</article>
 
     <!-- Footer -->
     <hr />

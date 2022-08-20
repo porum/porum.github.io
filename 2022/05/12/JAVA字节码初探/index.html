@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+
+<!-- Head tag -->
+<head>
+
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <!--Description-->
+
+    
+
+    
+        <meta name="description" content="Java Virtual MachineJVM 是一个虚拟机，它能够让计算机运行 Java 程序或者使用其他语言编写的程序，这些程序能够被编译成 Java 字节码。JVM 由一个规范详细描述，该规范正描述了 JVM 实现中所需的内容，有了这个规范，可以确保 Java 程序在不同实现之间的互操作性，这"/>
+    
+
+    <!--Author-->
+    
+        <meta name="author" content="porum"/>
+    
+
+    <!--Open Graph Title-->
+    
+        <meta property="og:title" content="JAVA 字节码初探"/>
+    
+
+    <!--Open Graph Description-->
+    
+        <meta property="og:description" content="Java Virtual MachineJVM 是一个虚拟机，它能够让计算机运行 Java 程序或者使用其他语言编写的程序，这些程序能够被编译成 Java 字节码。JVM 由一个规范详细描述，该规范正描述了 JVM 实现中所需的内容，有了这个规范，可以确保 Java 程序在不同实现之间的互操作性，这"/>
+    
+
+    <!--Open Graph Site Name-->
+        <meta property="og:site_name" content="porum"/>
+
+    <!--Type page-->
+    
+        <meta property="og:type" content="article"/>
+    
+
+    <!--Page Cover-->
+    
+    
+        <meta property="og:image" content="http://www.panda912.comimg/home-bg.jpg"/>
+    
+
+        <meta name="twitter:card" content="summary_large_image"/>
+
+    
+
+    
+        <meta name="twitter:image" content="http://www.panda912.comimg/home-bg.jpg"/>
+    
+
+    <!-- Title -->
+    
+    <title>JAVA 字节码初探 - porum</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    <!-- Custom Fonts -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+    <link href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css"/>
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css"/>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Gallery -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.css" type="text/css" rel="stylesheet"/>
+
+    <!-- Google Analytics -->
+    
+
+
+    <!-- favicon -->
+    
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+
+    <!-- Menu -->
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">porum</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                
+                    <li>
+                        <a href="/">
+                            
+                                Home
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/archives">
+                            
+                                Archives
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/tags">
+                            
+                                Tags
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/categories">
+                            
+                                Categories
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a target="_blank" rel="noopener" href="https://github.com/porum">
+                            
+                                <i class="fa fa-github fa-stack-2x"></i>
+                            
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+    <!-- Main Content -->
+    <!-- Page Header -->
+<!-- Set your background image for this header in your post front-matter: cover -->
+
+<header class="intro-header" style="background-image: url('/img/home-bg.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <h1>JAVA 字节码初探</h1>
+                    
+                    <span class="meta">
+                        <!-- Date and Author -->
+                        
+                        
+                            2022-05-12
+                        
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Tags and categories -->
+           
+                <div class="col-lg-4 col-lg-offset-2 col-md-5 col-md-offset-1 post-tags">
+                    
+                        
+
+
+<a href="/tags/bytecode/">#bytecode</a>
+
+
+                    
+                </div>
+                <div class="col-lg-4 col-md-5 post-categories">
+                    
+                </div>
+            
+
+            <!-- Gallery -->
+            
+
+            <!-- Post Main Content -->
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <h2 id="Java-Virtual-Machine"><a href="#Java-Virtual-Machine" class="headerlink" title="Java Virtual Machine"></a>Java Virtual Machine</h2><p>JVM 是一个虚拟机，它能够让计算机运行 Java 程序或者使用其他语言编写的程序，这些程序能够被编译成 Java 字节码。JVM 由一个规范详细描述，该规范正描述了 JVM 实现中所需的内容，有了这个规范，可以确保 Java 程序在不同实现之间的互操作性，这样使用 Java 开发工具包（JDK）的程序作者就不用担心底层硬件平台的特性。</p>
+<p>JVM 参考实现由 OpenJDK 项目作为开放源代码开发，包括一个名为 <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/HotSpot_(virtual_machine)">HotSpot</a> 的 <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/JIT_compiler">JIT compiler</a>，Oracle 提供商业支持的 Java 版本是基于 OpenJDK runtime。Eclipse <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/OpenJ9">OpenJ9</a> 是 OpenJDK 的另一个开源 JVM。</p>
+<h2 id="JVM-Languages"><a href="#JVM-Languages" class="headerlink" title="JVM Languages"></a>JVM Languages</h2><p>Java &#x2F; Kotlin &#x2F; Groovy &#x2F; Scala &#x2F; Clojure …</p>
+<h2 id="Java-bytecode"><a href="#Java-bytecode" class="headerlink" title="Java bytecode"></a>Java bytecode</h2><p><img src="/../img/JAVA%E5%AD%97%E8%8A%82%E7%A0%81%E5%88%9D%E6%8E%A2/%E4%B8%BE%E4%B8%AA%E6%A0%97%E5%AD%90.webp" alt="举个栗子"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Foo.java</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Foo</span> &#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>下文都将基于该类的字节码做分析和扩展，使用 javac 将 java 文件编译成 class 文件：<code>javac Foo.java</code></p>
+<p>Foo.class 是二进制文件，我们其查看文件内容（vscode 安装 hexdump 扩展）：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">  Offset: 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F 	</span><br><span class="line">00000000: CA FE BA BE 00 00 00 34 00 0D 0A 00 03 00 0A 07    J~:&gt;...4........</span><br><span class="line">00000010: 00 0B 07 00 0C 01 00 06 3C 69 6E 69 74 3E 01 00    ........&lt;init&gt;..</span><br><span class="line">00000020: 03 28 29 56 01 00 04 43 6F 64 65 01 00 0F 4C 69    .()V...Code...Li</span><br><span class="line">00000030: 6E 65 4E 75 6D 62 65 72 54 61 62 6C 65 01 00 0A    neNumberTable...</span><br><span class="line">00000040: 53 6F 75 72 63 65 46 69 6C 65 01 00 08 46 6F 6F    SourceFile...Foo</span><br><span class="line">00000050: 2E 6A 61 76 61 0C 00 04 00 05 01 00 03 46 6F 6F    .java........Foo</span><br><span class="line">00000060: 01 00 10 6A 61 76 61 2F 6C 61 6E 67 2F 4F 62 6A    ...java/lang/Obj</span><br><span class="line">00000070: 65 63 74 00 21 00 02 00 03 00 00 00 00 00 01 00    ect.!...........</span><br><span class="line">00000080: 01 00 04 00 05 00 01 00 06 00 00 00 1D 00 01 00    ................</span><br><span class="line">00000090: 01 00 00 00 05 2A B7 00 01 B1 00 00 00 01 00 07    .....*7..1......</span><br><span class="line">000000a0: 00 00 00 06 00 01 00 00 00 01 00 01 00 08 00 00    ................</span><br><span class="line">000000b0: 00 02 00 09                                        ....</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>我们对照 class 文件的结构：</p>
+<p>A <code>class</code> file consists of a single <code>ClassFile</code> structure:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">ClassFile &#123;</span><br><span class="line">    u4             magic;</span><br><span class="line">    u2             minor_version;</span><br><span class="line">    u2             major_version;</span><br><span class="line">    u2             constant_pool_count;</span><br><span class="line">    cp_info        constant_pool[constant_pool_count-1];</span><br><span class="line">    u2             access_flags;</span><br><span class="line">    u2             this_class;</span><br><span class="line">    u2             super_class;</span><br><span class="line">    u2             interfaces_count;</span><br><span class="line">    u2             interfaces[interfaces_count];</span><br><span class="line">    u2             fields_count;</span><br><span class="line">    field_info     fields[fields_count];</span><br><span class="line">    u2             methods_count;</span><br><span class="line">    method_info    methods[methods_count];</span><br><span class="line">    u2             attributes_count;</span><br><span class="line">    attribute_info attributes[attributes_count];</span><br></pre></td></tr></table></figure>
+
+<p>文件开头的4字节是魔数（magic number），何为魔数，魔数是一个用于标识文件格式的固定数值或文本值，.class 文件的魔数固定为 <code>CA FE BA BE</code>，表示该文件为 class 格式的文件；</p>
+<blockquote>
+<p>很多格式的文件文件头都有魔数，例如 png 格式文件的魔数为 <code>89 50 4E 47 0D 0A 1A 0A</code>，doc 格式文件的魔数为 <code>D0 CF 11 E0 A1 B1 1A E1</code>，大家可以自己试一下。</p>
+</blockquote>
+<p>再向后偏移2字节，表示的是 Java 的 minor version，再向后偏移2字节，表示的是 major version。所以这里的 minor version 是 0x0000，major version 是 0x0034，0x34转换为十进制为52，根据下面的 Java major versions 对照表，我们可以知道 Foo.class 是使用 JDK8 版本编译的。</p>
+<p><strong>class file format major versions</strong></p>
+<table>
+<thead>
+<tr>
+<th>Java SE</th>
+<th>Released</th>
+<th>Major</th>
+<th>Supported majors</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1.0.2</td>
+<td>May 1996</td>
+<td>45</td>
+<td>45</td>
+</tr>
+<tr>
+<td>1.1</td>
+<td>February 1997</td>
+<td>45</td>
+<td>45</td>
+</tr>
+<tr>
+<td>1.2</td>
+<td>December 1998</td>
+<td>46</td>
+<td>45 .. 46</td>
+</tr>
+<tr>
+<td>1.3</td>
+<td>May 2000</td>
+<td>47</td>
+<td>45 .. 47</td>
+</tr>
+<tr>
+<td>1.4</td>
+<td>February 2002</td>
+<td>48</td>
+<td>45 .. 48</td>
+</tr>
+<tr>
+<td>5.0</td>
+<td>September 2004</td>
+<td>48</td>
+<td>45 .. 49</td>
+</tr>
+<tr>
+<td>6</td>
+<td>December 2006</td>
+<td>50</td>
+<td>45 .. 50</td>
+</tr>
+<tr>
+<td>7</td>
+<td>July 2011</td>
+<td>51</td>
+<td>45 .. 51</td>
+</tr>
+<tr>
+<td>8</td>
+<td>March 2014</td>
+<td>52</td>
+<td>45 .. 52</td>
+</tr>
+<tr>
+<td>9</td>
+<td>September 2017</td>
+<td>53</td>
+<td>45 .. 53</td>
+</tr>
+<tr>
+<td>10</td>
+<td>March 2018</td>
+<td>54</td>
+<td>45 .. 54</td>
+</tr>
+<tr>
+<td>11</td>
+<td>September 2018</td>
+<td>55</td>
+<td>45 .. 55</td>
+</tr>
+<tr>
+<td>12</td>
+<td>March 2019</td>
+<td>56</td>
+<td>45 .. 56</td>
+</tr>
+<tr>
+<td>13</td>
+<td>September 2019</td>
+<td>57</td>
+<td>45 .. 57</td>
+</tr>
+<tr>
+<td>14</td>
+<td>March 2020</td>
+<td>58</td>
+<td>45 .. 58</td>
+</tr>
+<tr>
+<td>15</td>
+<td>September 2020</td>
+<td>59</td>
+<td>45 .. 59</td>
+</tr>
+<tr>
+<td>16</td>
+<td>March 2021</td>
+<td>60</td>
+<td>45 .. 60</td>
+</tr>
+<tr>
+<td>17</td>
+<td>September 2021</td>
+<td>61</td>
+<td>45 .. 61</td>
+</tr>
+</tbody></table>
+<p>JVM 在加载 class 文件的时候会对其进行校验（verification），如果不是 class 类型的文件，会直接报错，如果校验通过，才会进行后续的 preparation，resolution 等流程。</p>
+<p><img src="/../img/JAVA%E5%AD%97%E8%8A%82%E7%A0%81%E5%88%9D%E6%8E%A2/jvm.drawio.svg" alt="jvm.drawio"></p>
+<p>以上是对 class 二进制文件的简单分析，直接看二进制文件太吃力了，所以我们要借助 javap 来输出可视化的字节码内容，运行 <code>javap -v Foo.class</code>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">Classfile /E:/IdeaProjects/BytecodeDemo/src/Foo.class</span><br><span class="line">  Last modified 2022-4-21; size 234 bytes</span><br><span class="line">  MD5 checksum 438034a2632f6d7a0b7e9ef06674f44d</span><br><span class="line">  Compiled from &quot;Foo.java&quot;</span><br><span class="line">public class Foo</span><br><span class="line">  minor version: 0</span><br><span class="line">  major version: 52</span><br><span class="line">  flags: ACC_PUBLIC, ACC_SUPER</span><br><span class="line">Constant pool:</span><br><span class="line">   #1 = Methodref          #3.#13         // java/lang/Object.&quot;&lt;init&gt;&quot;:()V</span><br><span class="line">   #2 = Class              #14            // Foo</span><br><span class="line">   #3 = Class              #15            // java/lang/Object</span><br><span class="line">   #4 = Utf8               &lt;init&gt;</span><br><span class="line">   #5 = Utf8               ()V</span><br><span class="line">   #6 = Utf8               Code</span><br><span class="line">   #7 = Utf8               LineNumberTable</span><br><span class="line">   #8 = Utf8               LocalVariableTable</span><br><span class="line">   #9 = Utf8               this</span><br><span class="line">  #10 = Utf8               LFoo;</span><br><span class="line">  #11 = Utf8               SourceFile</span><br><span class="line">  #12 = Utf8               Foo.java</span><br><span class="line">  #13 = NameAndType        #4:#5          // &quot;&lt;init&gt;&quot;:()V</span><br><span class="line">  #14 = Utf8               Foo</span><br><span class="line">  #15 = Utf8               java/lang/Object</span><br><span class="line">&#123;</span><br><span class="line">  public Foo();</span><br><span class="line">    descriptor: ()V</span><br><span class="line">    flags: ACC_PUBLIC</span><br><span class="line">    Code:</span><br><span class="line">      stack=1, locals=1, args_size=1</span><br><span class="line">         0: aload_0</span><br><span class="line">         1: invokespecial #1                  // Method java/lang/Object.&quot;&lt;init&gt;&quot;:()V</span><br><span class="line">         4: return</span><br><span class="line">      LineNumberTable:</span><br><span class="line">        line 1: 0</span><br><span class="line">      LocalVariableTable:</span><br><span class="line">        Start  Length  Slot  Name   Signature</span><br><span class="line">            0       5     0  this   LFoo;</span><br><span class="line">&#125;</span><br><span class="line">SourceFile: &quot;Foo.java&quot;</span><br></pre></td></tr></table></figure>
+
+<p>flags 即 access_flags，表示该类或接口的访问权限和属性，这里是 ACC_PUBLIC, ACC_SUPER，</p>
+<p> <strong>Class access and property modifiers</strong></p>
+<table>
+<thead>
+<tr>
+<th>Flag Name</th>
+<th>Value</th>
+<th>Interpretation</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>ACC_PUBLIC</code></td>
+<td>0x0001</td>
+<td>Declared <code>public</code>; may be accessed from outside its package.</td>
+</tr>
+<tr>
+<td><code>ACC_FINAL</code></td>
+<td>0x0010</td>
+<td>Declared <code>final</code>; no subclasses allowed.</td>
+</tr>
+<tr>
+<td><code>ACC_SUPER</code></td>
+<td>0x0020</td>
+<td>Treat superclass methods specially when invoked by the <em>invokespecial</em> instruction.</td>
+</tr>
+<tr>
+<td><code>ACC_INTERFACE</code></td>
+<td>0x0200</td>
+<td>Is an interface, not a class.</td>
+</tr>
+<tr>
+<td><code>ACC_ABSTRACT</code></td>
+<td>0x0400</td>
+<td>Declared <code>abstract</code>; must not be instantiated.</td>
+</tr>
+<tr>
+<td><code>ACC_SYNTHETIC</code></td>
+<td>0x1000</td>
+<td>Declared synthetic; not present in the source code.</td>
+</tr>
+<tr>
+<td><code>ACC_ANNOTATION</code></td>
+<td>0x2000</td>
+<td>Declared as an annotation interface.</td>
+</tr>
+<tr>
+<td><code>ACC_ENUM</code></td>
+<td>0x4000</td>
+<td>Declared as an <code>enum</code> class.</td>
+</tr>
+<tr>
+<td><code>ACC_MODULE</code></td>
+<td>0x8000</td>
+<td>Is a module, not a class or interface. （jdk9 add, e.g. module-info.java）</td>
+</tr>
+</tbody></table>
+<p>ACC_PUBLIC 很好理解，表示该类是 public 的访问权限，ACC_SUPER 是什么意思呢？官方手册上的意思是“当被<em>invokespecial</em> 指令调用时，会特别处理超类方法”。没听懂… 查阅相关资料了解到，这个可能和历史遗留问题有关，在 JDK1.1 之前，JVM 使用 <em>invokenonvirtual</em> 指令调用父类方法，而现在使用的是 <em>invokespecial</em>  ，改动的原因是因为 <em>invokenonvirtual</em> 不会进行虚函数查找，即总是静态绑定的。在 class 文件中使用 CONSTANT_Methodref_info 来表示一个方法，CONSTANT_Methodref_info 中有一个指向类的成员，<em>invokenonvirtual</em> 会直接使用 CONSTANT_Methodref_info 中的类进行方法调用，而不去进行虚函数查找，因此，需要在编译器在编译时就绑定到最近的父类，而JDK1.1以后，JVM 会忽略 CONSTANT_Methodref_info 中的class，直接查找最近的超类方法。·</p>
+<blockquote>
+<p>CONSTANT_Methodref_info（常量池中的项命名通常以 <em>_info</em> 结尾）的数据结构：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">u1 tag;</span><br><span class="line">u2 class_index;//指向的是CONSTANT_Class_info,表示类信息</span><br><span class="line">u2 name_and_type_index;//指向的是CONSTANT_NameAndType_info,表示当前字段或者方法的名字和类型信息</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p><img src="/../img/JAVA%E5%AD%97%E8%8A%82%E7%A0%81%E5%88%9D%E6%8E%A2/%E4%B8%BE%E4%B8%AA%E6%A0%97%E5%AD%90.webp" alt="举个栗子"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// A.java</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">A</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">call</span><span class="params">()</span> &#123;</span><br><span class="line">        println(<span class="string">&quot;A#call()&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// B.java</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">B</span> <span class="keyword">extends</span> <span class="title class_">A</span> &#123;</span><br><span class="line">  </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// C.java</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">C</span> <span class="keyword">extends</span> <span class="title class_">B</span> &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">call</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>.call();</span><br><span class="line">        println(<span class="string">&quot;C#call()&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>编译运行，很明显 C 中调用的是 A#call()，</p>
+<p>如果在 JDK1.1 之前，继续更改 B 的代码，实现 call()，重新编译，但是不重新编译 C，按照 <em>invokenonvirtual</em> 的调用方式，C 依然调用的是 A#call()；但是在 JDK1.1 以后的版本，使用了 <em>invokespecial</em> 指令，会按照类的继承层级，找到最近的一个父类的方法调用，即 C 调用的是 B#call()，这种结果才是符合预期的。</p>
+<p>所以，现在的编译器都会生成 ACC_SUPER 来支持以正确的父类调用。</p>
+<p>我们接着分析 Foo.class，</p>
+<p>Constant pool 即为常量池，包含 Java 中的常量，如 fianl 修饰的常量，字符串等，和符号引用。</p>
+<p>符号引用包含：</p>
+<ul>
+<li>类或接口的全限定名称（Full Qualified Name）</li>
+<li>方法的名称和描述符 （Descriptor）</li>
+<li>字段的名称和描述符</li>
+</ul>
+<p>接着往下看，哎，我们的 Foo.java 是一个空类，为什么反编译出来会有方法呢？因为这是编译器为我们生成的一个默认的无参构造方法。因为如果类中没有显式声明构造方法，则编译器会插入默认的无参构造方法，如果类中有显式声明了构造方法，则编译器只会在没有显示调用父类构造方法的构造方法最开始出插入对父类构造方法的调用。那么问题来了，为什么如果没有构造方法，要插入一个无参构造方法呢？都是为了类的实例化：</p>
+<ol>
+<li>类默认的实例化，new Constructor()</li>
+<li>父类的实例化</li>
+<li>通过反射实例化类， Class.newInstance()</li>
+</ol>
+<p>关于父类的实例化，这里举个栗子：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// A.java</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">A</span> &#123;</span><br><span class="line">    <span class="comment">// empty class</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// B.java</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">B</span> <span class="keyword">extends</span> <span class="title class_">A</span> &#123;</span><br><span class="line">    <span class="comment">// constructor</span></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">B</span><span class="params">(<span class="type">int</span> value)</span> &#123;</span><br><span class="line">        println(<span class="string">&quot;B value: &quot;</span> + value);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们知道子类的实例化是在父类的实例化之后，所以假设如果调用了 <code>new B(0)；</code>，实际上是会先实例化 A，再实例化 B，可是 A 中没有构造方法，没法实例化，所以会在编译期在 A 中插入一个默认的无参构造方法。其实上述的代码等价于：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// A.java</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">A</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">A</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// B.java</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">B</span> <span class="keyword">extends</span> <span class="title class_">A</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">B</span><span class="params">(<span class="type">int</span> value)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>();</span><br><span class="line">        println(<span class="string">&quot;B value: &quot;</span> + value);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们再回过头来看：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="title function_">Foo</span><span class="params">()</span>;</span><br><span class="line">  descriptor: ()V</span><br><span class="line">  flags: ACC_PUBLIC</span><br><span class="line">  Code:</span><br><span class="line">    stack=<span class="number">1</span>, locals=<span class="number">1</span>, args_size=<span class="number">1</span></span><br><span class="line">       <span class="number">0</span>: aload_0</span><br><span class="line">       <span class="number">1</span>: invokespecial #<span class="number">1</span>                  <span class="comment">// Method java/lang/Object.&quot;&lt;init&gt;&quot;:()V</span></span><br><span class="line">       <span class="number">4</span>: <span class="keyword">return</span></span><br><span class="line">    LineNumberTable:</span><br><span class="line">      line <span class="number">1</span>: <span class="number">0</span></span><br><span class="line">    LocalVariableTable:</span><br><span class="line">      Start  Length  Slot  Name   Signature</span><br><span class="line">          <span class="number">0</span>       <span class="number">5</span>     <span class="number">0</span>  <span class="built_in">this</span>   LFoo;</span><br></pre></td></tr></table></figure>
+
+<p>这其实就是编译器自动插入的一个默认的无参构造方法，即：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="title function_">Foo</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="built_in">super</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们来分析一下这段字节码：</p>
+<p><code>descriptor: ()V</code> </p>
+<p><em>descriptor</em> 表示的是方法的描述符，即对方法的参数和返回值进行描述，方法描述符的格式为：</p>
+<blockquote>
+<p><em>MethodDescriptor</em> :<br>    ( {<em>ParameterDescriptor</em>} ) <em>ReturnDescriptor</em></p>
+<p><em>ParameterDescriptor</em> :<br>    <em>FieldType</em></p>
+<p><em>ReturnDescriptor</em> :<br>    <em>FieldType</em><br>    <em>VoidDescriptor</em></p>
+<p><em>VoidDescriptor</em> :<br>    <em>V</em></p>
+</blockquote>
+<p> 括号里面描述的是方法的参数类型，括号后面表示方法的返回值类型。那么 <code>()V</code> 则表示该方法是无参无返回值的。</p>
+<p><strong>Interpretation of field descriptors</strong></p>
+<table>
+<thead>
+<tr>
+<th><em>FieldType</em> term</th>
+<th>Type</th>
+<th>Interpretation</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>B</code></td>
+<td><code>byte</code></td>
+<td>signed byte</td>
+</tr>
+<tr>
+<td><code>C</code></td>
+<td><code>char</code></td>
+<td>Unicode character code point in the Basic Multilingual Plane, encoded with UTF-16</td>
+</tr>
+<tr>
+<td><code>D</code></td>
+<td><code>double</code></td>
+<td>double-precision floating-point value</td>
+</tr>
+<tr>
+<td><code>F</code></td>
+<td><code>float</code></td>
+<td>single-precision floating-point value</td>
+</tr>
+<tr>
+<td><code>I</code></td>
+<td><code>int</code></td>
+<td>integer</td>
+</tr>
+<tr>
+<td><code>J</code></td>
+<td><code>long</code></td>
+<td>long integer</td>
+</tr>
+<tr>
+<td><code>L</code> <em>ClassName</em> <code>;</code></td>
+<td><code>reference</code></td>
+<td>an instance of class <em>ClassName</em></td>
+</tr>
+<tr>
+<td><code>S</code></td>
+<td><code>short</code></td>
+<td>signed short</td>
+</tr>
+<tr>
+<td><code>Z</code></td>
+<td><code>boolean</code></td>
+<td><code>true</code> or <code>false</code></td>
+</tr>
+<tr>
+<td><code>[</code></td>
+<td><code>reference</code></td>
+<td>one array dimension</td>
+</tr>
+</tbody></table>
+<p>上面表格列出了各个类型的属性描述符，我们可以举一反三，例如 <code>int onStartCommand(Intent intent, int flags, int startId)</code> 方法描述符为 <code>(Landroid/content/Intent;II)I</code> 。</p>
+<p>继续往下分析：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">stack=1, locals=1, args_size=1</span><br></pre></td></tr></table></figure>
+
+<p>stack 表示操作数栈（Operand Stacks）的最大深度。这里顺便讲一下 JVM 中的栈，JVM 中的栈描述的是每个线程 JAVA 方法执行的内存模型，即每创建一个线程，JVM 就会为线程创建一个栈，是线程私有的，生命周期是跟随线程的生命周期的，线程结束栈内存也随之释放，所以对于栈来说不存在垃圾回收的问题。基本数据类型和对象的引用和实例方法都是在栈内存中分配的。栈里面存放的叫栈帧（Stack Frame），当一个方法开始执行的时候，会创建一个栈帧，栈帧中存储局部变量表，操作数栈，动态链接，方法返回地址等信息。而操作数栈用于保存计算过程中的中间结果，同时作为计算过程中的临时存储空间。操作数栈的最大深度在编译时就已经明确，即上面的 stack&#x3D;1，为什么是1，下面分析。</p>
+<blockquote>
+<p>The following exceptional conditions are associated with Java Virtual Machine stacks:</p>
+<ul>
+<li>If the computation in a thread requires a larger Java Virtual Machine stack than is permitted, the Java Virtual Machine throws a <code>StackOverflowError</code>.</li>
+<li>If Java Virtual Machine stacks can be dynamically expanded, and expansion is attempted but insufficient memory can be made available to effect the expansion, or if insufficient memory can be made available to create the initial Java Virtual Machine stack for a new thread, the Java Virtual Machine throws an <code>OutOfMemoryError</code>.</li>
+</ul>
+</blockquote>
+<p>locals 表示局部变量所需的存储空间，单位为 Slot。Slot 是虚拟机为局部变量分配内存时所使用的最小单位，为4个字节大小，即32位。在局部变量表里，32位以内的类型占用一个 Slot，long 和 double 64位类型占用两个 Slot。JVM 会为每个Slot分配一个索引，通过索引就可以访问到局部变量表中指定的局部变量值。当一个构造方法或实例方法被调用时，会依次将 <code>this</code>、方法参数、局部变量按照顺序存放在对应的Slot中。Slot 是可以复用的，所以 locals 的大小并不等于所有局部变量所占 Slot 的总和。这里 locals&#x3D;1 是因为这是一个编译器创建的默认的无参构造方法，本地变量表中只有一个隐藏参数 <code>this</code>。</p>
+<p>args_size 表示该方法的参数个数。这里args_size&#x3D;1，即 <code>this</code>。</p>
+<p>举一个 Slot 复用的栗子：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">slot</span><span class="params">(<span class="type">long</span> l)</span> &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>反编译后得到 <code>stack=0, locals=3, args_size=2</code> ，locals&#x3D;3：this 占一个 Slot，long 类型占两个 Slot；args_size 同理，不再赘述。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">slot</span><span class="params">(<span class="type">long</span> l)</span> &#123;</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>反编译后得到 <code>stack=1, locals=4, args_size=2</code> ，locals&#x3D;4：this 占一个 Slot，long 类型占两个 Slot，int 占一个Slot。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">slot</span><span class="params">(<span class="type">long</span> l)</span> &#123;</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">double</span> <span class="variable">d</span> <span class="operator">=</span> <span class="number">1d</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>反编译后得到 <code>stack=2, locals=5, args_size=2</code>，locals&#x3D;5：this 占一个 Slot，long 类型占两个 Slot，int 占一个 Slot，由于 int i 和 double d 两个局部变量的作用域不同，生命周期没有交集，所以 double 复用了 int 的 Slot，由于 double 占两个 Slot，所以 locals&#x3D;5。</p>
+<p>接着往下是具体的字节码指令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">0: aload_0</span><br><span class="line">1: invokespecial #1                  // Method java/lang/Object.&quot;&lt;init&gt;&quot;:()V</span><br><span class="line">4: return</span><br></pre></td></tr></table></figure>
+
+<p>每个指令的格式如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;index&gt; &lt;opcode&gt; [ &lt;operand1&gt; [ &lt;operand2&gt;... ]] [&lt;comment&gt;]</span><br></pre></td></tr></table></figure>
+
+<p>index 是方法的字节码数组中指令的操作码的索引；opcode 为操作码，占一个字节；operand 为操作数；comment 为注释。</p>
+<p><code>0: aload_0</code> ：表示将第一个引用类型的本地变量推到栈顶。如果方法是静态方法，aload_0 表示方法的第一个参数，如果方式是实例方法或构造方法，aload_0 表示 <code>this</code>。因为该方法是构造方法，所以这里指的是 <code>this</code>，0表示 aload_0 指令的索引是0。</p>
+<p><em>invokespecial</em> ：其格式为</p>
+<p><em>invokespecial</em><br><em>indexbyte1</em><br><em>indexbyte2</em></p>
+<p>前文讲关于 ACC_SUPER 的时候有提到过，这里的含义是调用父类的构造方法，即 <code>super()</code>。invokespecial 指令紧跟 aload_0 其后，所以索引是1，invokespecial 后面跟的是 #1，我们查看 Constant pool 中 #1 是方法的引用（Methodref）。 (<em>indexbyte1</em> <code>&lt;&lt;</code> 8) | <em>indexbyte2</em> 的值为常量池中对应的索引。</p>
+<p><em>return</em> ：表示从当前方法返回 void 。这里的 index 为4是因为 invokespecial 指令后面跟着两字节的方法引用。</p>
+<p>完整的字节码指令集参见：<a target="_blank" rel="noopener" href="https://docs.oracle.com/javase/specs/jvms/se11/html/jvms-6.html">Chapter 6. The Java Virtual Machine Instruction Set</a></p>
+<p>到这里，回过头看一下上面的问题，为什么 stack&#x3D;1 就一目了然了，因为该方法只有 aload_0 将 <code>this</code> push 到了栈顶。</p>
+<p>再往下看 LocalVariableTable （本地变量表）：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">LocalVariableTable:</span><br><span class="line">        Start  Length  Slot  Name   Signature</span><br><span class="line">            0       5     0  this   LFoo;</span><br></pre></td></tr></table></figure>
+
+<p>Start：表示该变量基于字节码数组起始可见位置。这里表示从0开始可见。</p>
+<p>Length：表示基于 Start 可见的行数。这里表示该变量的可见范围为 0~4，我们看上面的操作码指令 index，也是从0至4，表示 this 在该方法中全部可见，即在该方法中都可以使用 this 变量。</p>
+<p>Slot：表示该变量在本地变量表数组中的索引。由于该方法是默认的无参构造方法，所以唯一的隐藏参数是 this，即从0开始，占用一个 Slot 单位。</p>
+<p>Name：java 代码里面变量的名称。</p>
+<p>Signature：变量的签名。</p>
+<p>如果我们使用 <em>javac</em> 编译 .java 文件的时候，指定了 <em>-g:none</em> ，则编译出来的 class 文件中不会包含 LocalVariableTable 信息，意味着这个方法的所有参数名称都丢失了，变成类似 var0，var1 这样的参数名称。编译时指定 <em>-g:vars</em>  则会带上 LocalVariableTable 信息。</p>
+<p>举个栗子：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">LocalVar</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">formatTime</span><span class="params">(<span class="type">long</span> timestamp, String format)</span> &#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们使用 <code>javac -g:vars LocalVar.java</code> ：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Source code recreated from a .class file by IntelliJ IDEA</span></span><br><span class="line"><span class="comment">// (powered by FernFlower decompiler)</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">LocalVar</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">LocalVar</span><span class="params">()</span> &#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">formatTime</span><span class="params">(<span class="type">long</span> timestamp, String format)</span> &#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用 <code>javac -g:none LocalVar.java</code> :</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Source code recreated from a .class file by IntelliJ IDEA</span></span><br><span class="line"><span class="comment">// (powered by FernFlower decompiler)</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">LocalVar</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">LocalVar</span><span class="params">()</span> &#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">formatTime</span><span class="params">(<span class="type">long</span> var1, String var3)</span> &#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>以上就是关于字节码的一些简单的分析。下面我们看两个栗子：</p>
+<p>栗1：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">Callback</span> &#123;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">callback</span><span class="params">()</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">CallbackDemo</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">fun1</span><span class="params">(Callback callback)</span> &#123;</span><br><span class="line">        callback.callback();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">fun2</span><span class="params">()</span> &#123;</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> <span class="variable">value</span> <span class="operator">=</span> <span class="number">10</span>;</span><br><span class="line"></span><br><span class="line">        fun1(<span class="keyword">new</span> <span class="title class_">Callback</span>() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">callback</span><span class="params">()</span> &#123;</span><br><span class="line">                System.out.println(value);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>栗2：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 最后输出的 i 是多少</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Add</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>; j &lt; <span class="number">10</span>; j++) &#123;</span><br><span class="line">            i = i++;</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(i);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><p><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Java_class_file">https://en.wikipedia.org/wiki/Java_class_file</a></p>
+<p><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Java_class_file#Magic_Number">https://en.wikipedia.org/wiki/Java_class_file#Magic_Number</a></p>
+<p><a target="_blank" rel="noopener" href="https://docs.oracle.com/javase/specs/jvms/se17/html/jvms-4.html">https://docs.oracle.com/javase/specs/jvms/se17/html/jvms-4.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://docs.oracle.com/javase/specs/jvms/se17/html/jvms-2.html#jvms-2.5.2">https://docs.oracle.com/javase/specs/jvms/se17/html/jvms-2.html#jvms-2.5.2</a></p>
+<p><a target="_blank" rel="noopener" href="https://docs.oracle.com/javase/specs/jvms/se17/html/jvms-6.html#jvms-6.5.invokespecial">https://docs.oracle.com/javase/specs/jvms/se17/html/jvms-6.html#jvms-6.5.invokespecial</a></p>
+<p><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/List_of_Java_bytecode_instructions">https://en.wikipedia.org/wiki/List_of_Java_bytecode_instructions</a></p>
+<p><a target="_blank" rel="noopener" href="https://docs.oracle.com/javase/tutorial/java/javaOO/accesscontrol.html">https://docs.oracle.com/javase/tutorial/java/javaOO/accesscontrol.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/dshf_1/article/details/105787923">https://blog.csdn.net/dshf_1/article/details/105787923</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/barry32/Pluto/wiki/%E6%B5%85%E6%9E%90JVM%E7%AC%AC%E4%BA%8C%E7%AF%87:-class%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F">https://github.com/barry32/Pluto/wiki/%E6%B5%85%E6%9E%90JVM%E7%AC%AC%E4%BA%8C%E7%AF%87:-class%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/457993330">https://zhuanlan.zhihu.com/p/457993330</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_35520787/article/details/114617301">https://blog.csdn.net/weixin_35520787/article/details/114617301</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_44364444/article/details/110248863">https://blog.csdn.net/weixin_44364444/article/details/110248863</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/77663680">https://zhuanlan.zhihu.com/p/77663680</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/newber/p/15319657.html">https://www.cnblogs.com/newber/p/15319657.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6868916019746996237">https://juejin.cn/post/6868916019746996237</a></p>
+
+
+                
+            </div>
+
+            <!-- Comments -->
+            
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    
+
+
+                </div>
+            
+        </div>
+    </div>
+</article>
+
+    <!-- Footer -->
+    <hr />
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+
+                    
+
+                    
+                        <li>
+                            <a href="https://github.com/porum" target="_blank">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                    
+
+                    
+
+                    
+
+                    
+                </ul>
+                <p class="copyright text-muted">&copy; 2022 porum<br></p>
+                <p class="copyright text-muted">Original Theme <a target="_blank" href="http://startbootstrap.com/template-overviews/clean-blog/">Clean Blog</a> from <a href="http://startbootstrap.com/" target="_blank">Start Bootstrap</a></p>
+                <p class="copyright text-muted">Adapted for <a target="_blank" href="https://hexo.io/">Hexo</a> by <a href="http://www.codeblocq.com/" target="_blank">Jonathan Klughertz</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+    <!-- After footer scripts -->
+    
+<!-- jQuery -->
+<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+
+<!-- Bootstrap -->
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+<!-- Gallery -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
+
+<!-- Disqus Comments -->
+
+
+
+</body>
+
+</html>

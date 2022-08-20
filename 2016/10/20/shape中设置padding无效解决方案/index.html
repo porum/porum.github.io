@@ -13,6 +13,9 @@
     
 
     
+        <meta name="description" content="最近在写布局的时候，给LinearLayout添加分割线，并且想让分割线有上下边距，于是就自定义一个shape：
+12345678&amp;lt;shape xmlns:android=&amp;quot;http://schemas.android.com/apk/res/android&amp;quot;    and"/>
+    
 
     <!--Author-->
     
@@ -21,10 +24,13 @@
 
     <!--Open Graph Title-->
     
-        <meta property="og:title" content="categories"/>
+        <meta property="og:title" content="shape中设置padding无效解决方案"/>
     
 
     <!--Open Graph Description-->
+    
+        <meta property="og:description" content="最近在写布局的时候，给LinearLayout添加分割线，并且想让分割线有上下边距，于是就自定义一个shape：
+12345678&amp;lt;shape xmlns:android=&amp;quot;http://schemas.android.com/apk/res/android&amp;quot;    and"/>
     
 
     <!--Open Graph Site Name-->
@@ -51,7 +57,7 @@
 
     <!-- Title -->
     
-    <title>categories - porum</title>
+    <title>shape中设置padding无效解决方案 - porum</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
@@ -155,35 +161,64 @@
 </nav>
 
     <!-- Main Content -->
-    
+    <!-- Page Header -->
+<!-- Set your background image for this header in your post front-matter: cover -->
 
-
-    <header class="intro-header" style="background-image: url('/img/home-bg.jpg')">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                    <div class="site-heading">
-                        <h1>categories</h1>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <!-- Main Content -->
+<header class="intro-header" style="background-image: url('/img/home-bg.jpg')">
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                
-                <div class="archive-before-pagination"></div>
+                <div class="post-heading">
+                    <h1>shape中设置padding无效解决方案</h1>
+                    
+                    <span class="meta">
+                        <!-- Date and Author -->
+                        
+                        
+                            2016-10-20
+                        
+                    </span>
+                </div>
             </div>
         </div>
     </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Tags and categories -->
+           
+
+            <!-- Gallery -->
+            
+
+            <!-- Post Main Content -->
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <p>最近在写布局的时候，给<code>LinearLayout</code>添加分割线，并且想让分割线有上下边距，于是就自定义一个<code>shape</code>：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">shape</span> <span class="attr">xmlns:android</span>=<span class="string">&quot;http://schemas.android.com/apk/res/android&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:shape</span>=<span class="string">&quot;rectangle&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">size</span> <span class="attr">android:height</span>=<span class="string">&quot;@dimen/line_height&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">solid</span> <span class="attr">android:color</span>=<span class="string">&quot;@color/main_line&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">padding</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:bottom</span>=<span class="string">&quot;10dp&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:top</span>=<span class="string">&quot;10dp&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">shape</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>可是事与愿违，实际效果并没有上下边距。</p>
+<p>解决方法：</p>
+<p>把<code>shape</code>放在<code>layer-list</code>的<code>item</code>中，直接在<code>item</code>的节点下设置<code>top</code>和<code>bottom</code>：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">layer-list</span> <span class="attr">xmlns:android</span>=<span class="string">&quot;http://schemas.android.com/apk/res/android&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">item</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:bottom</span>=<span class="string">&quot;10dp&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:top</span>=<span class="string">&quot;10dp&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">shape</span> <span class="attr">android:shape</span>=<span class="string">&quot;rectangle&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">size</span> <span class="attr">android:height</span>=<span class="string">&quot;@dimen/line_height&quot;</span> /&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">solid</span> <span class="attr">android:color</span>=<span class="string">&quot;@color/main_line&quot;</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">shape</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">layer-list</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+                
+            </div>
+
+            <!-- Comments -->
+            
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    
 
 
-
-
-
+                </div>
+            
+        </div>
+    </div>
+</article>
 
     <!-- Footer -->
     <hr />

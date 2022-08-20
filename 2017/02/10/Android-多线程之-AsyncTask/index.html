@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+
+<!-- Head tag -->
+<head>
+
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <!--Description-->
+
+    
+
+    
+        <meta name="description" content="AsyncTask 的源码注释不要写的太详细哦。
+AsyncTask enables proper and easy use of the UI thread. This class allows to perform background operations and publish result"/>
+    
+
+    <!--Author-->
+    
+        <meta name="author" content="porum"/>
+    
+
+    <!--Open Graph Title-->
+    
+        <meta property="og:title" content="Android 多线程之 AsyncTask"/>
+    
+
+    <!--Open Graph Description-->
+    
+        <meta property="og:description" content="AsyncTask 的源码注释不要写的太详细哦。
+AsyncTask enables proper and easy use of the UI thread. This class allows to perform background operations and publish result"/>
+    
+
+    <!--Open Graph Site Name-->
+        <meta property="og:site_name" content="porum"/>
+
+    <!--Type page-->
+    
+        <meta property="og:type" content="article"/>
+    
+
+    <!--Page Cover-->
+    
+    
+        <meta property="og:image" content="http://www.panda912.comimg/home-bg.jpg"/>
+    
+
+        <meta name="twitter:card" content="summary_large_image"/>
+
+    
+
+    
+        <meta name="twitter:image" content="http://www.panda912.comimg/home-bg.jpg"/>
+    
+
+    <!-- Title -->
+    
+    <title>Android 多线程之 AsyncTask - porum</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    <!-- Custom Fonts -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+    <link href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css"/>
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css"/>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Gallery -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.css" type="text/css" rel="stylesheet"/>
+
+    <!-- Google Analytics -->
+    
+
+
+    <!-- favicon -->
+    
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+
+    <!-- Menu -->
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">porum</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                
+                    <li>
+                        <a href="/">
+                            
+                                Home
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/archives">
+                            
+                                Archives
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/tags">
+                            
+                                Tags
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/categories">
+                            
+                                Categories
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a target="_blank" rel="noopener" href="https://github.com/porum">
+                            
+                                <i class="fa fa-github fa-stack-2x"></i>
+                            
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+    <!-- Main Content -->
+    <!-- Page Header -->
+<!-- Set your background image for this header in your post front-matter: cover -->
+
+<header class="intro-header" style="background-image: url('/img/home-bg.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <h1>Android 多线程之 AsyncTask</h1>
+                    
+                    <span class="meta">
+                        <!-- Date and Author -->
+                        
+                        
+                            2017-02-10
+                        
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Tags and categories -->
+           
+
+            <!-- Gallery -->
+            
+
+            <!-- Post Main Content -->
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <p>AsyncTask 的源码注释不要写的太详细哦。</p>
+<p>AsyncTask enables proper and easy use of the UI thread. This class allows to perform background operations and publish results on the UI thread without having to manipulate threads and&#x2F;or handlers.</p>
+<p>AsyncTask is designed to be a helper class around <code>Thread</code> and <code>Handler</code> and does not constitute a generic threading framework. AsyncTasks should ideally be used for short operations (a few seconds at the most.) If you need to keep threads running for long periods of time,it is highly recommended you use the various APIs provided by the java.util.concurrent package such as <code>Executor</code>, <code>ThreadPoolExecutor</code> and <code>FutureTask</code>.</p>
+<p>An asynchronous task is defined by a computation that runs on a background thread and whose result is published on the UI thread. An asynchronous task is defined by 3 generic types, called Params, Progress and Result, and 4 steps, called onPreExecute, doInBackground, onProgressUpdate and onPostExecute.</p>
+<h3 id="Developer-Guides"><a href="#Developer-Guides" class="headerlink" title="Developer Guides"></a>Developer Guides</h3><p>For more information about using tasks and threads, read the <a target="_blank" rel="noopener" href="https://developer.android.google.cn/guide/components/processes-and-threads.html#Processes">Processes and Threads</a> developer guide.</p>
+<h3 id="Usage"><a href="#Usage" class="headerlink" title="Usage"></a>Usage</h3><p>AsyncTask must be subclassed to be used. The subclass will override at least one method (<code>doInBackground(Params...)</code>), and most often will override a second one (<code>onPostExecute(Result)</code>.)</p>
+<p>Here is an example of subclassing:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">class</span> <span class="title class_">DownloadFilesTask</span> <span class="keyword">extends</span> <span class="title class_">AsyncTask</span>&lt;URL, Integer, Long&gt; &#123;</span><br><span class="line">    <span class="keyword">protected</span> Long <span class="title function_">doInBackground</span><span class="params">(URL... urls)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">count</span> <span class="operator">=</span> urls.length;</span><br><span class="line">        <span class="type">long</span> <span class="variable">totalSize</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; count; i++) &#123;</span><br><span class="line">            totalSize += Downloader.downloadFile(urls[i]);</span><br><span class="line">            publishProgress((<span class="type">int</span>) ((i / (<span class="type">float</span>) count) * <span class="number">100</span>));</span><br><span class="line">            <span class="comment">// Escape early if cancel() is called</span></span><br><span class="line">            <span class="keyword">if</span> (isCancelled()) <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> totalSize;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onProgressUpdate</span><span class="params">(Integer... progress)</span> &#123;</span><br><span class="line">        setProgressPercent(progress[<span class="number">0</span>]);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onPostExecute</span><span class="params">(Long result)</span> &#123;</span><br><span class="line">        showDialog(<span class="string">&quot;Downloaded &quot;</span> + result + <span class="string">&quot; bytes&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Once created, a task is executed very simply:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> <span class="title class_">DownloadFilesTask</span>().execute(url1, url2, url3);</span><br></pre></td></tr></table></figure>
+
+<h3 id="AsyncTask’s-generic-types"><a href="#AsyncTask’s-generic-types" class="headerlink" title="AsyncTask’s generic types"></a>AsyncTask’s generic types</h3><p>The three types used by an asynchronous task are the following:</p>
+<ol>
+<li>Params, the type of the parameters sent to the task upon execution.</li>
+<li>Progress, the type of the progress units published during the background computation.</li>
+<li>Result, the type of the result of the background computation.</li>
+</ol>
+<p>Not all types are always used by an asynchronous task. To mark a type as unused, simply use the type <code>Void</code>:<br> private class MyTask extends AsyncTask&lt;Void, Void, Void&gt; { … }</p>
+<h3 id="The-4-steps"><a href="#The-4-steps" class="headerlink" title="The 4 steps"></a>The 4 steps</h3><p>When an asynchronous task is executed, the task goes through 4 steps:</p>
+<ol>
+<li><code>onPreExecute()</code>, invoked on the UI thread before the task is executed. This step is normally used to setup the task, for instance by showing a progress bar in the user interface.</li>
+<li><code>doInBackground(Params...)</code>, invoked on the background thread immediately after <code>onPreExecute()</code> finishes executing. This step is used to perform background computation that can take a long time. The parameters of the asynchronous task are passed to this step. The result of the computation must be returned by this step and will be passed back to the last step. This step can also use <code>publishProgress(Progress...)</code> to publish one or more units of progress. These values are published on the UI thread, in the <code>onProgressUpdate(Progress...)</code> step.</li>
+<li><code>onProgressUpdate(Progress...)</code>, invoked on the UI thread after a call to <code>publishProgress(Progress...)</code>. The timing of the execution is undefined. This method is used to display any form of progress in the user interface while the background computation is still executing. For instance, it can be used to animate a progress bar or show logs in a text field.</li>
+<li><code>onPostExecute(Result)</code>, invoked on the UI thread after the background computation finishes. The result of the background computation is passed to this step as a parameter.</li>
+</ol>
+<h3 id="Cancelling-a-task"><a href="#Cancelling-a-task" class="headerlink" title="Cancelling a task"></a>Cancelling a task</h3><p>A task can be cancelled at any time by invoking <code>cancel(boolean)</code>. Invoking this method will cause subsequent calls to <code>isCancelled()</code> to return true. After invoking this method, <code>onCancelled(Object)</code>, instead of <code>onPostExecute(Object)</code> will be invoked after <code>doInBackground(Object[])</code> returns. <strong>To ensure that a task is cancelled as quickly as possible, you should always check the return value of <code>isCancelled()</code> periodically from <code>doInBackground(Object[])</code>, if possible (inside a loop for instance.)</strong></p>
+<h3 id="Threading-rules"><a href="#Threading-rules" class="headerlink" title="Threading rules"></a>Threading rules</h3><p>There are a few threading rules that must be followed for this class to work properly:</p>
+<ul>
+<li>The AsyncTask class must be loaded on the UI thread. This is done automatically as of <code>JELLY_BEAN</code>.</li>
+<li>The task instance must be created on the UI thread.</li>
+<li><code>execute(Params...)</code> must be invoked on the UI thread.</li>
+<li>Do not call <code>onPreExecute()</code>, <code>onPostExecute(Result)</code>, <code>doInBackground(Params...)</code>, <code>onProgressUpdate(Progress...)</code> manually.</li>
+<li>The task can be executed only once (an exception will be thrown if a second execution is attempted.)</li>
+</ul>
+<h3 id="Memory-observability"><a href="#Memory-observability" class="headerlink" title="Memory observability"></a>Memory observability</h3><p>AsyncTask guarantees that all callback calls are synchronized in such a way that the following operations are safe without explicit synchronizations.</p>
+<ul>
+<li>Set member fields in the constructor or <code>onPreExecute()</code>, and refer to them in <code>doInBackground(Params...)</code>.</li>
+<li>Set member fields in <code>doInBackground(Params...)</code>, and refer to them in <code>onProgressUpdate(Progress...)</code> and <code>onPostExecute(Result)</code>.</li>
+</ul>
+<h3 id="Order-of-execution"><a href="#Order-of-execution" class="headerlink" title="Order of execution"></a>Order of execution</h3><p>When first introduced, AsyncTasks were executed serially on a single background thread. Starting with <code>DONUT</code>, this was changed to a pool of threads allowing multiple tasks to operate in parallel. Starting with <code>HONEYCOMB</code>, tasks are executed on a single thread to avoid common application errors caused by parallel execution.</p>
+<p>If you truly want parallel execution, you can invoke <code>executeOnExecutor(java.util.concurrent.Executor, Object[])</code> with <code>THREAD_POOL_EXECUTOR</code>.</p>
+
+
+                
+            </div>
+
+            <!-- Comments -->
+            
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    
+
+
+                </div>
+            
+        </div>
+    </div>
+</article>
+
+    <!-- Footer -->
+    <hr />
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+
+                    
+
+                    
+                        <li>
+                            <a href="https://github.com/porum" target="_blank">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                    
+
+                    
+
+                    
+
+                    
+                </ul>
+                <p class="copyright text-muted">&copy; 2022 porum<br></p>
+                <p class="copyright text-muted">Original Theme <a target="_blank" href="http://startbootstrap.com/template-overviews/clean-blog/">Clean Blog</a> from <a href="http://startbootstrap.com/" target="_blank">Start Bootstrap</a></p>
+                <p class="copyright text-muted">Adapted for <a target="_blank" href="https://hexo.io/">Hexo</a> by <a href="http://www.codeblocq.com/" target="_blank">Jonathan Klughertz</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+    <!-- After footer scripts -->
+    
+<!-- jQuery -->
+<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+
+<!-- Bootstrap -->
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+<!-- Gallery -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
+
+<!-- Disqus Comments -->
+
+
+
+</body>
+
+</html>
