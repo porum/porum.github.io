@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+
+<!-- Head tag -->
+<head>
+
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <!--Description-->
+
+    
+
+    
+        <meta name="description" content="一、前言1. 什么是 AOP ？AOP 是 Aspect-oriented programming 的缩写，即面向切面编程，是一种编程范式。通过它可以在不修改原有代码的情况下向现有代码中添加某些行为。例如：当函数名称以 “set” 开头时，记录所有函数的调用。这允许将非业务逻辑的核心行为添加到程序中"/>
+    
+
+    <!--Author-->
+    
+        <meta name="author" content="porum"/>
+    
+
+    <!--Open Graph Title-->
+    
+        <meta property="og:title" content="AOP 在 Android 开发中的应用"/>
+    
+
+    <!--Open Graph Description-->
+    
+        <meta property="og:description" content="一、前言1. 什么是 AOP ？AOP 是 Aspect-oriented programming 的缩写，即面向切面编程，是一种编程范式。通过它可以在不修改原有代码的情况下向现有代码中添加某些行为。例如：当函数名称以 “set” 开头时，记录所有函数的调用。这允许将非业务逻辑的核心行为添加到程序中"/>
+    
+
+    <!--Open Graph Site Name-->
+        <meta property="og:site_name" content="porum"/>
+
+    <!--Type page-->
+    
+        <meta property="og:type" content="article"/>
+    
+
+    <!--Page Cover-->
+    
+    
+        <meta property="og:image" content="http://www.panda912.comimg/home-bg.jpg"/>
+    
+
+        <meta name="twitter:card" content="summary_large_image"/>
+
+    
+
+    
+        <meta name="twitter:image" content="http://www.panda912.comimg/home-bg.jpg"/>
+    
+
+    <!-- Title -->
+    
+    <title>AOP 在 Android 开发中的应用 - porum</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    <!-- Custom Fonts -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+    <link href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css"/>
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css"/>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Gallery -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.css" type="text/css" rel="stylesheet"/>
+
+    <!-- Google Analytics -->
+    
+
+
+    <!-- favicon -->
+    
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+
+    <!-- Menu -->
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">porum</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                
+                    <li>
+                        <a href="/">
+                            
+                                Home
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/archives">
+                            
+                                Archives
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/tags">
+                            
+                                Tags
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/categories">
+                            
+                                Categories
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a target="_blank" rel="noopener" href="https://github.com/porum">
+                            
+                                <i class="fa fa-github fa-stack-2x"></i>
+                            
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+    <!-- Main Content -->
+    <!-- Page Header -->
+<!-- Set your background image for this header in your post front-matter: cover -->
+
+<header class="intro-header" style="background-image: url('/img/home-bg.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <h1>AOP 在 Android 开发中的应用</h1>
+                    
+                    <span class="meta">
+                        <!-- Date and Author -->
+                        
+                        
+                            2022-09-25
+                        
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Tags and categories -->
+           
+                <div class="col-lg-4 col-lg-offset-2 col-md-5 col-md-offset-1 post-tags">
+                    
+                        
+
+
+<a href="/tags/AOP/">#AOP</a> <a href="/tags/AGP/">#AGP</a> <a href="/tags/Gradle/">#Gradle</a>
+
+
+                    
+                </div>
+                <div class="col-lg-4 col-md-5 post-categories">
+                    
+                </div>
+            
+
+            <!-- Gallery -->
+            
+
+            <!-- Post Main Content -->
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <h2 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h2><h3 id="1-什么是-AOP-？"><a href="#1-什么是-AOP-？" class="headerlink" title="1. 什么是 AOP ？"></a>1. 什么是 AOP ？</h3><p>AOP 是 Aspect-oriented programming 的缩写，即面向切面编程，是一种编程范式。通过它可以在不修改原有代码的情况下向现有代码中添加某些行为。例如：当函数名称以 “set” 开头时，记录所有函数的调用。这允许将非业务逻辑的核心行为添加到程序中，而不会使代码与原有业务逻辑耦合在一起。</p>
+<h3 id="2-Android-项目中如何实现-AOP-？"><a href="#2-Android-项目中如何实现-AOP-？" class="headerlink" title="2. Android 项目中如何实现 AOP ？"></a>2. Android 项目中如何实现 AOP ？</h3><p>Android 官方使用 Gradle 作为应用的构建工具，与其强大的可扩展性密不可分。Android 官方依赖 Gradle 提供了一个 <code>com.android.tools.build:gradle:$version</code> plugin，这个 Plugin 想必大家都不陌生，它就是 AGP 。AGP 在 1.5.0-beta1 的时候添加了 Transform API ，支持第三方 plugins 在将编译好的 class 文件转换为 dex 文件之前对其进行操作。</p>
+<p>熟悉 Android 打包流程的应该都看过下面这张图：</p>
+<p><img src="/../img/AOP-%E5%9C%A8-Android-%E5%BC%80%E5%8F%91%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8/build-process.png" alt="典型 Android 应用模块的构建流程"></p>
+<p>Transform API 作用时机就是在 Compilers -&gt; DEX File(s) 这个过程中。</p>
+<p>Transform API 工作流程如下：<img src="/../img/AOP-%E5%9C%A8-Android-%E5%BC%80%E5%8F%91%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8/transform-process.png" alt="transform-process"></p>
+<p>即上一个 Transform 的输出作为下一个 Transform 的输入。我们可以通过自定义 Plugin 注册 Transform API 来获取上一个 Transform 的输入，然后按照自己的需求，对相应的 class 文件做修改，然后交给下一个 Transform 作为输入继续后面的流程。</p>
+<p>而修改 class 文件需要借助字节码操作框架来实现，目前主流的字节码操作框架有如下几种：ASM，Javassist，AspectJ，ByteBuddy，Lancet 等。ByteBuddy 目前并未使用过，暂不做评价。Lancet 是 eleme 开源的一款轻量级的 Android 平台的字节码操作框架。原理也是基于 AGP Transform API 扫描 class 文件，底层使用 ASM 实现插桩，使用方式上类似 AspectJ，不过 Lancet 目前处于无人维护的状态，所使用 AGP 版本比较旧（AGP 3.3.2），如果想使用，需要自己 fork 升级 AGP 版本并解决升级过程的错误，<del>其实可以考虑</del>暂不做考虑。另外值得一提的是，ReDex 是 Fackbook 开源的一个针对 Android Dex 文件优化的一个库，使用 C++ 实现，它提供了一系列指令生成 API 和 Opcode 插入 API，我们可以借助它实现自己的字节码注入工具，但是其上手难度很高，暂不考虑。</p>
+<h2 id="二、ASM-Javassist-AspectJ"><a href="#二、ASM-Javassist-AspectJ" class="headerlink" title="二、ASM, Javassist, AspectJ"></a>二、ASM, Javassist, AspectJ</h2><h3 id="1-ASM"><a href="#1-ASM" class="headerlink" title="1. ASM"></a>1. ASM</h3><p>ASM是一个通用的 Java 字节码操作和分析框架。它可以用来修改现有的类或直接以二进制形式动态生成类。ASM 提供了一些常见的字节码转换和分析算法，从中可以构建定制的复杂转换和代码分析工具。ASM 提供了与其他 Java 字节码框架相似的功能，但重点是性能。由于它被设计和实现得尽可能小、尽可能快，因此非常适合在动态系统中使用（当然也可以以静态方式使用，例如在编译器中）。</p>
+<p>ASM用于许多项目，包括：</p>
+<ul>
+<li>OpenJDK，以生成 lambda 调用位置，也可以在 Nashorn 编译器中生成；</li>
+<li>Groovy 编译器和 Kotlin 编译器；</li>
+<li>Cobertura 和 Jacoco，为了测量代码覆盖率；</li>
+<li>Byte Buddy，用于动态生成类，它本身用于其他项目，如 Mockito（用于生成模拟类）；</li>
+<li>Gradle，在运行时生成一些类。</li>
+</ul>
+<p>优缺点：</p>
+<ul>
+<li>操作灵活。支持任意字节码的操作。支持 visitor api 和 tree api 两种方式；</li>
+<li>高性能；</li>
+<li>学习曲线陡峭。ASM 是非常底层的面向字节码编程的 AOP 框架。需要掌握 Java 字节码的相关知识才能使用。</li>
+</ul>
+<h3 id="2-Javassist"><a href="#2-Javassist" class="headerlink" title="2. Javassist"></a>2. Javassist</h3><p>Javassist（Java Programming Assistant）使 Java 字节码操作变得简单。它是一个用 Java 编辑字节码的类库；它使 Java 程序能够在运行时定义新类，并在 JVM 加载时修改类文件。与其他类似的字节码编辑器不同，Javassist 提供了两级 API：源代码级和字节码级。如果用户使用源代码级 API，他们可以在不了解 Java 字节码规范的情况下编辑类文件。整个 API 仅使用 Java 语言的词汇表进行设计。您甚至可以以源文本的形式指定插入的字节码；Javassist 实时编译它。另一方面，字节码级 API 允许用户像其他编辑器一样直接编辑类文件。</p>
+<p>优缺点：</p>
+<ul>
+<li>易上手。提供了高封装度的 api，只需要了解很少的字节码知识就可以使用；</li>
+<li>性能低。使用到反射机制，性能比较低。</li>
+</ul>
+<h3 id="3-AspectJ"><a href="#3-AspectJ" class="headerlink" title="3. AspectJ"></a>3. AspectJ</h3><ul>
+<li>Java 编程语言的无缝面向切面的扩展；</li>
+<li>兼容 Java 平台；</li>
+<li>易于学习和使用；</li>
+<li>横切关注点的干净模块化，例如错误检查和处理、同步、上下文相关行为、性能优化、监视和日志记录、调试支持以及多对象协议。</li>
+</ul>
+<p>优缺点：</p>
+<ul>
+<li>成熟稳定。一般不用考虑插入的字节码正确性的问题；</li>
+<li>易上手。使用者完全不需要理解任何 Java 字节码相关的知识，就可以使用自如。它可以在方法（含构造方法）被调用位置、方法体（含构造方法）内部、读写变量位置、静态代码块内部、异常处理位置等前后，插入自定义代码，或者直接将原位置的代码替换为自己的代码；</li>
+<li>切入点固定。只能在一些固定的切入点进行操作，如果想要更加细致的操作，则无法完成。不能针对一些特定规则的字节码序列做操作；</li>
+<li>正则表达式。AspectJ 使用正则表达式匹配规则，比如匹配 Activity 生命周期的 onXXX 方法，如果有自定义的其他的以 on 开头的方法也会被匹配到；</li>
+<li>性能较低。AspectJ 插入的代码会包装自己的一些类，逻辑比较复杂，不仅生成的字节码比较大，对原函数的性能也会造成一定的影响。</li>
+</ul>
+<h3 id="4-对比"><a href="#4-对比" class="headerlink" title="4. 对比"></a>4. 对比</h3><table>
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center">ASM</th>
+<th align="center">Javassist</th>
+<th align="center">AspectJ</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">易用性</td>
+<td align="center">难</td>
+<td align="center">易</td>
+<td align="center">易</td>
+</tr>
+<tr>
+<td align="center">性能</td>
+<td align="center">高</td>
+<td align="center">低</td>
+<td align="center">低</td>
+</tr>
+<tr>
+<td align="center">自由度</td>
+<td align="center">高</td>
+<td align="center">低</td>
+<td align="center">低</td>
+</tr>
+</tbody></table>
+<h2 id="三、自定义-Gradle-Plugin"><a href="#三、自定义-Gradle-Plugin" class="headerlink" title="三、自定义 Gradle Plugin"></a>三、自定义 Gradle Plugin</h2><p>介绍完 Transform API 的机制和各种 AOP 框架的优劣后，我们就可以选择适合我们的框架，编写插桩代码，然后将其集成到 Android 项目的构建流程中，实现构建时自动化插桩。</p>
+<p>那么如何集成到 Gradle 的构建流程中呢？答案就是自定义 Gradle Plugin。</p>
+<p>创建 Gradle Plugin 有以下三种方式：</p>
+<ol>
+<li>在 gradle script 中创建。gradle script 中一般用来配置一些静态配置，不建议使用这种方式创建 plugin；</li>
+<li>在 <code>buildSrc</code> 模块中创建。一般用来创建项目内的 plugin，不用发布，可以在 script 中直接引用；</li>
+<li>在独立的模块中创建。一般用来创建可发布到公有仓库，供其他项目使用的 plugin。</li>
+</ol>
+<p>本文示例使用第二种方式创建：</p>
+<ol>
+<li><p>在项目根目录下创建一个名为 <code>buildSrc</code> 的目录，注意，1. 是创建目录，不是创建 module，2. buildSrc 大小写要一致；</p>
+</li>
+<li><p>在目录中创建 build.gradle.kts 脚本文件，如果是使用 java 编写 plugin，就引入 <code>java-library</code> 插件，如果是用 groovy 编写，就引入 <code>groovy</code> 插件，如果是用 kotlin 编写，就引入 <code>kotlin(&quot;jvm&quot;)</code> 插件，我这里使用 kotlin 来编写插件；然后在 <code>dependencies</code> block 中添加 <code>gradleApi()</code>。如果只是创建一个 Gradle Plugin，到这里 build.gradle.kts 其实就已经配置好了;</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">plugins &#123;</span><br><span class="line"><span class="comment">//  `java-library`</span></span><br><span class="line"><span class="comment">//  groovy</span></span><br><span class="line">  kotlin(<span class="string">&quot;jvm&quot;</span>) version <span class="string">&quot;1.7.10&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">repositories &#123;</span><br><span class="line">  google()</span><br><span class="line">  mavenCentral()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">dependencies &#123;</span><br><span class="line">  implementation(kotlin(<span class="string">&quot;stdlib&quot;</span>))</span><br><span class="line">  gradleApi()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建 src&#x2F;main&#x2F;kotlin 目录，再创建自定义的 Plugin 类，实现自 <code>org.gradle.api.Plugin</code> 接口：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.gradle.api.Plugin</span><br><span class="line"><span class="keyword">import</span> org.gradle.api.Project</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">SamplePlugin</span> : <span class="type">Plugin</span>&lt;<span class="type">Project</span>&gt; &#123;</span><br><span class="line">  <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">apply</span><span class="params">(target: <span class="type">Project</span>)</span></span> &#123;</span><br><span class="line">    println(<span class="string">&quot;SamplePlugin&gt;&gt;apply&quot;</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在 application 或 library module 中 apply plugin：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// app module&#x27;s build.gradle.kts</span></span><br><span class="line">apply&lt;SamplePlugin&gt;()</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>sync project：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">&gt; Task :buildSrc:compileKotlin UP-TO-DATE</span><br><span class="line">&gt; Task :buildSrc:compileJava NO-SOURCE</span><br><span class="line">&gt; Task :buildSrc:compileGroovy NO-SOURCE</span><br><span class="line">&gt; Task :buildSrc:processResources NO-SOURCE</span><br><span class="line">&gt; Task :buildSrc:classes UP-TO-DATE</span><br><span class="line">&gt; Task :buildSrc:inspectClassesForKotlinIC UP-TO-DATE</span><br><span class="line">&gt; Task :buildSrc:jar UP-TO-DATE</span><br><span class="line">&gt; Task :buildSrc:assemble UP-TO-DATE</span><br><span class="line">&gt; Task :buildSrc:compileTestKotlin NO-SOURCE</span><br><span class="line">&gt; Task :buildSrc:compileTestJava NO-SOURCE</span><br><span class="line">&gt; Task :buildSrc:compileTestGroovy NO-SOURCE</span><br><span class="line">&gt; Task :buildSrc:processTestResources NO-SOURCE</span><br><span class="line">&gt; Task :buildSrc:testClasses UP-TO-DATE</span><br><span class="line">&gt; Task :buildSrc:test NO-SOURCE</span><br><span class="line">&gt; Task :buildSrc:check UP-TO-DATE</span><br><span class="line">&gt; Task :buildSrc:build UP-TO-DATE</span><br><span class="line"></span><br><span class="line">&gt; Configure project :app</span><br><span class="line">SamplePlugin&gt;&gt;apply</span><br><span class="line"></span><br><span class="line">&gt; Task :prepareKotlinBuildScriptModel UP-TO-DATE</span><br><span class="line"></span><br><span class="line">BUILD SUCCESSFUL in 1s</span><br><span class="line">3 actionable tasks: 3 up-to-date</span><br><span class="line">&gt; Task :prepareKotlinBuildScriptModel UP-TO-DATE</span><br><span class="line"></span><br><span class="line">BUILD SUCCESSFUL in 105ms</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+</ol>
+<blockquote>
+<p>顺便说一下这里的 <code>UP-TO-DATE</code>：Gradle 之所以能够在 Project 上工作，都是由一个个的 Task 所支持的。Task 表示构建执行的一些基本操作。例如创建 Jar，生成 Javadoc 或者发布一些 Archives 到仓库。而大多数 Task 都声明了输入和输出，Gradle 根据检查 Task 的输入和输出来确定该 Task 是否是 <code>UP-TO-DATE</code> 的。</p>
+<p>例如：<code>compile</code> task 的输入是 source code，如果 source code 自从上次 compile 以来没有任何变化，然后会检查输出，确保编译器生成的 class 文件没有被破坏，如果输入和输出都没有任何变化，Gradle 认为这个 Task 是 <code>UP-TO-DATE</code> 的，这使得在构建项目时可以节省大量的时间。</p>
+</blockquote>
+<p>我们可以看到 build 控制台中已经输出了我们在 Plugin 中打印的内容了。到这里，一个完整的 Plugin 创建步骤就完成了，这是一个只依赖于 Gradle Api 的 Plugin，我们可以在里面创建 Task 等。但是，因为我们要借助 AGP 来开发我们的 AOP Plugin，所以，我们还需要在 <code>buildSrc</code> build.gradle.kts 中添加 AGP 和相关 AOP 框架的依赖：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">dependencies &#123;</span><br><span class="line">  implementation(kotlin(<span class="string">&quot;stdlib&quot;</span>))</span><br><span class="line">  <span class="comment">// gradle api, agp, kgp</span></span><br><span class="line">  gradleApi()</span><br><span class="line">  implementation(<span class="string">&quot;com.android.tools.build:gradle:7.3.0&quot;</span>)</span><br><span class="line">  implementation(<span class="string">&quot;com.android.tools.build:gradle-api:7.3.0&quot;</span>)</span><br><span class="line">  implementation(kotlin(<span class="string">&quot;gradle-plugin&quot;</span>, <span class="string">&quot;1.7.10&quot;</span>))</span><br><span class="line">  <span class="comment">// asm</span></span><br><span class="line">  implementation(<span class="string">&quot;org.ow2.asm:asm-tree:9.2&quot;</span>)</span><br><span class="line">  implementation(<span class="string">&quot;org.ow2.asm:asm-util:9.2&quot;</span>)</span><br><span class="line">  implementation(<span class="string">&quot;org.ow2.asm:asm-commons:9.2&quot;</span>)</span><br><span class="line">  <span class="comment">// javassist</span></span><br><span class="line">  implementation(<span class="string">&quot;org.javassist:javassist:3.29.2-GA&quot;</span>)</span><br><span class="line">  <span class="comment">// aspectj</span></span><br><span class="line">  implementation(<span class="string">&quot;org.aspectj:aspectjtools:1.9.7&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="四、AGP-Transform-API"><a href="#四、AGP-Transform-API" class="headerlink" title="四、AGP Transform API"></a>四、AGP Transform API</h2><blockquote>
+<p>AGP Transform API 在 AGP 7.0 的时候被标记为废弃，预计在 AGP 8.0 中会被删除。取而代之的是 Gradle 提供的 <code>TransformAction</code> 以及 AGP 在新版本中提供的相关 API。</p>
+<p>那我们为什么还要学它呢？</p>
+<ol>
+<li>社区沉淀：AGP Transform API 已经发展多年，社区中已经沉淀了大量优秀的开源项目以及博客文章；</li>
+<li>思维方式：虽然 API 已过时，但学习其中的思路，对理解 Gradle TransformAction 有一定的帮助。</li>
+</ol>
+</blockquote>
+<blockquote>
+<p>优秀的涉及到 AGP Transform API 相关的开源项目：Lancet、StringFog、一些插件化&#x2F;组件化&#x2F;路由框架</p>
+<p>优秀的涉及到 Gradle TransformAction 相关的开源项目：BRouter</p>
+</blockquote>
+<ul>
+<li>获取 <code>BaseExtension</code></li>
+</ul>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// def android = project.android</span></span><br><span class="line"><span class="comment">// def android = project.extensions.android</span></span><br><span class="line"><span class="comment">// def android = project.extensions.getByType(AppExtension)</span></span><br><span class="line"><span class="comment">// val android = project.extensions.getByName(&quot;android&quot;) as BaseExtension</span></span><br><span class="line"><span class="keyword">val</span> android = project.extensions.getByType(BaseExtension::<span class="keyword">class</span>.java)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>registerTransform</code></li>
+</ul>
+ <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">android.registerTransform(XXXTransform())</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Transform</li>
+</ul>
+<p>Transform 是用来处理构建过程中的中间产物。每添加一个 Transform，都会对应创建一个 Task，该 Task 的命名规则为 <code>transform$&#123;inputTypes&#125;With$&#123;name&#125;For$&#123;variant&#125;</code>。</p>
+<p><code>String getName()</code>：指定 Transform 的名称</p>
+<p><code>Set&lt;ContentType&gt; getInputTypes()</code>：返回当前 Transform 处理的数据的类型</p>
+<p><code>Set&lt;? super Scope&gt; getScopes()</code>：返回当前 Transform 处理的数据的范围</p>
+<p><code>boolean isIncremental()</code>：指定当前 Transform 是否开启增量编译，如果开启的话，需要自己在 transform 时处理好增量的逻辑</p>
+<p><code>void transform(@NonNull TransformInvocation transformInvocation)</code>：在该方法中实现字节码插桩操作</p>
+<p><code>TransformInvocation</code> 中包含了所有的输入和输出信息，Transform 的输入是一个  <code>TransformInput</code> 的集合，<code>TransformInput</code> 中又包含了 <code>JarInput</code> 的集合和 <code>DirectoryInput</code> 的集合，这两者都提供了具体的输入内容，以及与其关联的 <code>ContentType</code> 和 <code>Scope</code> 信息。</p>
+<p>Transform 的输出通过 TransformOutputProvider 获取。</p>
+<p>Transform 的输入和输出均由 AGP 内部处理，并且它们的位置不可配置。 </p>
+<p>⚠️ 重要提示：即使我们不想 transform 任何东西，我们也需要将所有的输入 copy 到输出，否则最终生成的 APK 中不会包含这些文件。</p>
+<p><img src="/../img/AOP-%E5%9C%A8-Android-%E5%BC%80%E5%8F%91%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8/transforms.png" alt="transforms"></p>
+<p>直接看代码吧：<a target="_blank" rel="noopener" href="https://github.com/porum/AgpBytecodeManipulationDemo">https://github.com/porum/AgpBytecodeManipulationDemo</a></p>
+<h2 id="五、Variant-x2F-Artifact-API"><a href="#五、Variant-x2F-Artifact-API" class="headerlink" title="五、Variant&#x2F;Artifact API"></a>五、Variant&#x2F;Artifact API</h2><h2 id="六、总结"><a href="#六、总结" class="headerlink" title="六、总结"></a>六、总结</h2><p>AOP 可以降低项目的耦合度，对项目源代码无入侵，提高开发效率，但是需要掌握一定的字节码相关的知识，以及字节码插桩框架的使用，一定程度上限制了人们对其了解的冲动。还是希望感兴趣的可以行动起来，迈开第一步，就会打开新世界的大门。</p>
+<h2 id="七、参考"><a href="#七、参考" class="headerlink" title="七、参考"></a>七、参考</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://asm.ow2.io/">https://asm.ow2.io/</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.javassist.org/">http://www.javassist.org/</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.eclipse.org/aspectj/doc/released/progguide/index.html">https://www.eclipse.org/aspectj/doc/released/progguide/index.html</a></li>
+<li><a target="_blank" rel="noopener" href="https://developer.android.google.cn/studio/releases/gradle-plugin-api-updates#transform-removed">https://developer.android.google.cn/studio/releases/gradle-plugin-api-updates#transform-removed</a></li>
+<li><a target="_blank" rel="noopener" href="http://tools.android.com/tech-docs/new-build-system/transform-api">http://tools.android.com/tech-docs/new-build-system/transform-api</a></li>
+<li><a target="_blank" rel="noopener" href="https://developer.android.google.cn/studio/build#build-process">https://developer.android.google.cn/studio/build#build-process</a></li>
+<li><a target="_blank" rel="noopener" href="https://source.android.google.cn/docs/core/runtime/dalvik-bytecode">https://source.android.google.cn/docs/core/runtime/dalvik-bytecode</a></li>
+<li><a target="_blank" rel="noopener" href="https://medium.com/grandcentrix/transform-api-a-real-world-example-cfd49990d3e1">https://medium.com/grandcentrix/transform-api-a-real-world-example-cfd49990d3e1</a></li>
+<li><a target="_blank" rel="noopener" href="https://rebooters.github.io/2020/01/04/Gradle-Transform-ASM-%E6%8E%A2%E7%B4%A2/">https://rebooters.github.io/2020/01/04/Gradle-Transform-ASM-%E6%8E%A2%E7%B4%A2/</a></li>
+<li><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000041861621">https://segmentfault.com/a/1190000041861621</a></li>
+</ol>
+
+
+                
+            </div>
+
+            <!-- Comments -->
+            
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    
+
+
+                </div>
+            
+        </div>
+    </div>
+</article>
+
+    <!-- Footer -->
+    <hr />
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+
+                    
+
+                    
+                        <li>
+                            <a href="https://github.com/porum" target="_blank">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                    
+
+                    
+
+                    
+
+                    
+                </ul>
+                <p class="copyright text-muted">&copy; 2022 porum<br></p>
+                <p class="copyright text-muted">Original Theme <a target="_blank" href="http://startbootstrap.com/template-overviews/clean-blog/">Clean Blog</a> from <a href="http://startbootstrap.com/" target="_blank">Start Bootstrap</a></p>
+                <p class="copyright text-muted">Adapted for <a target="_blank" href="https://hexo.io/">Hexo</a> by <a href="http://www.codeblocq.com/" target="_blank">Jonathan Klughertz</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+    <!-- After footer scripts -->
+    
+<!-- jQuery -->
+<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+
+<!-- Bootstrap -->
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+<!-- Gallery -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
+
+<!-- Disqus Comments -->
+
+
+
+</body>
+
+</html>
