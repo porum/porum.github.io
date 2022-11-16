@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+
+<!-- Head tag -->
+<head>
+
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <!--Description-->
+
+    
+
+    
+        <meta name="description" content="初学 python ，记录一下自己对 slicing 操作的理解。
+12# 这里以 string 为例，当然，slicing 还支持 list，tuple。str = &amp;#x27;porum&amp;#x27;
+
+关于 index：
+在 python 中，index 可以是负数，-1 表示最后一个元素，-2"/>
+    
+
+    <!--Author-->
+    
+        <meta name="author" content="porum"/>
+    
+
+    <!--Open Graph Title-->
+    
+        <meta property="og:title" content="Python-Slicing"/>
+    
+
+    <!--Open Graph Description-->
+    
+        <meta property="og:description" content="初学 python ，记录一下自己对 slicing 操作的理解。
+12# 这里以 string 为例，当然，slicing 还支持 list，tuple。str = &amp;#x27;porum&amp;#x27;
+
+关于 index：
+在 python 中，index 可以是负数，-1 表示最后一个元素，-2"/>
+    
+
+    <!--Open Graph Site Name-->
+        <meta property="og:site_name" content="porum"/>
+
+    <!--Type page-->
+    
+        <meta property="og:type" content="article"/>
+    
+
+    <!--Page Cover-->
+    
+    
+        <meta property="og:image" content="http://www.panda912.comimg/home-bg.jpg"/>
+    
+
+        <meta name="twitter:card" content="summary_large_image"/>
+
+    
+
+    
+        <meta name="twitter:image" content="http://www.panda912.comimg/home-bg.jpg"/>
+    
+
+    <!-- Title -->
+    
+    <title>Python-Slicing - porum</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    <!-- Custom Fonts -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+    <link href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css"/>
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css"/>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Gallery -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.css" type="text/css" rel="stylesheet"/>
+
+    <!-- Google Analytics -->
+    
+
+
+    <!-- favicon -->
+    
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+
+    <!-- Menu -->
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">porum</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                
+                    <li>
+                        <a href="/">
+                            
+                                Home
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/archives">
+                            
+                                Archives
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/tags">
+                            
+                                Tags
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/categories">
+                            
+                                Categories
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a target="_blank" rel="noopener" href="https://github.com/porum">
+                            
+                                <i class="fa fa-github fa-stack-2x"></i>
+                            
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+    <!-- Main Content -->
+    <!-- Page Header -->
+<!-- Set your background image for this header in your post front-matter: cover -->
+
+<header class="intro-header" style="background-image: url('/img/home-bg.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <h1>Python-Slicing</h1>
+                    
+                    <span class="meta">
+                        <!-- Date and Author -->
+                        
+                        
+                            2022-11-12
+                        
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Tags and categories -->
+           
+                <div class="col-lg-4 col-lg-offset-2 col-md-5 col-md-offset-1 post-tags">
+                    
+                        
+
+
+<a href="/tags/python/">#python</a>
+
+
+                    
+                </div>
+                <div class="col-lg-4 col-md-5 post-categories">
+                    
+                </div>
+            
+
+            <!-- Gallery -->
+            
+
+            <!-- Post Main Content -->
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <p>初学 python ，记录一下自己对 slicing 操作的理解。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 这里以 string 为例，当然，slicing 还支持 list，tuple。</span></span><br><span class="line"><span class="built_in">str</span> = <span class="string">&#x27;porum&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>关于 index：</p>
+<p>在 python 中，index 可以是负数，-1 表示最后一个元素，-2 表示倒数第二个元素，以此类推。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">+---+---+---+---+---+</span><br><span class="line">| p | o | r | u | m |</span><br><span class="line">+---+---+---+---+---+</span><br><span class="line">  0   1   2   3   4  </span><br><span class="line"> -5  -4  -3  -2  -1  </span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># index 4和-1对应的都是&#x27;m&#x27;</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">str</span>[<span class="number">4</span>]</span><br><span class="line"><span class="string">&#x27;m&#x27;</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">str</span>[-<span class="number">1</span>]</span><br><span class="line"><span class="string">&#x27;m&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>关于 slicing：</p>
+<ul>
+<li><p>str[from:to] # 返回 [from,to) 的内容</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 返回区间 [0,2) 的值</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">str</span>[<span class="number">0</span>:<span class="number">2</span>]</span><br><span class="line"><span class="string">&#x27;po&#x27;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>str[from:] # 等价于 str[from:None]，返回 [from,len) 的内容</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 返回区间 [2,末尾] 的值</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">str</span>[<span class="number">2</span>:]</span><br><span class="line"><span class="string">&#x27;rum&#x27;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>str[:to] # 等价于 str[None:to]，返回 [0,to) 的内容</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 返回区间 [从头,2) 的值</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">str</span>[:<span class="number">2</span>]</span><br><span class="line"><span class="string">&#x27;po&#x27;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>str[:] # 返回 [None, None) 的内容，其实就是 copy 一份</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 返回 str 的拷贝</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">str</span>[:]</span><br><span class="line"><span class="string">&#x27;porum&#x27;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>str[from:to:step] # 表示从 from 开始取值，步长为 step，直到 to。同上，这里的 from to 为左闭右开区间，也均可省略。step 可正可负，但不可以是0。正数表示正序遍历，负数表示倒序遍历。</p>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># </span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">str</span>[::<span class="number">2</span>]</span><br><span class="line"><span class="string">&#x27;prm&#x27;</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">str</span>[<span class="number">0</span>:<span class="number">4</span>:<span class="number">2</span>]</span><br><span class="line"><span class="string">&#x27;pr&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>再举一个 step 为负数的例子：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 反转 porum</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">str</span>[::-<span class="number">1</span>]</span><br><span class="line"><span class="string">&#x27;murop&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>我们再看下面的例子：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># [:1:-1] 等价于 [None:1:-1]，因为 step 为负数，所以可以理解为是倒序取值，取到 index 为1的位置（exclude），因为 from 为 None，可以理解为从尾部开始。</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">str</span>[:<span class="number">1</span>:-<span class="number">1</span>]</span><br><span class="line"><span class="string">&#x27;mur&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">     +---+---+---+---+---+</span><br><span class="line">     | p | o | r | u | m |</span><br><span class="line">     +---+---+---+---+---+</span><br><span class="line">None   0   1   2   3   4   None</span><br><span class="line">           &lt;-----------------</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># [2::-1] 等价于 [2:None:-1]，从 index 为2的位置（include）倒序取值，一直到头部。</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="string">&#x27;porum&#x27;</span>[<span class="number">2</span>::-<span class="number">1</span>]</span><br><span class="line"><span class="string">&#x27;rop&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">     +---+---+---+---+---+</span><br><span class="line">     | p | o | r | u | m |</span><br><span class="line">     +---+---+---+---+---+</span><br><span class="line">None   0   1   2   3   4   None</span><br><span class="line">  &lt;-------------</span><br></pre></td></tr></table></figure>
+
+<p>反转操作我们还可以这样写：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 只要满足 from &gt;= len-1, to &lt; -len，都等价于 [::-1]</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">str</span>[<span class="number">4</span>:-<span class="number">6</span>:-<span class="number">1</span>]</span><br><span class="line"><span class="string">&#x27;murop&#x27;</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="string">&#x27;porum&#x27;</span>[<span class="number">100</span>:-<span class="number">100</span>:-<span class="number">1</span>]</span><br><span class="line"><span class="string">&#x27;murop&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">       +---+---+---+---+---+</span><br><span class="line">       | p | o | r | u | m |</span><br><span class="line">       +---+---+---+---+---+</span><br><span class="line">         0   1   2   3   4   5   6</span><br><span class="line">-7  -6  -5  -4  -3  -2  -1</span><br><span class="line">     &lt;--------------------</span><br></pre></td></tr></table></figure>
+
+
+
+                
+            </div>
+
+            <!-- Comments -->
+            
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    
+
+
+                </div>
+            
+        </div>
+    </div>
+</article>
+
+    <!-- Footer -->
+    <hr />
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+
+                    
+
+                    
+                        <li>
+                            <a href="https://github.com/porum" target="_blank">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                    
+
+                    
+
+                    
+
+                    
+                </ul>
+                <p class="copyright text-muted">&copy; 2022 porum<br></p>
+                <p class="copyright text-muted">Original Theme <a target="_blank" href="http://startbootstrap.com/template-overviews/clean-blog/">Clean Blog</a> from <a href="http://startbootstrap.com/" target="_blank">Start Bootstrap</a></p>
+                <p class="copyright text-muted">Adapted for <a target="_blank" href="https://hexo.io/">Hexo</a> by <a href="http://www.codeblocq.com/" target="_blank">Jonathan Klughertz</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+    <!-- After footer scripts -->
+    
+<!-- jQuery -->
+<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+
+<!-- Bootstrap -->
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+<!-- Gallery -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
+
+<!-- Disqus Comments -->
+
+
+
+</body>
+
+</html>
