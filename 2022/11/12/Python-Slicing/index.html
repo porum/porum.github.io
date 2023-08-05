@@ -241,13 +241,11 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 返回 str 的拷贝</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">str</span>[:]</span><br><span class="line"><span class="string">&#x27;porum&#x27;</span></span><br></pre></td></tr></table></figure>
 </li>
 <li><p>str[from:to:step] # 表示从 from 开始取值，步长为 step，直到 to。同上，这里的 from to 为左闭右开区间，也均可省略。step 可正可负，但不可以是0。正数表示正序遍历，负数表示倒序遍历。</p>
-</li>
-</ul>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># </span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">str</span>[::<span class="number">2</span>]</span><br><span class="line"><span class="string">&#x27;prm&#x27;</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">str</span>[<span class="number">0</span>:<span class="number">4</span>:<span class="number">2</span>]</span><br><span class="line"><span class="string">&#x27;pr&#x27;</span></span><br></pre></td></tr></table></figure>
-
-<p>再举一个 step 为负数的例子：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 反转 porum</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">str</span>[::-<span class="number">1</span>]</span><br><span class="line"><span class="string">&#x27;murop&#x27;</span></span><br></pre></td></tr></table></figure>
-
+</li>
+<li><p>再举一个 step 为负数的例子</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 反转 porum</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">str</span>[::-<span class="number">1</span>]</span><br><span class="line"><span class="string">&#x27;murop&#x27;</span></span><br></pre></td></tr></table></figure></li>
+</ul>
 <p>我们再看下面的例子：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># [:1:-1] 等价于 [None:1:-1]，因为 step 为负数，所以可以理解为是倒序取值，取到 index 为1的位置（exclude），因为 from 为 None，可以理解为从尾部开始。</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">str</span>[:<span class="number">1</span>:-<span class="number">1</span>]</span><br><span class="line"><span class="string">&#x27;mur&#x27;</span></span><br></pre></td></tr></table></figure>
 
@@ -261,7 +259,6 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 只要满足 from &gt;= len-1, to &lt; -len，都等价于 [::-1]</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">str</span>[<span class="number">4</span>:-<span class="number">6</span>:-<span class="number">1</span>]</span><br><span class="line"><span class="string">&#x27;murop&#x27;</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="string">&#x27;porum&#x27;</span>[<span class="number">100</span>:-<span class="number">100</span>:-<span class="number">1</span>]</span><br><span class="line"><span class="string">&#x27;murop&#x27;</span></span><br></pre></td></tr></table></figure>
 
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">       +---+---+---+---+---+</span><br><span class="line">       | p | o | r | u | m |</span><br><span class="line">       +---+---+---+---+---+</span><br><span class="line">         0   1   2   3   4   5   6</span><br><span class="line">-7  -6  -5  -4  -3  -2  -1</span><br><span class="line">     &lt;--------------------</span><br></pre></td></tr></table></figure>
-
 
 
                 
@@ -309,7 +306,7 @@
 
                     
                 </ul>
-                <p class="copyright text-muted">&copy; 2022 porum<br></p>
+                <p class="copyright text-muted">&copy; 2023 porum<br></p>
                 <p class="copyright text-muted">Original Theme <a target="_blank" href="http://startbootstrap.com/template-overviews/clean-blog/">Clean Blog</a> from <a href="http://startbootstrap.com/" target="_blank">Start Bootstrap</a></p>
                 <p class="copyright text-muted">Adapted for <a target="_blank" href="https://hexo.io/">Hexo</a> by <a href="http://www.codeblocq.com/" target="_blank">Jonathan Klughertz</a></p>
             </div>
