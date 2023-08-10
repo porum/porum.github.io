@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+
+<!-- Head tag -->
+<head>
+
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <!--Description-->
+
+    
+
+    
+        <meta name="description" content="这是一篇非常基础的内容，但是在工作中却发现很多开发者甚至工作了好几年的却从来没用过它。
+Checkbox 大家应该都用过，是一个带状态的控件，可以选中和取消选中，它其实就是通过改变 drawableState 来实现状态的切换。
+在日常开发中，我们也会经常遇到类似的设计。例如有个切换模式的 icon"/>
+    
+
+    <!--Author-->
+    
+        <meta name="author" content="porum"/>
+    
+
+    <!--Open Graph Title-->
+    
+        <meta property="og:title" content="自定义 View 之给你的控件加上状态"/>
+    
+
+    <!--Open Graph Description-->
+    
+        <meta property="og:description" content="这是一篇非常基础的内容，但是在工作中却发现很多开发者甚至工作了好几年的却从来没用过它。
+Checkbox 大家应该都用过，是一个带状态的控件，可以选中和取消选中，它其实就是通过改变 drawableState 来实现状态的切换。
+在日常开发中，我们也会经常遇到类似的设计。例如有个切换模式的 icon"/>
+    
+
+    <!--Open Graph Site Name-->
+        <meta property="og:site_name" content="porum"/>
+
+    <!--Type page-->
+    
+        <meta property="og:type" content="article"/>
+    
+
+    <!--Page Cover-->
+    
+    
+        <meta property="og:image" content="http://www.panda912.comimg/home-bg.jpg"/>
+    
+
+        <meta name="twitter:card" content="summary_large_image"/>
+
+    
+
+    
+        <meta name="twitter:image" content="http://www.panda912.comimg/home-bg.jpg"/>
+    
+
+    <!-- Title -->
+    
+    <title>自定义 View 之给你的控件加上状态 - porum</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    <!-- Custom Fonts -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+    <link href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css"/>
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css"/>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Gallery -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.css" type="text/css" rel="stylesheet"/>
+
+    <!-- Google Analytics -->
+    
+
+
+    <!-- favicon -->
+    
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+
+    <!-- Menu -->
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">porum</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                
+                    <li>
+                        <a href="/">
+                            
+                                Home
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/archives">
+                            
+                                Archives
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/tags">
+                            
+                                Tags
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/categories">
+                            
+                                Categories
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a target="_blank" rel="noopener" href="https://github.com/porum">
+                            
+                                <i class="fa fa-github fa-stack-2x"></i>
+                            
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+    <!-- Main Content -->
+    <!-- Page Header -->
+<!-- Set your background image for this header in your post front-matter: cover -->
+
+<header class="intro-header" style="background-image: url('/img/home-bg.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <h1>自定义 View 之给你的控件加上状态</h1>
+                    
+                    <span class="meta">
+                        <!-- Date and Author -->
+                        
+                        
+                            2023-08-11
+                        
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Tags and categories -->
+           
+                <div class="col-lg-4 col-lg-offset-2 col-md-5 col-md-offset-1 post-tags">
+                    
+                        
+
+
+<a href="/tags/View/">#View</a>
+
+
+                    
+                </div>
+                <div class="col-lg-4 col-md-5 post-categories">
+                    
+                </div>
+            
+
+            <!-- Gallery -->
+            
+
+            <!-- Post Main Content -->
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <p>这是一篇非常基础的内容，但是在工作中却发现很多开发者甚至工作了好几年的却从来没用过它。</p>
+<p>Checkbox 大家应该都用过，是一个带状态的控件，可以选中和取消选中，它其实就是通过改变 drawableState 来实现状态的切换。</p>
+<p>在日常开发中，我们也会经常遇到类似的设计。例如有个切换模式的 icon，默认是列表模式，点击后变成 grid 模式，再次点击又变成列表模式，这样的 icon 我们认为它是有状态的；再比如有个控制时间排序的控件，默认状态是默认排序，点击一次切换成升序，且向上箭头高亮，再点击一次切换成降序，且向下箭头高亮，再点击一次切换成默认排序，如此往复循环。</p>
+<p><img src="/../img/%E8%87%AA%E5%AE%9A%E4%B9%89-View-%E4%B9%8B%E7%BB%99%E4%BD%A0%E7%9A%84%E6%8E%A7%E4%BB%B6%E5%8A%A0%E4%B8%8A%E7%8A%B6%E6%80%81/sort.png" alt="screen"></p>
+<p>带状态的控件，我们都可以通过自定义 View 或 ViewGroup，将状态的管理以及 UI 的变化放在控件的内部，外部之设置获取&#x2F;设置控件状态以及状态变化的监听。这样外部就可以专注业务的逻辑，而非大量的更新 UI 的操作。</p>
+<p>下面我们就来自定义一个时间排序的控件：</p>
+<p>首先，这个控件有默认，升序，降序三种状态，并且这三种状态是循环切换的，所以我们定义一个这三种状态的枚举，并提供切换到下一状态的方法：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="keyword">class</span> <span class="title class_">SortMode</span> &#123;</span><br><span class="line">  NONE, ASC, DSC;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">fun</span> <span class="title">next</span><span class="params">()</span></span>: SortMode &#123;</span><br><span class="line">    <span class="keyword">val</span> values = values()</span><br><span class="line">    <span class="keyword">return</span> values[(ordinal + <span class="number">1</span>) % values.size]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>并且在 values 目录下的 attrs.xml 的 resources 标签中添加三个状态的属性：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- why not enum: https://stackoverflow.com/questions/13147360/android-is-it-possible-to-use-string-enum-in-drawable-selector --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">declare-styleable</span> <span class="attr">name</span>=<span class="string">&quot;SortableState&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">attr</span> <span class="attr">name</span>=<span class="string">&quot;state_sort_none&quot;</span> <span class="attr">format</span>=<span class="string">&quot;boolean&quot;</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">attr</span> <span class="attr">name</span>=<span class="string">&quot;state_sort_asc&quot;</span> <span class="attr">format</span>=<span class="string">&quot;boolean&quot;</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">attr</span> <span class="attr">name</span>=<span class="string">&quot;state_sort_dsc&quot;</span> <span class="attr">format</span>=<span class="string">&quot;boolean&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">declare-styleable</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>其次，我们想让这个控件对外暴露的能力有，设置控件状态，获取控件状态，切换控件状态，所以我们抽象出一个 Sortable 接口：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> <span class="title class_">Sortable</span> &#123;</span><br><span class="line">  <span class="function"><span class="keyword">fun</span> <span class="title">setSortMode</span><span class="params">(mode: <span class="type">SortMode</span>)</span></span></span><br><span class="line">  <span class="function"><span class="keyword">fun</span> <span class="title">getSortMode</span><span class="params">()</span></span>: SortMode</span><br><span class="line">  <span class="function"><span class="keyword">fun</span> <span class="title">toggle</span><span class="params">()</span></span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>由于我们还想监听控件的状态变化，所以，再提供一个 OnSortChangedListener 接口：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="keyword">interface</span> OnSortChangedListener &#123;</span></span><br><span class="line">  <span class="function"><span class="keyword">fun</span> <span class="title">onSortChanged</span><span class="params">(view: <span class="type">SortableTextView</span>, mode: <span class="type">SortMode</span>)</span></span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后就是自定义 TextView 实现 Sortable 接口，最重要的是重写 onCreateDrawableState 方法，处理不同状态下的 drawableState 返回值：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">SortableTextView</span> <span class="meta">@JvmOverloads</span> <span class="keyword">constructor</span>(</span><br><span class="line">  context: Context,</span><br><span class="line">  attr: AttributeSet? = <span class="literal">null</span>,</span><br><span class="line">  defStyleAttr: <span class="built_in">Int</span> = <span class="number">0</span>,</span><br><span class="line">) : AppCompatTextView(context, attr, defStyleAttr), Sortable &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">var</span> mode = SortMode.NONE</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">var</span> onSortChangedListener: OnSortChangedListener? = <span class="literal">null</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">init</span> &#123;</span><br><span class="line">    isClickable = <span class="literal">true</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">setSortMode</span><span class="params">(mode: <span class="type">SortMode</span>)</span></span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.mode != mode) &#123;</span><br><span class="line">      toggle()</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">getSortMode</span><span class="params">()</span></span>: SortMode &#123;</span><br><span class="line">    <span class="keyword">return</span> mode</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">toggle</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (isEnabled) &#123;</span><br><span class="line">      mode = mode.next()</span><br><span class="line">      refreshDrawableState()</span><br><span class="line">      onSortChangedListener?.onSortChanged(<span class="keyword">this</span>, mode)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onCreateDrawableState</span><span class="params">(extraSpace: <span class="type">Int</span>)</span></span>: IntArray &#123;</span><br><span class="line">    <span class="keyword">val</span> drawableState = <span class="keyword">super</span>.onCreateDrawableState(extraSpace + <span class="number">3</span>)</span><br><span class="line">    <span class="keyword">if</span> (mode == SortMode.NONE) &#123;</span><br><span class="line">      mergeDrawableStates(drawableState, SORT_NONE_SET)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (mode == SortMode.ASC) &#123;</span><br><span class="line">      mergeDrawableStates(drawableState, SORT_ASC_SET)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (mode == SortMode.DSC) &#123;</span><br><span class="line">      mergeDrawableStates(drawableState, SORT_DSC_SET)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> drawableState</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">performClick</span><span class="params">()</span></span>: <span class="built_in">Boolean</span> &#123;</span><br><span class="line">    toggle()</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">super</span>.performClick()</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">fun</span> <span class="title">setOnSortChangedListener</span><span class="params">(listener: <span class="type">OnSortChangedListener</span>)</span></span> &#123;</span><br><span class="line">    onSortChangedListener = listener</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">companion</span> <span class="keyword">object</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">val</span> SORT_NONE_SET = intArrayOf(R.attr.state_sort_none)</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">val</span> SORT_ASC_SET = intArrayOf(R.attr.state_sort_asc)</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">val</span> SORT_DSC_SET = intArrayOf(R.attr.state_sort_dsc)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用的时候给控件设置 selector drawable，当触发 toggle 时会调用 refreshDrawableState 去刷新 drawableState 来实现 UI 上的状态切换</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;utf-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">selector</span> <span class="attr">xmlns:android</span>=<span class="string">&quot;http://schemas.android.com/apk/res/android&quot;</span> <span class="attr">xmlns:app</span>=<span class="string">&quot;http://schemas.android.com/apk/res-auto&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">item</span> <span class="attr">android:drawable</span>=<span class="string">&quot;@drawable/ic_sort_asc&quot;</span> <span class="attr">app:state_sort_asc</span>=<span class="string">&quot;true&quot;</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">item</span> <span class="attr">android:drawable</span>=<span class="string">&quot;@drawable/ic_sort_dsc&quot;</span> <span class="attr">app:state_sort_dsc</span>=<span class="string">&quot;true&quot;</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">item</span> <span class="attr">android:drawable</span>=<span class="string">&quot;@drawable/ic_sort_default&quot;</span> <span class="attr">app:state_sort_none</span>=<span class="string">&quot;true&quot;</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">item</span> <span class="attr">android:drawable</span>=<span class="string">&quot;@drawable/ic_sort_default&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">selector</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+                
+            </div>
+
+            <!-- Comments -->
+            
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    
+
+
+                </div>
+            
+        </div>
+    </div>
+</article>
+
+    <!-- Footer -->
+    <hr />
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+
+                    
+
+                    
+                        <li>
+                            <a href="https://github.com/porum" target="_blank">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                    
+
+                    
+
+                    
+
+                    
+                </ul>
+                <p class="copyright text-muted">&copy; 2023 porum<br></p>
+                <p class="copyright text-muted">Original Theme <a target="_blank" href="http://startbootstrap.com/template-overviews/clean-blog/">Clean Blog</a> from <a href="http://startbootstrap.com/" target="_blank">Start Bootstrap</a></p>
+                <p class="copyright text-muted">Adapted for <a target="_blank" href="https://hexo.io/">Hexo</a> by <a href="http://www.codeblocq.com/" target="_blank">Jonathan Klughertz</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+    <!-- After footer scripts -->
+    
+<!-- jQuery -->
+<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+
+<!-- Bootstrap -->
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+<!-- Gallery -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
+
+<!-- Disqus Comments -->
+
+
+
+</body>
+
+</html>
