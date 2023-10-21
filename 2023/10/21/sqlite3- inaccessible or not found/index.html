@@ -13,6 +13,8 @@
     
 
     
+        <meta name="description" content="sqlite3: inaccessible or not found当我们想在 adb shell 环境下查看 sqlite3 数据库时，可以使用 sqlite3 命令，但是有些手机没有内置 sqlite3，所以就会报 sqlite3: inaccessible or not found 的错误，需"/>
+    
 
     <!--Author-->
     
@@ -25,6 +27,8 @@
     
 
     <!--Open Graph Description-->
+    
+        <meta property="og:description" content="sqlite3: inaccessible or not found当我们想在 adb shell 环境下查看 sqlite3 数据库时，可以使用 sqlite3 命令，但是有些手机没有内置 sqlite3，所以就会报 sqlite3: inaccessible or not found 的错误，需"/>
     
 
     <!--Open Graph Site Name-->
@@ -51,7 +55,7 @@
 
     <!-- Title -->
     
-    <title>page - Archives - porum</title>
+    <title>porum</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
@@ -155,116 +159,71 @@
 </nav>
 
     <!-- Main Content -->
-    
+    <!-- Page Header -->
+<!-- Set your background image for this header in your post front-matter: cover -->
 
-<!-- Page Header -->
-<!-- Set your background image for this header in the theme's configuration: index_cover -->
 <header class="intro-header" style="background-image: url('/img/home-bg.jpg')">
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                <div class="site-heading">
-                    <h1>Archives</h1>
+                <div class="post-heading">
+                    <h1>Untitled</h1>
+                    
+                    <span class="meta">
+                        <!-- Date and Author -->
+                        
+                        
+                            2023-10-21
+                        
+                    </span>
                 </div>
             </div>
         </div>
     </div>
 </header>
 
-<!-- Main Content -->
-<div class="container">
-    <div class="row">
-        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Tags and categories -->
+           
+
+            <!-- Gallery -->
             
-                <div class="post-preview">
-    <a href="/2017/01/20/Scroller-基本用法/">
-        <h1 class="post-title archive">
-            Scroller 基本用法
-        </h1>
-    </a>
-    <p class="post-meta archive">
-        <!-- Date and Author -->
-        
-        2017-01-20
-    </p>
-</div>
+
+            <!-- Post Main Content -->
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <h1 id="sqlite3-inaccessible-or-not-found"><a href="#sqlite3-inaccessible-or-not-found" class="headerlink" title="sqlite3: inaccessible or not found"></a>sqlite3: inaccessible or not found</h1><p>当我们想在 adb shell 环境下查看 sqlite3 数据库时，可以使用 sqlite3 命令，但是有些手机没有内置 sqlite3，所以就会报 <code>sqlite3: inaccessible or not found</code> 的错误，需要我们自己将 sqlite3 可执行文件导入到系统中。本文以 mac + Redmi Note 9（64位，Android31） 为例，介绍从编译 sqlite3 到 push 到手机 &#x2F;system 分区。</p>
+<h2 id="1-编译-sqlite3"><a href="#1-编译-sqlite3" class="headerlink" title="1. 编译 sqlite3"></a>1. 编译 sqlite3</h2><ol>
+<li>去<a target="_blank" rel="noopener" href="https://www.sqlite.org/download.html">官网</a>下载 sqlite-autoconf-xxxxxxx.tar.gz 并解压</li>
+<li>确保电脑配置了 <code>ANDROID_HOME</code> 环境变量，修改脚本中对应的 ndk 版本号</li>
+<li>如果是32位架构，HOST 改为 armv7a，API 修改为对应手机的 Android 系统版本</li>
+</ol>
+<p>脚本如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">!/bin/bash</span></span><br><span class="line"></span><br><span class="line">export TOOLCHAIN=$ANDROID_HOME/ndk/25.2.9519653/toolchains/llvm/prebuilt/darwin-x86_64</span><br><span class="line">export HOST=aarch64-linux-android</span><br><span class="line">export API=31</span><br><span class="line">export CC=$TOOLCHAIN/bin/$HOST$API-clang</span><br><span class="line">export CXX=$TOOLCHAIN/bin/$HOST$API-clang++</span><br><span class="line">export AR=$TOOLCHAIN/bin/$HOST-ar</span><br><span class="line">export AS=$TOOLCHAIN/bin/$HOST-as</span><br><span class="line">export LD=$TOOLCHAIN/bin/$HOST-ld</span><br><span class="line">export RANLIB=$TOOLCHAIN/bin/$HOST-ranlib</span><br><span class="line">export STRIP=$TOOLCHAIN/bin/$HOST-strip</span><br><span class="line">export CFLAGS=&quot;-mthumb -fpic -ffunction-sections -funwind-tables -fstack-protector-all -fno-strict-aliasing&quot;</span><br><span class="line">export CXXFLAGS=&quot;$CFLAGS -frtti -fexceptions&quot;</span><br><span class="line"></span><br><span class="line">./configure --prefix=`pwd`/build/sqlite3/ \</span><br><span class="line">            --host=$HOST \</span><br><span class="line">            --enable-shared \</span><br><span class="line">            --disable-static \</span><br><span class="line">            --disable-tcl</span><br><span class="line"></span><br><span class="line">if [ $? -eq 0 ]; then</span><br><span class="line">    make clean</span><br><span class="line">    make -j16</span><br><span class="line">    make install</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-push-到-x2F-system-x2F-xbin-x2F"><a href="#2-push-到-x2F-system-x2F-xbin-x2F" class="headerlink" title="2. push 到 &#x2F;system&#x2F;xbin&#x2F;"></a>2. push 到 &#x2F;system&#x2F;xbin&#x2F;</h2><p>cd 到源码目录执行上述脚本会生成 sqlite3 可执行文件，如果你的手机已经是完全 root 过的，则直接 push 到 &#x2F;system&#x2F;xbin&#x2F; 即可。</p>
+<p>但是我的手机是借助 magisk 来开启 root 权限的，是没有 system 分区的写权限的，这里我们先将 sqlite3 push 到 &#x2F;sdcard 目录下，然后需要安装一个 magisk 模块 <a target="_blank" rel="noopener" href="https://github.com/HuskyDG/magic_overlayfs">magic_overlayfs</a>  来开启读写权限。</p>
+<p>安装好 magic_overlayfs 模块后，终端执行 <code>adb shell &quot;su -c &#39;cp /sdcard/sqlite3 /system/xbin/&#39;&quot;</code> 。</p>
+<p>Finish</p>
+
+
+                
+            </div>
+
+            <!-- Comments -->
             
-                <div class="post-preview">
-    <a href="/2017/01/17/React-Native-封装Android-UI组件/">
-        <h1 class="post-title archive">
-            React Native 封装 Android UI 组件
-        </h1>
-    </a>
-    <p class="post-meta archive">
-        <!-- Date and Author -->
-        
-        2017-01-17
-    </p>
-</div>
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    
+
+
+                </div>
             
-                <div class="post-preview">
-    <a href="/2016/10/20/shape中设置padding无效解决方案/">
-        <h1 class="post-title archive">
-            shape中设置padding无效解决方案
-        </h1>
-    </a>
-    <p class="post-meta archive">
-        <!-- Date and Author -->
-        
-        2016-10-20
-    </p>
-</div>
-            
-                <div class="post-preview">
-    <a href="/2016/10/18/SurfaceView基本用法/">
-        <h1 class="post-title archive">
-            SurfaceView 基本用法
-        </h1>
-    </a>
-    <p class="post-meta archive">
-        <!-- Date and Author -->
-        
-        2016-10-18
-    </p>
-</div>
-            
-                <div class="post-preview">
-    <a href="/2016/09/02/library中BuildConfig-DEBUG始终为false的解决方法/">
-        <h1 class="post-title archive">
-            library中BuildConfig.DEBUG始终为false的解决方法
-        </h1>
-    </a>
-    <p class="post-meta archive">
-        <!-- Date and Author -->
-        
-        2016-09-02
-    </p>
-</div>
-            
-                <div class="post-preview">
-    <a href="/2016/08/25/AndroidManifest-知多少/">
-        <h1 class="post-title archive">
-            AndroidManifest 知多少
-        </h1>
-    </a>
-    <p class="post-meta archive">
-        <!-- Date and Author -->
-        
-        2016-08-25
-    </p>
-</div>
-            
-            <div class="archive-before-pagination"></div>
-            <ul class="pager">
-    
-        <li class="previous"><a href="/archives/page/2/">&larr;  Newer Posts</a></li>
-    
-    
-</ul>
         </div>
     </div>
-</div>
-
+</article>
 
     <!-- Footer -->
     <hr />
