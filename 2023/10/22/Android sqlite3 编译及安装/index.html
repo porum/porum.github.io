@@ -13,7 +13,7 @@
     
 
     
-        <meta name="description" content="sqlite3: inaccessible or not found当我们想在 adb shell 环境下查看 sqlite3 数据库时，可以使用 sqlite3 命令，但是有些手机没有内置 sqlite3，所以就会报 sqlite3: inaccessible or not found 的错误，需"/>
+        <meta name="description" content="当我们想在 adb shell 环境下查看 sqlite3 数据库时，可以使用 sqlite3 命令，但是有些手机没有内置 sqlite3，所以就会报 sqlite3: inaccessible or not found 的错误，需要我们自己将 sqlite3 可执行文件导入到系统中。本文以 mac"/>
     
 
     <!--Author-->
@@ -23,12 +23,12 @@
 
     <!--Open Graph Title-->
     
-        <meta property="og:title" content="porum"/>
+        <meta property="og:title" content="Android sqlite3 编译及安装"/>
     
 
     <!--Open Graph Description-->
     
-        <meta property="og:description" content="sqlite3: inaccessible or not found当我们想在 adb shell 环境下查看 sqlite3 数据库时，可以使用 sqlite3 命令，但是有些手机没有内置 sqlite3，所以就会报 sqlite3: inaccessible or not found 的错误，需"/>
+        <meta property="og:description" content="当我们想在 adb shell 环境下查看 sqlite3 数据库时，可以使用 sqlite3 命令，但是有些手机没有内置 sqlite3，所以就会报 sqlite3: inaccessible or not found 的错误，需要我们自己将 sqlite3 可执行文件导入到系统中。本文以 mac"/>
     
 
     <!--Open Graph Site Name-->
@@ -36,7 +36,7 @@
 
     <!--Type page-->
     
-        <meta property="og:type" content="website"/>
+        <meta property="og:type" content="article"/>
     
 
     <!--Page Cover-->
@@ -55,7 +55,7 @@
 
     <!-- Title -->
     
-    <title>porum</title>
+    <title>Android sqlite3 编译及安装 - porum</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
@@ -167,13 +167,13 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                 <div class="post-heading">
-                    <h1>Untitled</h1>
+                    <h1>Android sqlite3 编译及安装</h1>
                     
                     <span class="meta">
                         <!-- Date and Author -->
                         
                         
-                            2023-10-21
+                            2023-10-22
                         
                     </span>
                 </div>
@@ -189,13 +189,27 @@
 
             <!-- Tags and categories -->
            
+                <div class="col-lg-4 col-lg-offset-2 col-md-5 col-md-offset-1 post-tags">
+                    
+                        
+
+
+<a href="/tags/Magisk/">#Magisk</a>
+
+
+                    
+                </div>
+                <div class="col-lg-4 col-md-5 post-categories">
+                    
+                </div>
+            
 
             <!-- Gallery -->
             
 
             <!-- Post Main Content -->
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                <h1 id="sqlite3-inaccessible-or-not-found"><a href="#sqlite3-inaccessible-or-not-found" class="headerlink" title="sqlite3: inaccessible or not found"></a>sqlite3: inaccessible or not found</h1><p>当我们想在 adb shell 环境下查看 sqlite3 数据库时，可以使用 sqlite3 命令，但是有些手机没有内置 sqlite3，所以就会报 <code>sqlite3: inaccessible or not found</code> 的错误，需要我们自己将 sqlite3 可执行文件导入到系统中。本文以 mac + Redmi Note 9（64位，Android31） 为例，介绍从编译 sqlite3 到 push 到手机 &#x2F;system 分区。</p>
+                <p>当我们想在 adb shell 环境下查看 sqlite3 数据库时，可以使用 sqlite3 命令，但是有些手机没有内置 sqlite3，所以就会报 <code>sqlite3: inaccessible or not found</code> 的错误，需要我们自己将 sqlite3 可执行文件导入到系统中。本文以 mac + Redmi Note 9（64位，Android31） 为例，介绍从编译 sqlite3 到 push 到手机 &#x2F;system 分区。</p>
 <h2 id="1-编译-sqlite3"><a href="#1-编译-sqlite3" class="headerlink" title="1. 编译 sqlite3"></a>1. 编译 sqlite3</h2><ol>
 <li>去<a target="_blank" rel="noopener" href="https://www.sqlite.org/download.html">官网</a>下载 sqlite-autoconf-xxxxxxx.tar.gz 并解压</li>
 <li>确保电脑配置了 <code>ANDROID_HOME</code> 环境变量，修改脚本中对应的 ndk 版本号</li>
