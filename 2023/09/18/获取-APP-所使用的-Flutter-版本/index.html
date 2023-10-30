@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+
+<!-- Head tag -->
+<head>
+
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <!--Description-->
+
+    
+
+    
+        <meta name="description" content="1. 解析 libapp.so 获取 snapshot hash0xdcdcf5f5 是 snapshot 的魔数，占 4 字节，
+魔数后面紧跟着 8 字节是 length，
+再后面 8 字节是 kind，
+再后面 32 字节 是 snapshot hash。
+2. snapshot hash 和 "/>
+    
+
+    <!--Author-->
+    
+        <meta name="author" content="porum"/>
+    
+
+    <!--Open Graph Title-->
+    
+        <meta property="og:title" content="获取 APP 所使用的 Flutter 版本"/>
+    
+
+    <!--Open Graph Description-->
+    
+        <meta property="og:description" content="1. 解析 libapp.so 获取 snapshot hash0xdcdcf5f5 是 snapshot 的魔数，占 4 字节，
+魔数后面紧跟着 8 字节是 length，
+再后面 8 字节是 kind，
+再后面 32 字节 是 snapshot hash。
+2. snapshot hash 和 "/>
+    
+
+    <!--Open Graph Site Name-->
+        <meta property="og:site_name" content="porum"/>
+
+    <!--Type page-->
+    
+        <meta property="og:type" content="article"/>
+    
+
+    <!--Page Cover-->
+    
+    
+        <meta property="og:image" content="http://www.panda912.comimg/home-bg.jpg"/>
+    
+
+        <meta name="twitter:card" content="summary_large_image"/>
+
+    
+
+    
+        <meta name="twitter:image" content="http://www.panda912.comimg/home-bg.jpg"/>
+    
+
+    <!-- Title -->
+    
+    <title>获取 APP 所使用的 Flutter 版本 - porum</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    <!-- Custom Fonts -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+    <link href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css"/>
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css"/>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Gallery -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.css" type="text/css" rel="stylesheet"/>
+
+    <!-- Google Analytics -->
+    
+
+
+    <!-- favicon -->
+    
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+
+    <!-- Menu -->
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">porum</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                
+                    <li>
+                        <a href="/">
+                            
+                                Home
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/archives">
+                            
+                                Archives
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/tags">
+                            
+                                Tags
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/categories">
+                            
+                                Categories
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a target="_blank" rel="noopener" href="https://github.com/porum">
+                            
+                                <i class="fa fa-github fa-stack-2x"></i>
+                            
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+    <!-- Main Content -->
+    <!-- Page Header -->
+<!-- Set your background image for this header in your post front-matter: cover -->
+
+<header class="intro-header" style="background-image: url('/img/home-bg.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <h1>获取 APP 所使用的 Flutter 版本</h1>
+                    
+                    <span class="meta">
+                        <!-- Date and Author -->
+                        
+                        
+                            2023-09-18
+                        
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Tags and categories -->
+           
+                <div class="col-lg-4 col-lg-offset-2 col-md-5 col-md-offset-1 post-tags">
+                    
+                        
+
+
+<a href="/tags/Flutter/">#Flutter</a>
+
+
+                    
+                </div>
+                <div class="col-lg-4 col-md-5 post-categories">
+                    
+                </div>
+            
+
+            <!-- Gallery -->
+            
+
+            <!-- Post Main Content -->
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <h2 id="1-解析-libapp-so-获取-snapshot-hash"><a href="#1-解析-libapp-so-获取-snapshot-hash" class="headerlink" title="1. 解析 libapp.so 获取 snapshot hash"></a>1. 解析 libapp.so 获取 snapshot hash</h2><p><code>0xdcdcf5f5</code> 是 snapshot 的魔数，占 4 字节，</p>
+<p>魔数后面紧跟着 8 字节是 length，</p>
+<p>再后面 8 字节是 kind，</p>
+<p>再后面 32 字节 是 snapshot hash。</p>
+<h2 id="2-snapshot-hash-和-flutter-版本的对应关系"><a href="#2-snapshot-hash-和-flutter-版本的对应关系" class="headerlink" title="2. snapshot hash 和 flutter 版本的对应关系"></a>2. snapshot hash 和 flutter 版本的对应关系</h2><p>官方提供了一个 Flutter 各个版本的版本信息：</p>
+<p><a target="_blank" rel="noopener" href="https://storage.googleapis.com/flutter_infra_release/releases/releases_windows.json">https://storage.googleapis.com/flutter_infra_release/releases/releases_windows.json</a> <a target="_blank" rel="noopener" href="https://storage.googleapis.com/flutter_infra_release/releases/releases_linux.json">https://storage.googleapis.com/flutter_infra_release/releases/releases_linux.json</a> <a target="_blank" rel="noopener" href="https://storage.googleapis.com/flutter_infra_release/releases/releases_macos.json">https://storage.googleapis.com/flutter_infra_release/releases/releases_macos.json</a></p>
+<p>我们主要关注 release 中的内容，以 flutter 3.15.0-15.1.pre 版本为例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;hash&quot;: &quot;b2ec15bfa37e6ecdc1f68e7dc6960422648fc6d6&quot;,</span><br><span class="line">  &quot;channel&quot;: &quot;beta&quot;,</span><br><span class="line">  &quot;version&quot;: &quot;3.15.0-15.1.pre&quot;,</span><br><span class="line">  &quot;dart_sdk_version&quot;: &quot;3.2.0 (build 3.2.0-134.1.beta)&quot;,</span><br><span class="line">  &quot;dart_sdk_arch&quot;: &quot;x64&quot;,</span><br><span class="line">  &quot;release_date&quot;: &quot;2023-09-15T17:00:54.507285Z&quot;,</span><br><span class="line">  &quot;archive&quot;: &quot;beta/linux/flutter_linux_3.15.0-15.1.pre-beta.tar.xz&quot;,</span><br><span class="line">  &quot;sha256&quot;: &quot;6fc2503bc70b69d7d063dc27216c0d24da5b31886ff9654a9fa0d28bc50190f8&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>hash</code> 为 <a target="_blank" rel="noopener" href="https://github.com/flutter/flutter">flutter</a> 仓库中，3.15.0-15.1.pre 版本所对应的 revision number，我们可以在 github 上 查看 flutter 的 tags：</p>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/05e5247de8d6408f9c8ef8479551372e~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1130&h=340&s=32194&e=png&b=ffffff" alt="flutter_tags.png"></p>
+<p>查看此次的变动：</p>
+<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b43a6bcc2c994a17b15f7fa1f8f1226c~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1307&h=561&s=101425&e=png&b=edf3f6" alt="flutter_commit.png"></p>
+<p>注意 engine.version 文件的变动，这是 flutter 3.15.0-15.1.pre 版本所对应的 <a target="_blank" rel="noopener" href="https://github.com/flutter/engine">engine</a> 仓库的 revision number。同样的，查看 github 上 engine 仓库的 tags 确认一下：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d0b1a6ccef684466bc1242fee70b7de0~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1133&h=344&s=56759&e=png&b=ffffff" alt="engine_tags.png"></p>
+<p>查看此次的变动：</p>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/84fa7461b2534c93840687407227ad79~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1307&h=638&s=231591&e=png&b=f0f7f9" alt="engine_commit.png"></p>
+<p>只更新了 DEPS 文件中的 dart_revision，及 3.15.0-15.1.pre 版本所对应的 <a target="_blank" rel="noopener" href="https://github.com/dart-lang/sdk">dart sdk</a> 的 revision number。</p>
+<p>在 dart 仓库下的 tools 目录下有个 make_version.py 脚本，这个脚本是用来生成 snapshot hash 的。</p>
+<ol start="0">
+<li><p>先 checkout 到指定的 revision：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout 4d7636806fcd58a266973da52d39385fdefb254c</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建 input file 和 output file，input file 的内容为 <code>&#123;&#123;SNAPSHOT_HASH&#125;&#125;</code>，output file 为空文件，用于输出 snapshot hash；</p>
+</li>
+<li><p>运行 make_version.py 脚本：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python tools/make_version.py --input=inputFile --output=inputFile</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查看 output file 中的内容，即为 snapshot hash。</p>
+</li>
+</ol>
+<h2 id="3-总结"><a href="#3-总结" class="headerlink" title="3. 总结"></a>3. 总结</h2><ol start="0">
+<li>解析 libapp.so 获取到 snapshot hash；</li>
+<li>根据 flutter revision number 获取到对应的 engine revision number；</li>
+<li>根据 engine revision number 获取到 dart revision number；</li>
+<li>根据 dart revision number 获取到 snapshot hash；</li>
+<li>与 libapp.so 的 snapshot hash 匹配是否相等；</li>
+</ol>
+<h2 id="4-项目地址"><a href="#4-项目地址" class="headerlink" title="4. 项目地址"></a>4. 项目地址</h2><p><a target="_blank" rel="noopener" href="https://github.com/porum/FlutterLibChecker">https://github.com/porum/FlutterLibChecker</a></p>
+
+
+                
+            </div>
+
+            <!-- Comments -->
+            
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    
+
+
+                </div>
+            
+        </div>
+    </div>
+</article>
+
+    <!-- Footer -->
+    <hr />
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+
+                    
+
+                    
+                        <li>
+                            <a href="https://github.com/porum" target="_blank">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                    
+
+                    
+
+                    
+
+                    
+                </ul>
+                <p class="copyright text-muted">&copy; 2023 porum<br></p>
+                <p class="copyright text-muted">Original Theme <a target="_blank" href="http://startbootstrap.com/template-overviews/clean-blog/">Clean Blog</a> from <a href="http://startbootstrap.com/" target="_blank">Start Bootstrap</a></p>
+                <p class="copyright text-muted">Adapted for <a target="_blank" href="https://hexo.io/">Hexo</a> by <a href="http://www.codeblocq.com/" target="_blank">Jonathan Klughertz</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+    <!-- After footer scripts -->
+    
+<!-- jQuery -->
+<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+
+<!-- Bootstrap -->
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+<!-- Gallery -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
+
+<!-- Disqus Comments -->
+
+
+
+</body>
+
+</html>
