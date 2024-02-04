@@ -227,13 +227,13 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;hash&quot;: &quot;b2ec15bfa37e6ecdc1f68e7dc6960422648fc6d6&quot;,</span><br><span class="line">  &quot;channel&quot;: &quot;beta&quot;,</span><br><span class="line">  &quot;version&quot;: &quot;3.15.0-15.1.pre&quot;,</span><br><span class="line">  &quot;dart_sdk_version&quot;: &quot;3.2.0 (build 3.2.0-134.1.beta)&quot;,</span><br><span class="line">  &quot;dart_sdk_arch&quot;: &quot;x64&quot;,</span><br><span class="line">  &quot;release_date&quot;: &quot;2023-09-15T17:00:54.507285Z&quot;,</span><br><span class="line">  &quot;archive&quot;: &quot;beta/linux/flutter_linux_3.15.0-15.1.pre-beta.tar.xz&quot;,</span><br><span class="line">  &quot;sha256&quot;: &quot;6fc2503bc70b69d7d063dc27216c0d24da5b31886ff9654a9fa0d28bc50190f8&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p><code>hash</code> 为 <a target="_blank" rel="noopener" href="https://github.com/flutter/flutter">flutter</a> 仓库中，3.15.0-15.1.pre 版本所对应的 revision number，我们可以在 github 上 查看 flutter 的 tags：</p>
-<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/05e5247de8d6408f9c8ef8479551372e~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1130&h=340&s=32194&e=png&b=ffffff" alt="flutter_tags.png"></p>
+<p><img src="/../img/%E8%8E%B7%E5%8F%96-APP-%E6%89%80%E4%BD%BF%E7%94%A8%E7%9A%84-Flutter-%E7%89%88%E6%9C%AC/flutter_tags.png" alt="flutter_tags.png"></p>
 <p>查看此次的变动：</p>
-<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b43a6bcc2c994a17b15f7fa1f8f1226c~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1307&h=561&s=101425&e=png&b=edf3f6" alt="flutter_commit.png"></p>
+<p><img src="/../img/%E8%8E%B7%E5%8F%96-APP-%E6%89%80%E4%BD%BF%E7%94%A8%E7%9A%84-Flutter-%E7%89%88%E6%9C%AC/flutter_commit.png" alt="flutter_commit.png"></p>
 <p>注意 engine.version 文件的变动，这是 flutter 3.15.0-15.1.pre 版本所对应的 <a target="_blank" rel="noopener" href="https://github.com/flutter/engine">engine</a> 仓库的 revision number。同样的，查看 github 上 engine 仓库的 tags 确认一下：</p>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d0b1a6ccef684466bc1242fee70b7de0~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1133&h=344&s=56759&e=png&b=ffffff" alt="engine_tags.png"></p>
+<p><img src="/../img/%E8%8E%B7%E5%8F%96-APP-%E6%89%80%E4%BD%BF%E7%94%A8%E7%9A%84-Flutter-%E7%89%88%E6%9C%AC/engine_tags.png" alt="engine_tags.png"></p>
 <p>查看此次的变动：</p>
-<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/84fa7461b2534c93840687407227ad79~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1307&h=638&s=231591&e=png&b=f0f7f9" alt="engine_commit.png"></p>
+<p><img src="/../img/%E8%8E%B7%E5%8F%96-APP-%E6%89%80%E4%BD%BF%E7%94%A8%E7%9A%84-Flutter-%E7%89%88%E6%9C%AC/engine_commit.png" alt="engine_commit.png"></p>
 <p>只更新了 DEPS 文件中的 dart_revision，及 3.15.0-15.1.pre 版本所对应的 <a target="_blank" rel="noopener" href="https://github.com/dart-lang/sdk">dart sdk</a> 的 revision number。</p>
 <p>在 dart 仓库下的 tools 目录下有个 make_version.py 脚本，这个脚本是用来生成 snapshot hash 的。</p>
 <ol start="0">
@@ -303,7 +303,7 @@
 
                     
                 </ul>
-                <p class="copyright text-muted">&copy; 2023 porum<br></p>
+                <p class="copyright text-muted">&copy; 2024 porum<br></p>
                 <p class="copyright text-muted">Original Theme <a target="_blank" href="http://startbootstrap.com/template-overviews/clean-blog/">Clean Blog</a> from <a href="http://startbootstrap.com/" target="_blank">Start Bootstrap</a></p>
                 <p class="copyright text-muted">Adapted for <a target="_blank" href="https://hexo.io/">Hexo</a> by <a href="http://www.codeblocq.com/" target="_blank">Jonathan Klughertz</a></p>
             </div>
