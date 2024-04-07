@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+
+<!-- Head tag -->
+<head>
+
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <!--Description-->
+
+    
+
+    
+        <meta name="description" content="Linux 系统，确保电脑能科学上网，并配置命令行 http 代理！
+
+安装 depot_tools，并配置环境变量：
+https://webrtc.googlesource.com/src/+/main/docs/native-code/android/README.md
+
+创建工作目录（确保磁盘"/>
+    
+
+    <!--Author-->
+    
+        <meta name="author" content="porum"/>
+    
+
+    <!--Open Graph Title-->
+    
+        <meta property="og:title" content="编译 WebRTC Android AAR"/>
+    
+
+    <!--Open Graph Description-->
+    
+        <meta property="og:description" content="Linux 系统，确保电脑能科学上网，并配置命令行 http 代理！
+
+安装 depot_tools，并配置环境变量：
+https://webrtc.googlesource.com/src/+/main/docs/native-code/android/README.md
+
+创建工作目录（确保磁盘"/>
+    
+
+    <!--Open Graph Site Name-->
+        <meta property="og:site_name" content="porum"/>
+
+    <!--Type page-->
+    
+        <meta property="og:type" content="article"/>
+    
+
+    <!--Page Cover-->
+    
+    
+        <meta property="og:image" content="http://www.panda912.comimg/home-bg.jpg"/>
+    
+
+        <meta name="twitter:card" content="summary_large_image"/>
+
+    
+
+    
+        <meta name="twitter:image" content="http://www.panda912.comimg/home-bg.jpg"/>
+    
+
+    <!-- Title -->
+    
+    <title>编译 WebRTC Android AAR - porum</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    <!-- Custom Fonts -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+    <link href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css"/>
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css"/>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Gallery -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.css" type="text/css" rel="stylesheet"/>
+
+    <!-- Google Analytics -->
+    
+
+
+    <!-- favicon -->
+    
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+
+    <!-- Menu -->
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">porum</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                
+                    <li>
+                        <a href="/">
+                            
+                                Home
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/archives">
+                            
+                                Archives
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/tags">
+                            
+                                Tags
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/categories">
+                            
+                                Categories
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a target="_blank" rel="noopener" href="https://github.com/porum">
+                            
+                                <i class="fa fa-github fa-stack-2x"></i>
+                            
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+    <!-- Main Content -->
+    <!-- Page Header -->
+<!-- Set your background image for this header in your post front-matter: cover -->
+
+<header class="intro-header" style="background-image: url('/img/home-bg.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <h1>编译 WebRTC Android AAR</h1>
+                    
+                    <span class="meta">
+                        <!-- Date and Author -->
+                        
+                        
+                            2024-04-01
+                        
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Tags and categories -->
+           
+                <div class="col-lg-4 col-lg-offset-2 col-md-5 col-md-offset-1 post-tags">
+                    
+                        
+
+
+<a href="/tags/WebRTC/">#WebRTC</a>
+
+
+                    
+                </div>
+                <div class="col-lg-4 col-md-5 post-categories">
+                    
+                </div>
+            
+
+            <!-- Gallery -->
+            
+
+            <!-- Post Main Content -->
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ol>
+<li><p>Linux 系统，确保电脑能科学上网，并配置命令行 http 代理！</p>
+</li>
+<li><p>安装 depot_tools，并配置环境变量：</p>
+<p><a target="_blank" rel="noopener" href="https://webrtc.googlesource.com/src/+/main/docs/native-code/android/README.md">https://webrtc.googlesource.com/src/+/main/docs/native-code/android/README.md</a></p>
+</li>
+<li><p>创建工作目录（确保磁盘可用空间足够，建议至少预留50G吧），并进入，执行：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">fetch --nohooks webrtc_android</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">gclient <span class="built_in">sync</span></span></span><br></pre></td></tr></table></figure>
+
+<p>这一步时间很长很长，请耐心等待。</p>
+</li>
+<li><p>确定需要编译的 WebRTC 版本：</p>
+<p><a target="_blank" rel="noopener" href="https://chromiumdash.appspot.com/branches">https://chromiumdash.appspot.com/branches</a></p>
+</li>
+<li><p>这里以 M123 为例，切换到 M123 所在分支，并同步：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">cd</span> src</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">git checkout -b m123/6312 branch-heads/6312</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">cd</span> ..</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">gclient <span class="built_in">sync</span> --nohooks</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">gclient runhooks</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>如果再次切换分支，例如，从 M123 切换到 M114，再次同步的时候，可能会报错：</p>
+<p>Error: Command ‘git -c core.deltaBaseCacheLimit&#x3D;2g fetch origin debe7d2d1982e540fbd6bd78604bf001753f9e74 –no-tags’ returned non-zero exit status 128 in &#x2F;home&#x2F;eco&#x2F;Disk&#x2F;Documents&#x2F;webrtc_android&#x2F;src&#x2F;third_party&#x2F;libFuzzer&#x2F;src</p>
+<p>网上好多都说配置 git config –global http.postBuffer 1048576000 之类的，可是我试了并没有卵用，最后是把出问题的目录删除，例如上面的错就是把 third_party&#x2F;libFuzzer&#x2F;src 删除，再重新 gcient sync –nohooks 即可。</p>
+</blockquote>
+</li>
+<li><p>安装编译所需的相关依赖：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">cd</span> src</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">./build/install-build-deps.sh --android</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>生成 ninja 项目，确保当前在 src 目录下，执行：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">gn gen out/M123/release/arm64 --args=<span class="string">&#x27;target_os=&quot;android&quot; target_cpu=&quot;arm64&quot; is_debug=false treat_warnings_as_errors=false&#x27;</span></span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>To build for ARM64: use <code>target_cpu=&quot;arm64&quot;</code></li>
+<li>To build for 32-bit x86: use <code>target_cpu=&quot;x86&quot;</code></li>
+<li>To build for 64-bit x64: use <code>target_cpu=&quot;x64&quot;</code></li>
+</ul>
+<blockquote>
+<p>tip: 查看 gn args：<code>gn args --list &lt;dir&gt;</code></p>
+</blockquote>
+</li>
+<li><p>编译项目：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">autoninja -C out/M123/release/arm64</span> </span><br></pre></td></tr></table></figure>
+</li>
+<li><p>编译 AAR：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">./tools_webrtc/android/build_aar.py --build-dir out/aar --<span class="built_in">arch</span> <span class="string">&quot;armeabi-v7a&quot;</span> <span class="string">&quot;arm64-v8a&quot;</span> --output <span class="string">&quot;out/aar/libwebrtc-M123.aar&quot;</span> --extra-gn-args=<span class="string">&#x27;treat_warnings_as_errors=false&#x27;</span></span></span><br></pre></td></tr></table></figure></li>
+</ol>
+
+
+                
+            </div>
+
+            <!-- Comments -->
+            
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    
+
+
+                </div>
+            
+        </div>
+    </div>
+</article>
+
+    <!-- Footer -->
+    <hr />
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+
+                    
+
+                    
+                        <li>
+                            <a href="https://github.com/porum" target="_blank">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                    
+
+                    
+
+                    
+
+                    
+                </ul>
+                <p class="copyright text-muted">&copy; 2024 porum<br></p>
+                <p class="copyright text-muted">Original Theme <a target="_blank" href="http://startbootstrap.com/template-overviews/clean-blog/">Clean Blog</a> from <a href="http://startbootstrap.com/" target="_blank">Start Bootstrap</a></p>
+                <p class="copyright text-muted">Adapted for <a target="_blank" href="https://hexo.io/">Hexo</a> by <a href="http://www.codeblocq.com/" target="_blank">Jonathan Klughertz</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+    <!-- After footer scripts -->
+    
+<!-- jQuery -->
+<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+
+<!-- Bootstrap -->
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+<!-- Gallery -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
+
+<!-- Disqus Comments -->
+
+
+
+</body>
+
+</html>
