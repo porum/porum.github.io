@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+
+<!-- Head tag -->
+<head>
+
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <!--Description-->
+
+    
+
+    
+        <meta name="description" content="假设存在 MainViewModel：
+123456class MainViewModel : ViewModel() &amp;#123;    override fun onCleared() &amp;#123;    super.onCleared()  &amp;#125;&amp;#125;
+
+一般情况下，获取 Vie"/>
+    
+
+    <!--Author-->
+    
+        <meta name="author" content="porum"/>
+    
+
+    <!--Open Graph Title-->
+    
+        <meta property="og:title" content="ViewModel 源码分析"/>
+    
+
+    <!--Open Graph Description-->
+    
+        <meta property="og:description" content="假设存在 MainViewModel：
+123456class MainViewModel : ViewModel() &amp;#123;    override fun onCleared() &amp;#123;    super.onCleared()  &amp;#125;&amp;#125;
+
+一般情况下，获取 Vie"/>
+    
+
+    <!--Open Graph Site Name-->
+        <meta property="og:site_name" content="porum"/>
+
+    <!--Type page-->
+    
+        <meta property="og:type" content="article"/>
+    
+
+    <!--Page Cover-->
+    
+    
+        <meta property="og:image" content="http://www.panda912.comimg/home-bg.jpg"/>
+    
+
+        <meta name="twitter:card" content="summary_large_image"/>
+
+    
+
+    
+        <meta name="twitter:image" content="http://www.panda912.comimg/home-bg.jpg"/>
+    
+
+    <!-- Title -->
+    
+    <title>ViewModel 源码分析 - porum</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    <!-- Custom Fonts -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+    <link href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css"/>
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css"/>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Gallery -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.css" type="text/css" rel="stylesheet"/>
+
+    <!-- Google Analytics -->
+    
+
+
+    <!-- favicon -->
+    
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+
+    <!-- Menu -->
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">porum</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                
+                    <li>
+                        <a href="/">
+                            
+                                Home
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/archives">
+                            
+                                Archives
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/tags">
+                            
+                                Tags
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/categories">
+                            
+                                Categories
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a target="_blank" rel="noopener" href="https://github.com/porum">
+                            
+                                <i class="fa fa-github fa-stack-2x"></i>
+                            
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+    <!-- Main Content -->
+    <!-- Page Header -->
+<!-- Set your background image for this header in your post front-matter: cover -->
+
+<header class="intro-header" style="background-image: url('/img/home-bg.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <h1>ViewModel 源码分析</h1>
+                    
+                    <span class="meta">
+                        <!-- Date and Author -->
+                        
+                        
+                            2023-09-05
+                        
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Tags and categories -->
+           
+
+            <!-- Gallery -->
+            
+
+            <!-- Post Main Content -->
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <p>假设存在 MainViewModel：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">MainViewModel</span> : <span class="type">ViewModel</span>() &#123;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onCleared</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">super</span>.onCleared()</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>一般情况下，获取 ViewModel 的实例是通过如下代码：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">MainActivity</span> : <span class="type">AppCompatActivity</span>() &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onCreate</span><span class="params">(savedInstanceState: <span class="type">Bundle</span>?)</span></span> &#123;</span><br><span class="line">    <span class="keyword">super</span>.onCreate(savedInstanceState)</span><br><span class="line">    setContentView(R.layout.activity_main)</span><br><span class="line">        </span><br><span class="line">    <span class="keyword">val</span> vm = ViewModelProvider(<span class="keyword">this</span><span class="symbol">@MainActivity</span>)[MainViewModel::<span class="keyword">class</span>.java]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>查看 ViewModelProvider 构造函数：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">constructor</span>(</span><br><span class="line">    owner: ViewModelStoreOwner</span><br><span class="line">) : <span class="keyword">this</span>(owner.viewModelStore, defaultFactory(owner), defaultCreationExtras(owner))</span><br></pre></td></tr></table></figure>
+
+<p>通过传入的 ViewModelStoreOwner 获取其持有的 ViewModelStore 实例，由于 ComponentActivity 实现了 ViewModelStoreOwner 接口，所以 ComponentActivity 内部持有一个 ViewModelStore 实例，其赋值是在 ComponentActivity 的 ensureViewModelStore 方法中：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> <span class="title function_">ensureViewModelStore</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (mViewModelStore == <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="type">NonConfigurationInstances</span> <span class="variable">nc</span> <span class="operator">=</span></span><br><span class="line">                (NonConfigurationInstances) getLastNonConfigurationInstance();</span><br><span class="line">        <span class="keyword">if</span> (nc != <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="comment">// Restore the ViewModelStore from NonConfigurationInstances</span></span><br><span class="line">            mViewModelStore = nc.viewModelStore;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (mViewModelStore == <span class="literal">null</span>) &#123;</span><br><span class="line">            mViewModelStore = <span class="keyword">new</span> <span class="title class_">ViewModelStore</span>();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>ViewModelStore 类很简单，内部持有一个 Map，用于存取 ViewModel，以及 clear。</p>
+<p>再查看 ViewModelProvider 的 get 方法：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">open</span> <span class="keyword">operator</span> <span class="function"><span class="keyword">fun</span> <span class="type">&lt;T : ViewModel&gt;</span> <span class="title">get</span><span class="params">(modelClass: <span class="type">Class</span>&lt;<span class="type">T</span>&gt;)</span></span>: T &#123;</span><br><span class="line">    <span class="keyword">val</span> canonicalName = modelClass.canonicalName</span><br><span class="line">        ?: <span class="keyword">throw</span> IllegalArgumentException(<span class="string">&quot;Local and anonymous classes can not be ViewModels&quot;</span>)</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">get</span>(<span class="string">&quot;<span class="variable">$DEFAULT_KEY</span>:<span class="variable">$canonicalName</span>&quot;</span>, modelClass)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>由于只提供了 modelClass，没有提供 key，所以会给该 ViewModel 分配一个根据其类名生成的默认的 key，根据此 key 去 ViewModelStore 中查找是否有该 ViewModel，如果没有的话，则根据 factory 生成一个 ViewModel 存入 ViewModelStore 并返回：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">open</span> <span class="keyword">operator</span> <span class="function"><span class="keyword">fun</span> <span class="type">&lt;T : ViewModel&gt;</span> <span class="title">get</span><span class="params">(key: <span class="type">String</span>, modelClass: <span class="type">Class</span>&lt;<span class="type">T</span>&gt;)</span></span>: T &#123;</span><br><span class="line">    <span class="keyword">val</span> viewModel = store[key]</span><br><span class="line">    <span class="keyword">if</span> (modelClass.isInstance(viewModel)) &#123;</span><br><span class="line">        (factory <span class="keyword">as</span>? OnRequeryFactory)?.onRequery(viewModel!!)</span><br><span class="line">        <span class="keyword">return</span> viewModel <span class="keyword">as</span> T</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="meta">@Suppress(<span class="string">&quot;ControlFlowWithEmptyBody&quot;</span>)</span></span><br><span class="line">        <span class="keyword">if</span> (viewModel != <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="comment">// <span class="doctag">TODO:</span> log a warning.</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">val</span> extras = MutableCreationExtras(defaultCreationExtras)</span><br><span class="line">    extras[VIEW_MODEL_KEY] = key</span><br><span class="line">    <span class="comment">// AGP has some desugaring issues associated with compileOnly dependencies so we need to</span></span><br><span class="line">    <span class="comment">// fall back to the other create method to keep from crashing.</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">try</span> &#123;</span><br><span class="line">        factory.create(modelClass, extras)</span><br><span class="line">    &#125; <span class="keyword">catch</span> (e: AbstractMethodError) &#123;</span><br><span class="line">        factory.create(modelClass)</span><br><span class="line">    &#125;.also &#123; store.put(key, it) &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>由于我们也没有提供 factory，所以这里的 facoty 是通过 defaultFactory 获取的默认的 factory，defaultFactory 是 AndroidViewModelFactory 伴生类中的方法，我们看下 defaultFactory 的获取流程：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">internal</span> <span class="function"><span class="keyword">fun</span> <span class="title">defaultFactory</span><span class="params">(owner: <span class="type">ViewModelStoreOwner</span>)</span></span>: Factory =</span><br><span class="line">    <span class="keyword">if</span> (owner <span class="keyword">is</span> HasDefaultViewModelProviderFactory)</span><br><span class="line">        owner.defaultViewModelProviderFactory <span class="keyword">else</span> instance</span><br></pre></td></tr></table></figure>
+
+<p>如果传入的 ViewModelStoreOwner 是 HasDefaultViewModelProviderFactory 的实现类，那么 defaultFactory 就是 owner 的 defaultViewModelProviderFactory，否则 defaultFactory 就是 NewInstanceFactory 的实例：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@JvmStatic</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">val</span> instance: NewInstanceFactory</span><br><span class="line">    <span class="meta">@RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)</span></span><br><span class="line">    <span class="keyword">get</span>() &#123;</span><br><span class="line">        <span class="keyword">if</span> (sInstance == <span class="literal">null</span>) &#123;</span><br><span class="line">            sInstance = NewInstanceFactory()</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> sInstance!!</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>由于 ComponentActivity 也实现了 HasDefaultViewModelProviderFactory 接口，所以这里的 defaultFactory 就是 ComponentActivity 所持有的 SavedStateViewModelFactory 实例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> ViewModelProvider.Factory <span class="title function_">getDefaultViewModelProviderFactory</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (mDefaultFactory == <span class="literal">null</span>) &#123;</span><br><span class="line">        mDefaultFactory = <span class="keyword">new</span> <span class="title class_">SavedStateViewModelFactory</span>(</span><br><span class="line">                getApplication(),</span><br><span class="line">                <span class="built_in">this</span>,</span><br><span class="line">                getIntent() != <span class="literal">null</span> ? getIntent().getExtras() : <span class="literal">null</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> mDefaultFactory;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>P.S. ComponentActivity 和 Fragment 都实现了 HasDefaultViewModelProviderFactory 接口 ，并且他们内部持有的都是 SavedStateViewModelFactory 类型的 factory。</p>
+<p>SavedStateViewModelFactory 的内部又持有一个 AndroidViewModelFactory 类型的 factory，如果 ViewModel 是 AndroidViewoModel，则使用 AndroidViewModelFactory 创建 ViewModel 实例，否则使用 NewInstanceFactory 创建无参 ViewModel。</p>
+<p>内部提供的这些 Factory 都是通过反射创建 ViewModel 的实例，所以如果要创建带参数的 ViewModel，则需要自定义 Factory，在 create 方法中自行实例化 ViewModel。</p>
+<p>那么当屏幕旋转导致 Activity 重建，ViewModel 是如何实现恢复数据的？</p>
+<p>我们再来看一下 ComponentActivity 中 ViewModelStore 是如何创建的：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> <span class="title function_">ensureViewModelStore</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (mViewModelStore == <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="type">NonConfigurationInstances</span> <span class="variable">nc</span> <span class="operator">=</span></span><br><span class="line">                (NonConfigurationInstances) getLastNonConfigurationInstance();</span><br><span class="line">        <span class="keyword">if</span> (nc != <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="comment">// Restore the ViewModelStore from NonConfigurationInstances</span></span><br><span class="line">            mViewModelStore = nc.viewModelStore;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (mViewModelStore == <span class="literal">null</span>) &#123;</span><br><span class="line">            mViewModelStore = <span class="keyword">new</span> <span class="title class_">ViewModelStore</span>();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>先通过 getLastNonConfigurationInstance() 获取 NonConfigurationInstances 实例，如果不为空，则 Activity 中的 ViewModelStore 实例就是 NonConfigurationInstances 中的 ViewModelStore 实例，否则就 new 一个新的 ViewModelStore。</p>
+<p>NonConfigurationInstances 是 ComponentActivity 的静态内部类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">class</span> <span class="title class_">NonConfigurationInstances</span> &#123;</span><br><span class="line">    Object custom;</span><br><span class="line">    ViewModelStore viewModelStore;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>getLastNonConfigurationInstance() 方法是 android.app.Activity 提供的方法，可以用它来获取最近一次保存的”non-configuration instance data”。那么这个数据是在什么时候保存的呢？</p>
+<p>是在系统调用 onRetainNonConfigurationInstance() 时保存的。如果 Activity 由于 configuration 更改而导致 Activity 销毁并立刻为新的configuration 重建时，我们可以通过此方法 return 我们想保存的任何对象，包括 Activity 自身的实例，后续可以在新的 Activity 实例中通过 getLastNonConfigurationInstance() 方法获取被保存的数据。</p>
+<p>ComponentActivity 重写了onRetainNonConfigurationInstance() 方法，如果当前 Activity 有使用 ViewModel，那么 mViewModelStore 一定不为空（在 getViewModelStore() 时调用 ensureViewModelStore() 确保不为空），那么就将当前的 ViewModelStore 保存到 NonConfigurationInstances 中并 return。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> Object <span class="title function_">onRetainNonConfigurationInstance</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="comment">// Maintain backward compatibility.</span></span><br><span class="line">    <span class="type">Object</span> <span class="variable">custom</span> <span class="operator">=</span> onRetainCustomNonConfigurationInstance();</span><br><span class="line"></span><br><span class="line">    <span class="type">ViewModelStore</span> <span class="variable">viewModelStore</span> <span class="operator">=</span> mViewModelStore;</span><br><span class="line">    <span class="keyword">if</span> (viewModelStore == <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="comment">// No one called getViewModelStore(), so see if there was an existing</span></span><br><span class="line">        <span class="comment">// ViewModelStore from our last NonConfigurationInstance</span></span><br><span class="line">        <span class="type">NonConfigurationInstances</span> <span class="variable">nc</span> <span class="operator">=</span></span><br><span class="line">                (NonConfigurationInstances) getLastNonConfigurationInstance();</span><br><span class="line">        <span class="keyword">if</span> (nc != <span class="literal">null</span>) &#123;</span><br><span class="line">            viewModelStore = nc.viewModelStore;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (viewModelStore == <span class="literal">null</span> &amp;&amp; custom == <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="type">NonConfigurationInstances</span> <span class="variable">nci</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">NonConfigurationInstances</span>();</span><br><span class="line">    nci.custom = custom;</span><br><span class="line">    nci.viewModelStore = viewModelStore;</span><br><span class="line">    <span class="keyword">return</span> nci;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样一来，在 ensureViewModelStore() 方法中通过 getLastNonConfigurationInstance() 获取到的就是上次 Activity 销毁时保存的 ViewModelStore 实例。</p>
+<p>简而言之，就是通过 Activity 的 onRetainNonConfigurationInstance() 和 getLastNonConfigurationInstance() 实现数据保存和恢复。</p>
+<p>那么 onRetainNonConfigurationInstance 在 Activity 销毁时将数据保存在哪里了呢？</p>
+<p>跟踪 ActivityThread 中 performDestroyActivity 方法，最终保存在了 ActivityClientRecord 的 lastNonConfigurationInstances 中：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (getNonConfigInstance) &#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        r.lastNonConfigurationInstances = r.activity.retainNonConfigurationInstances();</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        <span class="keyword">if</span> (!mInstrumentation.onException(r.activity, e)) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RuntimeException</span>(<span class="string">&quot;Unable to retain activity &quot;</span></span><br><span class="line">                    + r.intent.getComponent().toShortString() + <span class="string">&quot;: &quot;</span> + e.toString(), e);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>也就是将数据保存在了 server 端。</p>
+
+
+                
+            </div>
+
+            <!-- Comments -->
+            
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    
+
+
+                </div>
+            
+        </div>
+    </div>
+</article>
+
+    <!-- Footer -->
+    <hr />
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+
+                    
+
+                    
+                        <li>
+                            <a href="https://github.com/porum" target="_blank">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                    
+
+                    
+
+                    
+
+                    
+                </ul>
+                <p class="copyright text-muted">&copy; 2024 porum<br></p>
+                <p class="copyright text-muted">Original Theme <a target="_blank" href="http://startbootstrap.com/template-overviews/clean-blog/">Clean Blog</a> from <a href="http://startbootstrap.com/" target="_blank">Start Bootstrap</a></p>
+                <p class="copyright text-muted">Adapted for <a target="_blank" href="https://hexo.io/">Hexo</a> by <a href="http://www.codeblocq.com/" target="_blank">Jonathan Klughertz</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+    <!-- After footer scripts -->
+    
+<!-- jQuery -->
+<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+
+<!-- Bootstrap -->
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+<!-- Gallery -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
+
+<!-- Disqus Comments -->
+
+
+
+</body>
+
+</html>
